@@ -1,0 +1,28 @@
+Key Points:
+    Neighborhood Doctors
+    Must be able to be used by anyone
+    Web/Mobile App
+    ---
+    Patients can sign up
+    Patients can view their health info
+    Patients can add their health info
+    Patients can make a profile
+    Patients can book an appointment with a GP, specifically through a calendar
+    Patients can text chat with a doctor
+    Doctor can text chat with their patients
+    Patients can view their prescribed medicine
+    A user of the app can add their status, i.e. fever, pain, etc
+    Doctors can add their availabilities
+    Doctors can prescribe medicine
+    Doctors can manage medicine 
+    Doctors can view a patients health status.
+    The app CAN have a 'super' admin to manage both types of users
+    The app can notify users for their appointment times
+    The app can notify users for their medicine times
+
+What is Neighborhood Doctors:
+    Its a private medical clinic
+
+What do they need?
+    a system to provide online Telemedicine
+    sevices for their patients
