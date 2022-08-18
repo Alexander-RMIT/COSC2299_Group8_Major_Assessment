@@ -1,7 +1,7 @@
 # COSC2299_Group8_Major_Project
 ## Repo for Group 8
-
-## Folder:
+### Folder:
     Milestone 1
     Milestone 2
     Milestone 3
+    application: contains the code for the Major Project
