@@ -1,1 +1,59 @@
+<!DOCTYPE html>
 
+</html lang="en">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../CSS/index.css">
+
+<head>
+    <title>index</title>
+    <link rel="stylesheet" type="text/css" href="../CSS/index.css"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+</head>
+
+
+
+<body>
+    <!--Website Title-->
+    <div class="index-header-information">
+        <header class="header-index">Neighborhood Doctors</header>
+    </div>
+
+
+    <!--Navigation Bar-->
+    <div id='navigation_bar'>
+        <nav class='index-nav-information'>
+            <ul>
+                <li class='listItem'><a href='index.html'>Home</a></li>
+                <li class='listItem'><a href='about.html'>About us</a></li>
+                <li class='listItem'><a href='login.html'>Log in</a></li>
+            </ul>
+        </nav>
+    </div>
+    <script src="../Javascript/navigation_bar.js"></script>
+
+
+    <!--Content Wrapper-->
+    <div id="content-wrapper" class="content">
+
+    </div>
+
+    <!--Save page scrolling position on refresh-->
+    <script>
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var scrollpos = sessionStorage.getItem('scrollposIndex');
+            if (scrollpos) {
+                window.scrollTo(0, scrollpos);
+                sessionStorage.removeItem('scrollposIndex');
+            }
+        })
+        window.addEventListener("beforeunload", function (e) {
+            sessionStorage.setItem('scrollposIndex', window.scrollY);
+        })
+    </script>
+
+    <!--Website creators-->
+    <footer>
+        <div class="footer-creators">Created by Group 8: Alexander Stevensen, Pak Yin Lai, Rylan Pease, Ethan Rayner, Weixi Guan</div>
+    </footer>
+</body>
