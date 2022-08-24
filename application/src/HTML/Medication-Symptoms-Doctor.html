@@ -15,17 +15,64 @@
         <th class="symptomHead">Severity</th>
         <th class="symptomHead">Start Date</th>
         <th class="symptomHead">End Date</th>
-        <th class="symptomHead">Doctors Notes</th></tr>
+        <th class="symptomHead">Notes</th></tr>
 </table>
+<!--Makes add form pop up-->
+<div class="add">
+    <button class="add" onclick="openForm()"><strong>Add</strong></button>
+</div>
+
+
 <br>
 <table id="medication">
-    <tr><th class="symptomHead">NO</th>
-        <th class="symptomHead">Medication</th>
+    <tr><th class="symptomHead">Medication</th>
         <th class="symptomHead">Reason</th>
         <th class="symptomHead">Interval</th>
         <th class="symptomHead">Amount per Dose</th>
         <th class="symptomHead">More Info</th>
 </table>
+
+
+<div class="Popup">
+    <div class="formPopup" id="popupForm">
+        <form action="/action_page.php" class="formContainer">
+            <h2>Add a medication</h2>
+            <label for="Symptom">
+                <strong>Symptom</strong>
+            </label>
+            <input type="text" id="Symptom" placeholder="Your symptom" name="Symptom" required>
+            <br>
+
+            <label for="Severity">
+                <strong>Severity</strong>
+            </label>
+            <input type="text" id="Severity" placeholder="Severity" name="Severity" required>
+            <br>
+
+            <label for="startDate">
+                <strong>Start Date</strong>
+            </label>
+            <input type="text" id="startDate" placeholder="dd/mm/yyyy" name="startDate" required>
+
+            <br><label for="endDate">
+            <strong>End Date</strong>
+            </label>
+            <input type="text" id="endDate" placeholder="dd/mm/yyyy" name="endDate" required>
+
+            <br><label for="notes">
+            <strong>Notes</strong>
+            </label>
+            <input type="text" id="notes" placeholder="" name="notes" required>
+
+
+            <br><button type="submit" class="btn">Add</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+
+
+        </form>
+    </div>
+</div>
+
 
 </body>
 </html>

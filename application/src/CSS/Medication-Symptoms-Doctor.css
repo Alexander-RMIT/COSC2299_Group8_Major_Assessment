@@ -3,3 +3,18 @@ table, th, td {
     align-content: center;
     display: table-cell;
 }
+
+.Popup {
+    position: relative;
+    text-align: center;
+    width: 100%;
+}
+.formPopup {
+    display: none;
+    position: fixed;
+    left: 45%;
+    top: 5%;
+    transform: translate(-50%, 5%);
+    border: 3px solid #999999;
+    z-index: 9;
+}

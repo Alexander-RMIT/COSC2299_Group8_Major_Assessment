@@ -21,6 +21,7 @@ function createSymptoms() {
             td.style.border = '1px solid black';
         }
     }
+
 }
 
 /*Creates rows from symptoms table, changing var medications to for loop for database should work*/
@@ -52,10 +53,14 @@ function createMedication(){
 
 }
 
-function openForm() {
-    document.getElementById("popupForm").style.display = "block";
+
+function addMedication() {
+    var table = document.getElementById("myTable");
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    cell1.innerHTML = document.getElementById('cellOne').value;
+    cell2.innerHTML = document.getElementById('cellTwo').value;
 }
-function closeForm() {
-    document.getElementById("popupForm").style.display = "none";
-}
+
 
