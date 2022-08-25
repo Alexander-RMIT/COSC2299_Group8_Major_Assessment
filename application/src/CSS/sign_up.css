@@ -1,0 +1,17 @@
+/*Header Text*/
+
+body {
+    background-color: #121212;
+    margin: 0%;
+}
+
+html {
+    --scrollbarBG: #1f1f1f;
+    --thumbBG: #909090;
+}
+
+.square {
+    height: 1000px;
+    width: 350px;
+    background-color: #ff8a50;
+}
