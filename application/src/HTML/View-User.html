@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html>
 <body>
+
+<head>
+  <link rel='stylesheet' type='text/css' href='my_css.css'>
+</head>
+
+<div class="center">
+<h1>View User By Unique ID</h1>
+
+<label for="user_type">Type of User:</label>
+    <select name="user_type" id="user_type">
+      <option value="patient">Patient</option>
+      <option value="doctor">Doctor</option>
+    </select>
+<br><br>
+
+<label for="unique_id">Unique ID:</label>
+    <input type="text" id="unique_id" name="unique_id"><br><br>
+
+
+<button type="submit">View!</button>
+</div>
 
 </body>
 </html>
