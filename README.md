@@ -1,4 +1,5 @@
-# COSC2299_Group8_Major_Assessment
+# COSC2299_Group8_Major_Assessment [feature]
+- This branch is for the back-end of Neighborhood Doctors project.
 
 ## Spring Boot Application
 ### application.properties:
