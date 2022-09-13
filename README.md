@@ -1,16 +1,33 @@
-# COSC2299_Group8_Major_Assessment [feature]
-- This branch is for the back-end of Neighborhood Doctors project.
+# RMIT SEPT 2022 Major Project
 
-## Spring Boot Application
-### application.properties:
-- Line 4: Datasource Access Object
-- Line 7: Database URL (Use Postman)
+# Group 8
 
-## Run the application (Suggest to run with 'debug'):
-- Path: src\main\java\com\group8\neighborhood_doctors\NeighborhoodDoctorsApplication.java
+## Members
+* Alexander ()
+* Weixi Guan (s3830776)
+* Ethan ()
+* Pak Yin Lai ()
+* Rylan ()
 
-## SQLlite
-### Database Management:
-1. We use Spring Boot with SQLlite to connect a remote database and manage the database using Postman
-2. Have to move all entities from our previous neighborhood_doctors.db to our new remote database
-3. Create new entity under the 'entity' folder.
+## Records
+
+* Github repository :https://github.com/Alexander-RMIT/COSC2299_Group8_Major_Assessment.git
+* jira Board : https://sept-group8.atlassian.net/jira/software/projects/A1/boards/1
+* Google Docs : https://drive.google.com/xxxx
+
+	
+## Code documentation - Release 0.1.0 - date
+* feature 1
+* feature 2
+* feature 3
+  
+
+To run the application locally : 
+1) cd into each and every microservice (ms_booking, ms_availability, ms_profiles, ms_service) and run :
+2) ./mvnw package && java -jar target/ms_[microservice]-0.0.1-SNAPSHOT.jar
+3) cd into FrontEnd/myfirstapp
+4) run "npm install"
+5) run "npm start"
+
+
+

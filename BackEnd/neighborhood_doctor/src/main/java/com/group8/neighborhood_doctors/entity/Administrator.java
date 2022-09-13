@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class administrator {
+public class Administrator {
     
     @Id
     private int id;
@@ -12,7 +12,7 @@ public class administrator {
     private String username;
     private String password;
 
-    public administrator() {
+    public Administrator() {
     }
 
     public int getId() {
@@ -47,5 +47,5 @@ public class administrator {
                 ", password='" + password + '\'' +
                 '}';
     }
-
+    
 }
