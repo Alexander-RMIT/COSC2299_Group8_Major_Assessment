@@ -6,7 +6,7 @@
 * Alexander ()
 * Weixi Guan (s3830776)
 * Ethan ()
-* Pak Yin Lai ()
+* Pak Yin Lai (s3827212)
 * Rylan ()
 
 ## Records
