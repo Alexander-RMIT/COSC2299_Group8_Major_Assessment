@@ -3,68 +3,68 @@ package com.group8.neighborhood_doctors.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-// @Entity
+@Entity
 public class Doctor {
-    // @Id
-    // private int id;
+    @Id
+    private int id;
 
-    // private String first_name;
-    // private String last_name;
-    // private String email;
-    // private String password;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String password;
 
-    // public Doctor() {
-    // }
+    public Doctor() {
+    }
 
-    // public int getId() {
-    //     return id;
-    // }
+    public int getId() {
+        return id;
+    }
 
-    // public String getFirst_name() {
-    //     return first_name;
-    // }
+    public String getFirstname() {
+        return firstname;
+    }
 
-    // public String getLast_name() {
-    //     return last_name;
-    // }
+    public String getLastname() {
+        return lastname;
+    }
 
-    // public String getEmail() {
-    //     return email;
-    // }
+    public String getEmail() {
+        return email;
+    }
 
-    // public String getPassword() {
-    //     return password;
-    // }
+    public String getPassword() {
+        return password;
+    }
 
-    // public void setId(int id) {
-    //     this.id = id;
-    // }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    // public void setFirst_name(String first_name) {
-    //     this.first_name = first_name;
-    // }
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
-    // public void setLast_name(String last_name) {
-    //     this.last_name = last_name;
-    // }
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
-    // public void setEmail(String email) {
-    //     this.email = email;
-    // }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    // public void setPassword(String password) {
-    //     this.password = password;
-    // }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    // @Override
-    // public String toString() {
-    //     return "Doctor{" +
-    //             "id=" + id +
-    //             ", first_name='" + first_name + '\'' +
-    //             ", last_name='" + last_name + '\'' +
-    //             ", email='" + email + '\'' +
-    //             ", password='" + password + '\'' +
-    //             '}';
-    // }
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
     
 }
