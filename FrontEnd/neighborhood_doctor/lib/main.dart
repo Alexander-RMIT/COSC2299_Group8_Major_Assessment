@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
+import './pages/navigationBar.dart';
+
+
+// Currently at time: https://youtu.be/EXBT2Pm14HQ?t=508
 
 void main() {
   runApp(const MyApp());
 }
+
+// Matierla.io darkmode color scheme
+ColorScheme defaultColorScheme = const ColorScheme(
+  primary: Color(0xffBB86FC),
+  secondary: Color(0xff03DAC6),
+  surface: Color(0xff181818),
+  background: Color(0xff121212),
+  error: Color(0xffCF6679),
+  onPrimary: Color(0xff000000),
+  onSecondary: Color(0xff000000),
+  onSurface: Color(0xffffffff),
+  onBackground: Color(0xffffffff),
+  onError: Color(0xff000000),
+  brightness: Brightness.dark,
+);
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -12,19 +33,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
+        colorScheme: defaultColorScheme,
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: NavigationBarLanding(),
     );
   }
 }
