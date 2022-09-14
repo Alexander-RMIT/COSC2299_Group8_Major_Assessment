@@ -3,7 +3,7 @@
 # Group 8
 
 ## Members
-* Alexander ()
+* Alexander (s3895606)
 * Weixi Guan (s3830776)
 * Ethan ()
 * Pak Yin Lai (s3827212)
