@@ -28,9 +28,9 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
   String email,
   String password,
   BuildContext context) async {
-  Uri Url = "http://localhost:8080/patient/createPatient" as Uri;
-  var response = await http.post(Url,
-    headers: <String, String>{"Content-Type": "application/json"},
+  Uri url = Uri.parse("http://localhost:8080/patient/createPatient");
+  var response = await http.post(url,
+    headers: <String, String>{"Content-Type": "application/json", },
     body: jsonEncode(<String, dynamic>{
       "firstname": firstname,
       "lastname": lastname,
@@ -44,7 +44,10 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
     }));
 
   String strResponse = response.body;
+
   if (response.statusCode == 200) {
+    // PatientModel patient = PatientModel(firstname: firstname, lastname: lastname, nameother: nameother, age: age, gender: gender, address: address, phonenumber: phonenumber, email: email, password: password);
+    // return patient;
     showDialog(
       context: context, 
       barrierDismissible: true,
@@ -52,6 +55,9 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
         return ResponseAlertDialog(title: 'Backend response', content: response.body);
       },
     );
+  }
+  else {
+    throw "Unable to get a backend response.";
   }
 
   throw NullThrownError();
@@ -187,19 +193,15 @@ class SignUpState extends State<SignUp> {
                         String address = "99 testing street";
                         String phonenumber = "1234567890";
 
+                        print("has been pressed");
 
-
-                        PatientModel newPatient = 
-                          await userSignUp(firstname, lastname, nameother, age, gender, address, phonenumber, email, password, context);
+                        PatientModel newPatient = await userSignUp(firstname, lastname, 
+                                          nameother, age, gender, address, phonenumber, email, password, context);
                         
                         emailController.text = '';
                         passwordController.text = '';
                         firstNameController.text = '';
                         lastNameController.text = '';
-
-                        setState(() {
-                          PatientModel patientModel = newPatient;
-                        });
                       }
                     
                     },
