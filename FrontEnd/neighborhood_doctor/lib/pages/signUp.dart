@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:neighborhood_doctors/pages/login.dart';
+import 'package:neighborhood_doctors/pages/admin/createUser.dart';
 import './login.dart';
 
 // https://flutterawesome.com/login-ui-made-with-flutter/
@@ -24,6 +25,9 @@ class SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+      title: Text('Neighborhood Doctors Pages')
+      ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
         padding: const EdgeInsets.all(20),
