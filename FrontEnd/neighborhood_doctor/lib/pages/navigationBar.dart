@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neighborhood_doctors/pages/signUp.dart';
+import 'package:neighborhood_doctors/pages/admin/createUser.dart';
 
 // Navigation bar specific to the general landing page that doesnt have user heirarchy 
 
@@ -35,6 +36,14 @@ class NavBarLandingState extends State<NavigationBarLanding> {
                 Navigator.push(context,
                   MaterialPageRoute(
                     builder: (context) => SignUp(title: 'SignUp')));
+              },
+            ),
+            ListTile(
+              title: Text('Create User'),
+              onTap: () {
+                Navigator.push(context,
+                  MaterialPageRoute(
+                    builder: (context) => CreateUser(title: 'CreateUser')));
               },
             )
           ],
