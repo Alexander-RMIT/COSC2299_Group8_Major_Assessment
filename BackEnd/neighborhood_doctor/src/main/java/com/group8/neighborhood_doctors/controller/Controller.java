@@ -1,9 +1,8 @@
 package com.group8.neighborhood_doctors.controller;
 
-import com.group8.neighborhood_doctors.entity.Administrator;
-import com.group8.neighborhood_doctors.entity.Doctor;
-import com.group8.neighborhood_doctors.entity.Patient;
-
+import com.group8.neighborhood_doctors.administrator.Administrator;
+import com.group8.neighborhood_doctors.doctor.Doctor;
+import com.group8.neighborhood_doctors.patient.Patient;
 import com.group8.neighborhood_doctors.service.AdminService;
 import com.group8.neighborhood_doctors.service.DoctorService;
 import com.group8.neighborhood_doctors.service.PatientService;

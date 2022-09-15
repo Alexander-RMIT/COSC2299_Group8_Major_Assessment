@@ -1,9 +1,10 @@
 package com.group8.neighborhood_doctors.repository;
 
-import com.group8.neighborhood_doctors.entity.Administrator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import com.group8.neighborhood_doctors.administrator.Administrator;
 
 // import java.util.List;
 

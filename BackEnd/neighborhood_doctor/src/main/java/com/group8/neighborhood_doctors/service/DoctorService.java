@@ -1,6 +1,6 @@
 package com.group8.neighborhood_doctors.service;
 
-import com.group8.neighborhood_doctors.entity.Doctor;
+import com.group8.neighborhood_doctors.doctor.Doctor;
 import com.group8.neighborhood_doctors.repository.DoctorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
