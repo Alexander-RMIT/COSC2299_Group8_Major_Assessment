@@ -1,4 +1,4 @@
-package com.group8.neighborhood_doctors.entity;
+package com.group8.neighborhood_doctors.doctor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
