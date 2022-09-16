@@ -12,6 +12,7 @@ import 'dart:convert';
 
 const List<String> genderList = <String>['Gender', 'Male', 'Female', 'Other'];
 
+
 class SignUp extends StatefulWidget{
   const SignUp({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -50,10 +51,8 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
   String strResponse = response.body;
 
   if (response.statusCode == 200) {
-    // PatientModel patient = PatientModel(firstname: firstname, lastname: lastname, nameother: nameother, age: age, gender: gender, address: address, phonenumber: phonenumber, email: email, password: password);
-    // return patient;
     showDialog(
-      context: context, 
+      context: context,
       barrierDismissible: true,
       builder: (BuildContext dialogContext) {
         return ResponseAlertDialog(title: 'Backend response', content: response.body);
@@ -338,8 +337,18 @@ class SignUpState extends State<SignUp> {
 
                           print("has been pressed");
 
-                          PatientModel newPatient = await userSignUp(firstname, lastname, 
+                          PatientModel newPatient = await userSignUp(firstname, lastname,
                                             nameOther, age, gender, address, phoneNumber, email, password, context);
+
+                          // Edit to wait
+                          if (!mounted) return;
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                              const Login(title: 'Login UI'),
+                            ),
+                          );
 
 
                         }
