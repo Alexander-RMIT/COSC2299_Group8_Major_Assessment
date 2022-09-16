@@ -42,7 +42,7 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
       "age": age,
       "gender": gender,
       "address": address,
-      "phoneNumber": phoneNumber,
+      "phonenumber": phoneNumber,
       "email": email,
       "password": password,
     }));
@@ -58,13 +58,11 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
       builder: (BuildContext dialogContext) {
         return ResponseAlertDialog(title: 'Backend response', content: response.body);
       },
+
     );
   }
-  else {
-    throw "Unable to get a backend response.";
-  }
-
-  throw NullThrownError();
+  PatientModel patient = PatientModel(firstname: firstname, lastname: lastname, nameother: nameother, age: age, gender: gender, address: address, phonenumber: phoneNumber, email: email, password: password);
+  return patient;
 }
 
 class SignUpState extends State<SignUp> {
@@ -345,20 +343,17 @@ class SignUpState extends State<SignUp> {
 
                           PatientModel newPatient = await userSignUp(firstname, lastname, 
                                             nameOther, age, gender, address, phoneNumber, email, password, context);
-                          
-                          emailController.text = '';
-                          passwordController.text = '';
-                          firstNameController.text = '';
-                          lastNameController.text = '';
-                          nameOtherController.text = '';
-                          ageController.text = '';
-                          addressController.text = '';
-                          phoneNumController.text = '';
 
-
+                          if (!mounted) return;
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                              const Login(title: 'Login UI'),
+                            ),
+                          );
 
                         }
-                      
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
@@ -426,4 +421,3 @@ class ResponseAlertDialog extends StatelessWidget {
     );
   }
 }
-
