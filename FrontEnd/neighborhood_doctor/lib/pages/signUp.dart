@@ -10,6 +10,8 @@ import 'dart:convert';
 // https://flutterawesome.com/login-ui-made-with-flutter/
 // https://github.com/hawier-dev/flutter-login-ui/blob/main/lib/main.dart
 
+const List<String> genderList = <String>['Gender', 'Male', 'Female', 'Other'];
+
 class SignUp extends StatefulWidget{
   const SignUp({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -24,7 +26,7 @@ class SignUp extends StatefulWidget{
 Future<PatientModel> userSignUp(String firstname, String lastname, String nameother, int age,
   String gender,
   String address,
-  String phonenumber,
+  String phoneNumber,
   String email,
   String password,
   BuildContext context) async {
@@ -38,7 +40,7 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
       "age": age,
       "gender": gender,
       "address": address,
-      "phoneNumber": phonenumber,
+      "phoneNumber": phoneNumber,
       "email": email,
       "password": password,
     }));
@@ -71,9 +73,15 @@ class SignUpState extends State<SignUp> {
   TextEditingController emailController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
-  //TextEditingController nameOtherController = TextEditingController();
+  TextEditingController nameOtherController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController phoneNumController = TextEditingController();
 
 
+
+  String dropdownValue = genderList.first;
 
   @override
   Widget build(BuildContext context) {
@@ -84,165 +92,308 @@ class SignUpState extends State<SignUp> {
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Sign up',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 40,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'Sign up',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 40,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 60,
-            ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: firstNameController,
-                          // validator: (value) => EmailValidator.validate(value!)
-                          //     ? null
-                          //     : "Please enter a valid email",
+              const SizedBox(
+                height: 60,
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: firstNameController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your last name';
+                              }
+                              return null;
+                            },
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              hintText: 'First name',
+                              prefixIcon: const Icon(Icons.person),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: lastNameController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your last name';
+                              }
+                              return null;
+                            },
+                            // validator: (value) => EmailValidator.validate(value!)
+                            //     ? null
+                            //     : "Please enter a valid email",
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              hintText: 'Last name',
+                              prefixIcon: const Icon(Icons.person),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    // Name other
+                    TextFormField(
+                      controller: nameOtherController,
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'Middle name/initial',
+                        prefixIcon: const Icon(Icons.person),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    // Age & Gender
+                    Row(
+                      children: [
+                        Expanded(child: TextFormField(
+                          controller: ageController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your age';
+                            }
+                            return null;
+                          },
                           maxLines: 1,
                           decoration: InputDecoration(
-                            hintText: 'First name',
-                            prefixIcon: const Icon(Icons.person),
+                            hintText: 'Age',
+                            prefixIcon: const Icon(Icons.face),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: TextFormField(
-                          controller: lastNameController,
-                          // validator: (value) => EmailValidator.validate(value!)
-                          //     ? null
-                          //     : "Please enter a valid email",
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            hintText: 'Last name',
-                            prefixIcon: const Icon(Icons.person),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                        ),
+
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(child:
+
+                          DropdownButtonFormField<String>(
+                            value: dropdownValue,
+                            icon: const Icon(Icons.arrow_downward),
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.white),
+                            validator: (value) {
+                              if (value == "Gender") {
+                                return 'Please enter your gender';
+                              }
+                              return null;
+                              },
+                            onChanged: (String? value) {
+
+                              // This is called when the user selects an item.
+                              setState(() {
+                                dropdownValue = value!;
+                              });
+                            },
+
+                            items: genderList.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: emailController,
-                    validator: (value) => EmailValidator.validate(value!)
-                        ? null
-                        : "Please enter a valid email",
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      hintText: 'Enter your email',
-                      prefixIcon: const Icon(Icons.email),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: passwordController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                    maxLines: 1,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.lock),
-                      hintText: 'Enter your password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        String email = emailController.text;
-                        String password = passwordController.text;
-                        String firstname = firstNameController.text;
-                        String lastname = lastNameController.text;
+                      ],
 
-                        String nameother = "testnameother";
-                        int age = 999;
-                        String gender = "male";
-                        String address = "99 testing street";
-                        String phonenumber = "1234567890";
-
-                        print("has been pressed");
-
-                        PatientModel newPatient = await userSignUp(firstname, lastname, 
-                                          nameother, age, gender, address, phonenumber, email, password, context);
-                        
-                        emailController.text = '';
-                        passwordController.text = '';
-                        firstNameController.text = '';
-                        lastNameController.text = '';
-                      }
-                    
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
                     ),
-                    child: const Text(
-                      'Sign up',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    // Address
+                    TextFormField(
+                      controller: addressController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your address';
+                        }
+                        return null;
+                      },
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your address',
+                        prefixIcon: const Icon(Icons.home),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    // Phone Number
+                    TextFormField(
+                      controller: phoneNumController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your phone number';
+                        }
+                        return null;
+                      },
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your phone number',
+                        prefixIcon: const Icon(Icons.phone),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+
+                    TextFormField(
+                      controller: emailController,
+                      validator: (value) => EmailValidator.validate(value!)
+                          ? null
+                          : "Please enter a valid email",
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your email',
+                        prefixIcon: const Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Already registered?'),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const Login(title: 'Login UI'),
-                            ),
-                          );
-                        },
-                        child: const Text('Sign in'),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: passwordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
+                      maxLines: 1,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        hintText: 'Enter your password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-          ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          String email = emailController.text;
+                          String password = passwordController.text;
+                          String firstname = firstNameController.text;
+                          String lastname = lastNameController.text;
+
+                          String nameOther = nameOtherController.text;
+                          int age = int.parse(ageController.text);
+                          String gender = dropdownValue;
+                          String address = addressController.text;
+                          String phoneNumber = phoneNumController.text;
+
+                          print("has been pressed");
+
+                          PatientModel newPatient = await userSignUp(firstname, lastname, 
+                                            nameOther, age, gender, address, phoneNumber, email, password, context);
+                          
+                          emailController.text = '';
+                          passwordController.text = '';
+                          firstNameController.text = '';
+                          lastNameController.text = '';
+                          nameOtherController.text = '';
+                          ageController.text = '';
+                          addressController.text = '';
+                          phoneNumController.text = '';
+
+
+
+                        }
+                      
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
+                      ),
+                      child: const Text(
+                        'Sign up',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Already registered?'),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const Login(title: 'Login UI'),
+                              ),
+                            );
+                          },
+                          child: const Text('Sign in'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -273,3 +424,4 @@ class ResponseAlertDialog extends StatelessWidget {
     );
   }
 }
+
