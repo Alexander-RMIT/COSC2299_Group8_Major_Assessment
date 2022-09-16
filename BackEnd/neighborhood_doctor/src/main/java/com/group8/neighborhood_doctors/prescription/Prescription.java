@@ -1,4 +1,4 @@
-package com.group8.neighborhood_doctors.entity;
+package com.group8.neighborhood_doctors.prescription;
 
 // id: int
 // date

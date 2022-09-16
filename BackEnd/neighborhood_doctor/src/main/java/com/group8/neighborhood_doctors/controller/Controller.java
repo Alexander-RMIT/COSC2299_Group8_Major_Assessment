@@ -3,9 +3,12 @@ package com.group8.neighborhood_doctors.controller;
 import com.group8.neighborhood_doctors.administrator.Administrator;
 import com.group8.neighborhood_doctors.doctor.Doctor;
 import com.group8.neighborhood_doctors.patient.Patient;
+import com.group8.neighborhood_doctors.appointment.Appointment;
+
 import com.group8.neighborhood_doctors.service.AdminService;
 import com.group8.neighborhood_doctors.service.DoctorService;
 import com.group8.neighborhood_doctors.service.PatientService;
+import com.group8.neighborhood_doctors.service.AppointmentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +28,9 @@ public class Controller {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
     /*
     ===============================
@@ -150,4 +156,33 @@ public class Controller {
     public String deletePatient(@RequestBody Patient patient){
         return patientService.deletePatient(patient);
     }
+
+    /*
+    ===============================
+    Appointment controller 
+    ===============================
+    */
+
+    @RequestMapping(value = "appointment/createAppointment", method = RequestMethod.POST)
+    public String createAppointment(@RequestBody Appointment appointment){
+        return appointmentService.createAppointment(appointment);
+    }
+
+    @RequestMapping(value = "appointment/readAppointments", method = RequestMethod.GET)
+    public List<Appointment> readAppointments(){
+        return appointmentService.readAppointments();
+    }
+
+    // When updating, the id of the appointment must be provided
+    @RequestMapping(value = "appointment/updateAppointment", method = RequestMethod.PUT)
+    public String updateAppointment(@RequestBody Appointment appointment){
+        return appointmentService.updateAppointment(appointment);
+    }
+
+    // Only id is needed to delete an appointment
+    @RequestMapping(value = "appointment/deleteAppointment", method = RequestMethod.DELETE)
+    public String deleteAppointment(@RequestBody Appointment appointment){
+        return appointmentService.deleteAppointment(appointment);
+    }
+
 }
