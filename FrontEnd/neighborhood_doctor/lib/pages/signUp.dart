@@ -58,7 +58,6 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
       builder: (BuildContext dialogContext) {
         return ResponseAlertDialog(title: 'Backend response', content: response.body);
       },
-
     );
   }
   PatientModel patient = PatientModel(firstname: firstname, lastname: lastname, nameother: nameother, age: age, gender: gender, address: address, phonenumber: phoneNumber, email: email, password: password);
@@ -78,8 +77,6 @@ class SignUpState extends State<SignUp> {
   TextEditingController genderController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneNumController = TextEditingController();
-
-
 
   String dropdownValue = genderList.first;
 
@@ -344,14 +341,6 @@ class SignUpState extends State<SignUp> {
                           PatientModel newPatient = await userSignUp(firstname, lastname, 
                                             nameOther, age, gender, address, phoneNumber, email, password, context);
 
-                          if (!mounted) return;
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                              const Login(title: 'Login UI'),
-                            ),
-                          );
 
                         }
                       },
@@ -421,3 +410,4 @@ class ResponseAlertDialog extends StatelessWidget {
     );
   }
 }
+
