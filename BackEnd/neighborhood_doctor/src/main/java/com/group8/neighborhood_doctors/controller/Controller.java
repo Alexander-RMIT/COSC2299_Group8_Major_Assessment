@@ -4,11 +4,13 @@ import com.group8.neighborhood_doctors.administrator.Administrator;
 import com.group8.neighborhood_doctors.doctor.Doctor;
 import com.group8.neighborhood_doctors.patient.Patient;
 import com.group8.neighborhood_doctors.appointment.Appointment;
+import com.group8.neighborhood_doctors.chat.Chat;
 
 import com.group8.neighborhood_doctors.service.AdminService;
 import com.group8.neighborhood_doctors.service.DoctorService;
 import com.group8.neighborhood_doctors.service.PatientService;
 import com.group8.neighborhood_doctors.service.AppointmentService;
+import com.group8.neighborhood_doctors.service.ChatService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +33,9 @@ public class Controller {
 
     @Autowired
     private AppointmentService appointmentService;
+    
+    @Autowired
+    private ChatService chatService;
 
     /*
     ===============================
@@ -78,6 +83,11 @@ public class Controller {
         return adminService.deleteAdmin(admin);
     }
 
+    @RequestMapping(value = "auth/admin/login", method = RequestMethod.POST)
+    public String loginAdmin(@RequestBody Administrator admin) {
+        return adminService.findAdmin(admin);
+    }
+
     /*
     ===============================
     Doctor controller 
@@ -113,6 +123,11 @@ public class Controller {
     @RequestMapping(value = "doctor/deleteDoctor", method = RequestMethod.DELETE)
     public String deleteDoctor(@RequestBody Doctor doctor){
         return doctorService.deleteDoctor(doctor);
+    }
+
+    @RequestMapping(value = "auth/doctor/login", method = RequestMethod.POST)
+    public String loginDoctor(@RequestBody Doctor doctor) {
+        return doctorService.findDoctor(doctor);
     }
 
     /*
@@ -157,6 +172,12 @@ public class Controller {
         return patientService.deletePatient(patient);
     }
 
+    // Authentication process for login
+    @RequestMapping(value = "auth/patient/login", method = RequestMethod.POST)
+    public String login(@RequestBody Patient patient) {
+        return patientService.findPatient(patient);
+    }
+
     /*
     ===============================
     Appointment controller 
@@ -184,23 +205,27 @@ public class Controller {
     public String deleteAppointment(@RequestBody Appointment appointment){
         return appointmentService.deleteAppointment(appointment);
     }
-    
-    
-    
-    // Authentication process for login
-    @RequestMapping(value = "auth/patient/login", method = RequestMethod.POST)
-    public String login(@RequestBody Patient patient) {
-        return patientService.findPatient(patient);
+
+    /*
+    ===============================
+    Chat controller 
+    ===============================
+    */
+
+    @RequestMapping(value = "chat/createChat", method = RequestMethod.POST)
+    public String createChat(@RequestBody Chat chat){
+        return chatService.createChat(chat);
     }
 
-    @RequestMapping(value = "auth/doctor/login", method = RequestMethod.POST)
-    public String loginDoctor(@RequestBody Doctor doctor) {
-        return doctorService.findDoctor(doctor);
+    @RequestMapping(value = "chat/readChats", method = RequestMethod.GET)
+    public List<Chat> readChats(){
+        return chatService.readChats();
     }
 
-    @RequestMapping(value = "auth/admin/login", method = RequestMethod.POST)
-    public String loginAdmin(@RequestBody Administrator admin) {
-        return adminService.findAdmin(admin);
+    // Only id is needed to delete a chat
+    @RequestMapping(value = "chat/deleteChat", method = RequestMethod.DELETE)
+    public String deleteChat(@RequestBody Chat chat){
+        return chatService.deleteChat(chat);
     }
 
 }
