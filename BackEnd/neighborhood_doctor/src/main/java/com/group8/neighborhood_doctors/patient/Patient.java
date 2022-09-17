@@ -2,20 +2,38 @@ package com.group8.neighborhood_doctors.patient;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+
+/*
+ * This class represents a patient.
+ * A patient is a user of the system.
+ */
 
 @Entity
 public class Patient {
     @Id
     private int id;
 
+    // The patient's first name cannot be null and empty
+    @NotEmpty(message = "First name is required")
     private String firstname;
+    
+    // The patient's last name cannot be null and empty
+    @NotEmpty(message = "Last name is required")
     private String lastname;
+
     private String nameother;
     private int age;
     private String gender;
     private String address;
     private String phonenumber;
+
+    // The patient's email cannot be null and empty
+    @NotEmpty(message = "Email is required")
     private String email;
+
+    // The patient's password cannot be null and empty
+    @NotEmpty(message = "Password is required")
     private String password;
 
     public Patient() {
