@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 
-class PatientHealthInfo extends StatefulWidget {
-  const PatientHealthInfo({Key? key, required this.title}) : super(key: key);
+class ChatPatient extends StatefulWidget {
+  const ChatPatient({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<PatientHealthInfo> createState() => PatientHealthInfoState();
+  State<ChatPatient> createState() => ChatPatientState();
 }
 
-class PatientHealthInfoState extends State<PatientHealthInfo> {
+class ChatPatientState extends State<ChatPatient> {
   final _formKey = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {

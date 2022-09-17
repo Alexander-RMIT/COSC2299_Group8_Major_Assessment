@@ -51,6 +51,14 @@ class NavBarStateDac extends State<NavigationBarDoc> {
               },
             ),
             ListTile(
+              title: Text('Edit availability'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => DoctorAvailability(title: 'Edit availability')));
+              },
+            ),
+            ListTile(
                 title: Text('Sign out'),
                 onTap: () {
                   // Navigator.push(context,
