@@ -90,5 +90,21 @@ public class PatientService {
             return "Patient does not exist";
         }
     }
+    
+    /*
+     * Find patient in the database by email and password
+     */
+    @Transactional
+    public String findPatient(Patient patient) {
+        try {
+            if (patientRepo.existsByEmail(patient.getEmail()) && patientRepo.existsByPassword(patient.getPassword())) {
+                return "Successful login";
+            } else {
+                return "Incorrect login credentials entered";
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
 }
