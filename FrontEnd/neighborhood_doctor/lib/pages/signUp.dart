@@ -340,17 +340,15 @@ class SignUpState extends State<SignUp> {
                           PatientModel newPatient = await userSignUp(firstname, lastname,
                                             nameOther, age, gender, address, phoneNumber, email, password, context);
 
-                          // Edit to wait
-                          if (!mounted) return;
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                              const Login(title: 'Login UI'),
-                            ),
-                          );
-
-
+                          emailController.text = '';
+                          passwordController.text = '';
+                          firstNameController.text = '';
+                          lastNameController.text = '';
+                          nameOtherController.text = '';
+                          ageController.text = '';
+                          dropdownValue = genderList.first;
+                          addressController.text = '';
+                          phoneNumController.text = '';
                         }
                       },
                       style: ElevatedButton.styleFrom(
