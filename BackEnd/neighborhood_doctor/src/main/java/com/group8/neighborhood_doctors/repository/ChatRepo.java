@@ -14,6 +14,6 @@ public interface ChatRepo extends JpaRepository<Chat, Integer> {
 
     public boolean existsByUsertwo(int usertwo);
 
-    @Query("select max(s.id) from Doctor s")
+    @Query("select max(s.id) from Chat s")
     public Integer findMaxId();
 }
