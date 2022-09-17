@@ -7,13 +7,14 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.*;
 
 /*
  * This class tests the Patient class
  */
 
-public class PatientTests {
+class PatientTests {
 
     // create a validator factory
     ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
