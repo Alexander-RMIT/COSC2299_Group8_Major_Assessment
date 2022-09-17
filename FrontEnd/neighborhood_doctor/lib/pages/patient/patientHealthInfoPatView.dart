@@ -35,24 +35,6 @@ class PatientHealthInfoState extends State<PatientHealthInfo> {
               const SizedBox(
                 height: 60,
               ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          // Add fields here
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                  ],
-                ),
-              )
             ],
           ),
         ),
