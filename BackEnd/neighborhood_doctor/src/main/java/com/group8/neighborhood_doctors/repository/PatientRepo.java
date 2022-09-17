@@ -13,7 +13,6 @@ public interface PatientRepo extends JpaRepository<Patient, Integer> {
     public boolean existsByFirstname(String firstname);
     public boolean existsByLastname(String lastname);
     public boolean existsByNameother(String nameother);
-    public boolean existsByEmail(String email);
     
     // For authentication
     public boolean existsByEmail(String email);
