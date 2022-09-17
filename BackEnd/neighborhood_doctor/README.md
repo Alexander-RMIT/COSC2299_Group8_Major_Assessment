@@ -1,10 +1,10 @@
-# COSC2299_Group8_Major_Assessment [feature]
+# COSC2299 Group8 Major Assignment BackEnd
 - This branch is for the back-end of Neighborhood Doctors project.
 
 ## Spring Boot Application
 ### application.properties:
 - Line 4: Datasource Access Object
-- Line 7: Database URL (Use Postman)
+- Line 7: Database URL (Use Postman to manage and test)
 
 ## Run the application (Suggest to run with 'debug'):
 - Path: src\main\java\com\group8\neighborhood_doctors\NeighborhoodDoctorsApplication.java
