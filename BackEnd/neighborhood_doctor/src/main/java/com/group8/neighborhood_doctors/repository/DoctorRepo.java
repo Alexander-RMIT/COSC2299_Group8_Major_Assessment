@@ -11,6 +11,10 @@ public interface DoctorRepo extends JpaRepository<Doctor, Integer> {
     public boolean existsById(int id);
     public boolean existsByFirstname(String firstname);
     public boolean existsByLastname(String lastname);
+    
+    // For authentication
+    public boolean existsByEmail(String email);
+    public boolean existsByPassword(String password);
 
     @Query("select max(s.id) from Doctor s")
     public Integer findMaxId();

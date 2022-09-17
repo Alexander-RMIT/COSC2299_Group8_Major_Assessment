@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:neighborhood_doctors/pages/login.dart';
+import 'package:neighborhood_doctors/pages/navigationBar.dart';
 import 'package:neighborhood_doctors/pages/patient/chatPat.dart';
 import 'package:neighborhood_doctors/pages/patient/patientHealthInfoPatView.dart';
 
@@ -48,6 +50,15 @@ class NavBarLandingState extends State<NavigationBarLanding> {
                     MaterialPageRoute(
                         builder: (context) => PatientHealthInfo(title: 'Health Information')));
               },
+            ),
+            ListTile(
+              title: Text('Sign out'),
+              onTap: () {
+                // Navigator.push(context,
+                //   MaterialPageRoute(builder: (context) => NavigationBarLanding()));
+                Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+
+              }
             )
           ],
         ),
@@ -55,3 +66,5 @@ class NavBarLandingState extends State<NavigationBarLanding> {
     );
   }
 }
+
+

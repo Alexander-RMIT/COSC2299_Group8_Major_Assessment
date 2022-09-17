@@ -70,4 +70,21 @@ public class AdminService {
             return "Admin does not exist";
         }
     }
+    
+    
+    /*
+     * Find admin in the database by email and password
+     */
+    @Transactional
+    public String findAdmin(Administrator admin) {
+        try {
+            if (adminRepo.existsByEmail(admin.getEmail()) && adminRepo.existsByPassword(admin.getPassword())) {
+                return "Successful login";
+            } else {
+                return "Incorrect login credentials entered";
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

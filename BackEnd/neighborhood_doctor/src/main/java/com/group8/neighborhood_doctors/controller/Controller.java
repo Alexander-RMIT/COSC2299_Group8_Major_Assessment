@@ -184,5 +184,23 @@ public class Controller {
     public String deleteAppointment(@RequestBody Appointment appointment){
         return appointmentService.deleteAppointment(appointment);
     }
+    
+    
+    
+    // Authentication process for login
+    @RequestMapping(value = "auth/patient/login", method = RequestMethod.POST)
+    public String login(@RequestBody Patient patient) {
+        return patientService.findPatient(patient);
+    }
+
+    @RequestMapping(value = "auth/doctor/login", method = RequestMethod.POST)
+    public String loginDoctor(@RequestBody Doctor doctor) {
+        return doctorService.findDoctor(doctor);
+    }
+
+    @RequestMapping(value = "auth/admin/login", method = RequestMethod.POST)
+    public String loginAdmin(@RequestBody Administrator admin) {
+        return adminService.findAdmin(admin);
+    }
 
 }

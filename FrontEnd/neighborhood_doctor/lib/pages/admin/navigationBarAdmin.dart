@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:neighborhood_doctors/pages/admin/createUser.dart';
 
 class NavigationBarAdmin extends StatefulWidget{
   @override
@@ -14,29 +15,39 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neighborhood Doctors Pages')
+          title: Text('Neighborhood Doctors Pages')
       ),
       body: Center(child: Text('Welcome to the Neighborhood Doctors website')),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.only(top: minimumPadding, bottom: minimumPadding),
           children: <Widget>[
-            DrawerHeader(
-              child: Text('Neighborhood Doctor management'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            const SizedBox(
+              height: 84,
+              child: DrawerHeader(
+                child: Text('Neighborhood Doctor management'),
+                decoration: BoxDecoration(
+                  color: Colors.purple,
+                ),
               ),
             ),
             ListTile(
-              title: Text('Calendar'),
+              title: Text('Create user'),
               onTap: () {
-                  Navigator.push(
-                    context,
+                Navigator.push(context,
                     MaterialPageRoute(
-                      builder: (context) => landing_user();
-                    )
-                  ),
+                        builder: (context) => CreateUser(title: 'Create User')));
               },
+            ),
+
+            ListTile(
+                title: Text('Sign out'),
+                onTap: () {
+                  // Navigator.push(context,
+                  //   MaterialPageRoute(builder: (context) => NavigationBarLanding()));
+                  Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+
+                }
             )
           ],
         ),

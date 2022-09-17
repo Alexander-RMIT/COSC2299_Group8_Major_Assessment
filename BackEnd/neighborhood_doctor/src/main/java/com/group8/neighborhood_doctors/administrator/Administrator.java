@@ -11,6 +11,7 @@ public class Administrator {
 
     private String username;
     private String password;
+    private String email;
 
     public Administrator() {
     }
@@ -27,6 +28,10 @@ public class Administrator {
         return password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -39,12 +44,17 @@ public class Administrator {
         this.password = password;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "administrator{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
     
