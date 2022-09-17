@@ -2,6 +2,7 @@ package com.group8.neighborhood_doctors.patient;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /*
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
  */
 
 @Entity
+@Table(name = "Patient")
 public class Patient {
     @Id
     private int id;
