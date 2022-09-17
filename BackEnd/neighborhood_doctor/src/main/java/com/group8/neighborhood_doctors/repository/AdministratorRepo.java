@@ -13,6 +13,12 @@ public interface AdministratorRepo extends JpaRepository<Administrator, Integer>
     public boolean existsById(int id);
     public boolean existsByUsername(String username);
 
+    // public List<administrator> findById(int id);
+
+    // For authentication
+    public boolean existsByPassword(String password);
+    public boolean existsByEmail(String email);
+
     @Query("select max(s.id) from Administrator s")
     public Integer findMaxId();
 }
