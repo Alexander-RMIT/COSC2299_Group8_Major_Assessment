@@ -84,4 +84,22 @@ public class DoctorService {
             return "Doctor does not exist";
         }
     }
+    
+    
+    
+    /*
+     * Find doctor in the database by email and password
+     */
+    @Transactional
+    public String findDoctor(Doctor doctor) {
+        try {
+            if (doctorRepo.existsByEmail(doctor.getEmail()) && doctorRepo.existsByPassword(doctor.getPassword())) {
+                return "Successful login";
+            } else {
+                return "Incorrect login credentials entered";
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }
