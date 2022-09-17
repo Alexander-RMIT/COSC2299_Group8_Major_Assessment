@@ -17,17 +17,20 @@ class NavBarLandingState extends State<NavigationBarLanding> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Neighborhood Doctors Pages')
+        title: Text('Neighborhood Doctors Pages'),
       ),
       body: Center(child: Text('Welcome to the Neighborhood Doctors website')),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.only(top: minimumPadding, bottom: minimumPadding),
           children: <Widget>[
-            DrawerHeader(
-              child: Text('Neighborhood Doctor management'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
+            const SizedBox(
+              height: 84,
+              child: DrawerHeader(
+                child: Text('Neighborhood Doctor management'),
+                decoration: BoxDecoration(
+                  color: Colors.purple,
+                ),
               ),
             ),
             ListTile(
