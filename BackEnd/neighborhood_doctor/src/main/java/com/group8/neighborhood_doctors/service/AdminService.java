@@ -42,6 +42,7 @@ public class AdminService {
                     Administrator adminToBeUpdate = adminRepo.findById(s.getId()).get();
                     adminToBeUpdate.setUsername(admin.getUsername());
                     adminToBeUpdate.setPassword(admin.getPassword());
+                    adminToBeUpdate.setEmail(admin.getEmail());
                     adminRepo.save(adminToBeUpdate);
                 });
                 return "Admin record updated.";
@@ -73,7 +74,7 @@ public class AdminService {
     
     
     /*
-     * Find admin in the database by email and password
+     * Check if the admin exists by Email and Password in the database
      */
     @Transactional
     public String findAdmin(Administrator admin) {
