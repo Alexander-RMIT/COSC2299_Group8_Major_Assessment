@@ -3,7 +3,7 @@ package com.group8.neighborhood_doctors.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.data.repository.query.Param;
 import com.group8.neighborhood_doctors.patient.Patient;
 
 @Repository
@@ -20,4 +20,8 @@ public interface PatientRepo extends JpaRepository<Patient, Integer> {
 
     @Query("select max(s.id) from Patient s")
     public Integer findMaxId();
+    
+    @Query("SELECT s.id FROM Patient s WHERE s.email=:email AND s.password=:password")
+    public Integer findByEmailPassword(@Param("email") String email, 
+                                        @Param("password") String password);
 }
