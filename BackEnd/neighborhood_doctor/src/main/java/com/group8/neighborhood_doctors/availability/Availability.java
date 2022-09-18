@@ -6,13 +6,6 @@ import javax.persistence.Id;
 @Entity
 public class Availability {
 
-    // id: int
-    // Date
-    // Doctor ID
-    // Status/reason
-    // Time start
-    // Time end
-
     @Id
     private int id;
 
