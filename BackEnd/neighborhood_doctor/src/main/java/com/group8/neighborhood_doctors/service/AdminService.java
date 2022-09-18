@@ -18,7 +18,7 @@ public class AdminService {
     public String createAdmin(Administrator admin){
         try {
             if (!adminRepo.existsByUsername(admin.getUsername())) {
-                admin.setId(null == adminRepo.findMaxId()? 0 : adminRepo.findMaxId() + 1);
+                admin.setId(null == adminRepo.findMaxId()? 1 : adminRepo.findMaxId() + 1);
                 adminRepo.save(admin);
                 return "Admin record created successfully.";
             } else {

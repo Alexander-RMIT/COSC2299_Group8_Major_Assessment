@@ -19,9 +19,8 @@ public class AvailabilityService {
         try {
             // If date, timeStart, timeEnd, doctorId and patientId are not unique, then the availability already exists
             if (!(availabilityRepo.existsByDate(availability.getDate()) && availabilityRepo.existsByStart(availability.getStart()) && 
-                    availabilityRepo.existsByEnd(availability.getEnd()) && availabilityRepo.existsByDoctorId(availability.getDoctorId()) && 
-                    availabilityRepo.existsByStatus(availability.getStatus()))) {
-                availability.setId(null == availabilityRepo.findMaxId()? 0 : availabilityRepo.findMaxId() + 1);
+                    availabilityRepo.existsByEnd(availability.getEnd()) && availabilityRepo.existsByDoctorId(availability.getDoctorId()))) {
+                availability.setId(null == availabilityRepo.findMaxId()? 1 : availabilityRepo.findMaxId() + 1);
                 availabilityRepo.save(availability);
                 return "New availability record created successfully.";
             } else {

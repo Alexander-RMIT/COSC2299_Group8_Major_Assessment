@@ -21,7 +21,7 @@ public class AppointmentService {
             if (!(appointmentRepo.existsByDate(appointment.getDate()) && appointmentRepo.existsByTimeStart(appointment.getTimeStart()) && 
                     appointmentRepo.existsByTimeEnd(appointment.getTimeEnd()) && appointmentRepo.existsByDoctorId(appointment.getDoctorId()) && 
                     appointmentRepo.existsByPatientId(appointment.getPatientId()))) {
-                appointment.setId(null == appointmentRepo.findMaxId()? 0 : appointmentRepo.findMaxId() + 1);
+                appointment.setId(null == appointmentRepo.findMaxId()? 1 : appointmentRepo.findMaxId() + 1);
                 appointmentRepo.save(appointment);
                 return "New appointment record created successfully.";
             } else {

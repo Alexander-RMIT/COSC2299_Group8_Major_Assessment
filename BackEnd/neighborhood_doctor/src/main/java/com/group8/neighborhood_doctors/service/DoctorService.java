@@ -21,7 +21,7 @@ public class DoctorService {
     public String createDoctor(Doctor doctor) {
         try {
             if (!(doctorRepo.existsByFirstname(doctor.getFirstname()) && doctorRepo.existsByLastname(doctor.getLastname()))) {
-                doctor.setId(null == doctorRepo.findMaxId()? 0 : doctorRepo.findMaxId() + 1);
+                doctor.setId(null == doctorRepo.findMaxId()? 1 : doctorRepo.findMaxId() + 1);
                 doctorRepo.save(doctor);
                 return "Doctor record created successfully.";
             } else {

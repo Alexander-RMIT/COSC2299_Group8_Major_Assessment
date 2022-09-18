@@ -22,7 +22,7 @@ public class PatientService {
         try {
             if (!(patientRepo.existsByFirstname(patient.getFirstname()) && patientRepo.existsByLastname(patient.getLastname()) && 
                     patientRepo.existsByNameother(patient.getNameother()) && patientRepo.existsByEmail(patient.getEmail()))) {
-                patient.setId(null == patientRepo.findMaxId()? 0 : patientRepo.findMaxId() + 1);
+                patient.setId(null == patientRepo.findMaxId()? 1 : patientRepo.findMaxId() + 1);
                 patientRepo.save(patient);
                 return "Patient record created successfully.";
             } else {
