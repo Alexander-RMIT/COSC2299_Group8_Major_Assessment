@@ -23,9 +23,9 @@ public class DoctorService {
             if (!(doctorRepo.existsByFirstname(doctor.getFirstname()) && doctorRepo.existsByLastname(doctor.getLastname()))) {
                 doctor.setId(null == doctorRepo.findMaxId()? 1 : doctorRepo.findMaxId() + 1);
                 doctorRepo.save(doctor);
-                return "Doctor record created successfully.";
+                return "[SUCCESS] Doctor record created successfully.";
             } else {
-                return "Doctor already exists in the database.";
+                return "[FAILED] Reason: Doctor already exists in the database.";
             }
         } catch (Exception e) {
             throw e;
@@ -55,12 +55,12 @@ public class DoctorService {
                     doctorToBeUpdate.setPassword(doctor.getPassword());
                     doctorRepo.save(doctorToBeUpdate);
                 });
-                return "Doctor record updated.";
+                return "[SUCCESS] Doctor record updated.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Doctor does not exists in the database.";
+            return "[FAILED] Reason: Doctor does not exists in the database.";
         }
     }
 
@@ -75,13 +75,13 @@ public class DoctorService {
                 doctors.stream().forEach(s -> {
                     doctorRepo.delete(s);
                 });
-                return "Doctor record deleted successfully.";
+                return "[SUCCESS]Doctor record deleted successfully.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "Doctor does not exist";
+            return "[FAILED] Reason: Doctor does not exist";
         }
     }
     
@@ -94,9 +94,9 @@ public class DoctorService {
     public String findDoctor(Doctor doctor) {
         try {
             if (doctorRepo.existsByEmail(doctor.getEmail()) && doctorRepo.existsByPassword(doctor.getPassword())) {
-                return "Successful login";
+                return "[SUCCESS] Successful login";
             } else {
-                return "Incorrect login credentials entered";
+                return "[FAILED] Reason: Incorrect login credentials entered";
             }
         } catch (Exception e) {
             throw e;
@@ -112,13 +112,13 @@ public class DoctorService {
             try {
                 // If the patient exists in the database
                 int id = doctorRepo.findByEmailPassword(doctor.getEmail(), doctor.getPassword());
-                return "" + id;
+                return "[SUCCESS] Doctor ID: " + id;
                 
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Doctor not in database, try again.";
+            return "[FAILED] Reason: Doctor not in database, try again.";
         }
     }
 }

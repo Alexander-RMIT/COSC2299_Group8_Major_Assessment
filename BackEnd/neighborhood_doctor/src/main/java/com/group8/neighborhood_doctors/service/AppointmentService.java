@@ -23,9 +23,9 @@ public class AppointmentService {
                     appointmentRepo.existsByPatientId(appointment.getPatientId()))) {
                 appointment.setId(null == appointmentRepo.findMaxId()? 1 : appointmentRepo.findMaxId() + 1);
                 appointmentRepo.save(appointment);
-                return "New appointment record created successfully.";
+                return "[SUCCESS] New appointment record created successfully.";
             } else {
-                return "Appointment already exists in the database.";
+                return "[FAILED] Reason: Appointment already exists in the database.";
             }
         } catch (Exception e) {
             throw e;
@@ -51,12 +51,12 @@ public class AppointmentService {
                     appointmentToBeUpdate.setDescription(appointment.getDescription());
                     appointmentRepo.save(appointmentToBeUpdate);
                 });
-                return "Appointment record updated.";
+                return "[SUCCESS] Appointment record updated.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Appointment does not exists in the database.";
+            return "[FAILED] Reason: Appointment does not exists in the database.";
         }
     }
 
@@ -68,13 +68,13 @@ public class AppointmentService {
                 appointments.stream().forEach(s -> {
                     appointmentRepo.delete(s);
                 });
-                return "Appointment record deleted successfully.";
+                return "[SUCCESS] Appointment record deleted successfully.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "Appointment does not exist";
+            return "[FAILED] Reason: Appointment does not exist";
         }
     }
 

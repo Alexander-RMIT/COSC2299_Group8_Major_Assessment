@@ -24,9 +24,9 @@ public class PatientService {
                     patientRepo.existsByNameother(patient.getNameother()) && patientRepo.existsByEmail(patient.getEmail()))) {
                 patient.setId(null == patientRepo.findMaxId()? 1 : patientRepo.findMaxId() + 1);
                 patientRepo.save(patient);
-                return "Patient record created successfully.";
+                return "[SUCCESS] Patient record created successfully.";
             } else {
-                return "Patient already exists in the database.";
+                return "[FAILED] Reason: Patient already exists in the database.";
             }
         } catch (Exception e) {
             throw e;
@@ -61,12 +61,12 @@ public class PatientService {
                     patientToBeUpdate.setPassword(patient.getPassword());
                     patientRepo.save(patientToBeUpdate);
                 });
-                return "Patient record updated.";
+                return "[SUCCESS] Patient record updated.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Patient does not exists in the database.";
+            return "[FAILED] Reason: Patient does not exists in the database.";
         }
     }
 
@@ -81,13 +81,13 @@ public class PatientService {
                 patients.stream().forEach(s -> {
                     patientRepo.delete(s);
                 });
-                return "Patient record deleted successfully.";
+                return "[SUCCESS] Patient record deleted successfully.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "Patient does not exist";
+            return "[FAILED] Reason: Patient does not exist";
         }
     }
     
@@ -98,9 +98,9 @@ public class PatientService {
     public String findPatient(Patient patient) {
         try {
             if (patientRepo.existsByEmail(patient.getEmail()) && patientRepo.existsByPassword(patient.getPassword())) {
-                return "Successful login";
+                return "[SUCCESS] Successful login";
             } else {
-                return "Incorrect login credentials entered";
+                return "[FAILED] Reason: Incorrect login credentials entered";
             }
         } catch (Exception e) {
             throw e;
@@ -116,13 +116,13 @@ public class PatientService {
             try {
                 // If the patient exists in the database
                 int id = patientRepo.findByEmailPassword(patient.getEmail(), patient.getPassword());
-                return "" + id;
+                return "[SUCCESS] Patient ID: " + id;
                 
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Patient not in database, try again.";
+            return "[FAILED] Reason: Patient not in database, try again.";
         }
     }
 

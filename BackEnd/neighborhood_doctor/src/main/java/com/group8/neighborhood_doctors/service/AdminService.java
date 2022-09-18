@@ -20,9 +20,9 @@ public class AdminService {
             if (!adminRepo.existsByUsername(admin.getUsername())) {
                 admin.setId(null == adminRepo.findMaxId()? 1 : adminRepo.findMaxId() + 1);
                 adminRepo.save(admin);
-                return "Admin record created successfully.";
+                return "[SUCCESS] Admin record created successfully.";
             } else {
-                return "Admin already exists in the database.";
+                return "[FAILED] Reason: Admin already exists in the database.";
             }
         } catch (Exception e) {
             throw e;
@@ -45,12 +45,12 @@ public class AdminService {
                     adminToBeUpdate.setEmail(admin.getEmail());
                     adminRepo.save(adminToBeUpdate);
                 });
-                return "Admin record updated.";
+                return "[SUCCESS] Admin record updated.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Admin does not exists in the database.";
+            return "[FAILED] Reason: Admin does not exists in the database.";
         }
     }
 
@@ -62,13 +62,13 @@ public class AdminService {
                 admins.stream().forEach(s -> {
                     adminRepo.delete(s);
                 });
-                return "Admin record deleted successfully.";
+                return "[SUCCESS] Admin record deleted successfully.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "Admin does not exist";
+            return "[FAILED] Reason: Admin does not exist";
         }
     }
     
@@ -80,9 +80,9 @@ public class AdminService {
     public String findAdmin(Administrator admin) {
         try {
             if (adminRepo.existsByEmail(admin.getEmail()) && adminRepo.existsByPassword(admin.getPassword())) {
-                return "Successful login";
+                return "[SUCCESS] Successful login";
             } else {
-                return "Incorrect login credentials entered";
+                return "[FAILED] Reason: Incorrect login credentials entered";
             }
         } catch (Exception e) {
             throw e;
@@ -98,13 +98,13 @@ public class AdminService {
             try {
                 // If the patient exists in the database
                 int id = adminRepo.findByEmailPassword(admin.getEmail(), admin.getPassword());
-                return "" + id;
+                return "[SUCCESS] Admin ID: " + id;
                 
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Administrator not in database, try again.";
+            return "[FAILED] Reason: Administrator not in database, try again.";
         }
     }
 }

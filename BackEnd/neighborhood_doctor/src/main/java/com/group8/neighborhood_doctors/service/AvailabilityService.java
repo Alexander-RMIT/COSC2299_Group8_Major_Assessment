@@ -22,9 +22,9 @@ public class AvailabilityService {
                     availabilityRepo.existsByEnd(availability.getEnd()) && availabilityRepo.existsByDoctorId(availability.getDoctorId()))) {
                 availability.setId(null == availabilityRepo.findMaxId()? 1 : availabilityRepo.findMaxId() + 1);
                 availabilityRepo.save(availability);
-                return "New availability record created successfully.";
+                return "[SUCCESS] New availability record created successfully.";
             } else {
-                return "Availability already exists in the database.";
+                return "[FAILED] Reason: Availability already exists in the database.";
             }
         } catch (Exception e) {
             throw e;
@@ -49,12 +49,12 @@ public class AvailabilityService {
                     availabilityToBeUpdate.setStatus(availability.getStatus());
                     availabilityRepo.save(availabilityToBeUpdate);
                 });
-                return "Availability record updated.";
+                return "[SUCCESS] Availability record updated.";
             } catch (Exception e) {
                 throw e;
             }
         } else {
-            return "Availability does not exists in the database.";
+            return "[FAILED] Reason: Availability does not exists in the database.";
         }
     }
 
@@ -66,13 +66,13 @@ public class AvailabilityService {
                 availabilitys.stream().forEach(s -> {
                     availabilityRepo.delete(s);
                 });
-                return "Availability record deleted successfully.";
+                return "[SUCCESS] Availability record deleted successfully.";
             } catch (Exception e) {
                 throw e;
             }
 
         } else {
-            return "Availability does not exist";
+            return "[FAILED] Reason: Availability does not exist";
         }
     }
 
