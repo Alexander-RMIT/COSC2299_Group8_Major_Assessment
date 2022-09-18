@@ -92,6 +92,11 @@ public class Controller {
     public String loginAdmin(@RequestBody Administrator admin) {
         return adminService.findAdmin(admin);
     }
+    
+    @RequestMapping(value="auth/admin/id", method=RequestMethod.POST)
+    public String sessionAdminId(@RequestBody Administrator admin) {
+        return adminService.retrieveId(admin);
+    }
 
     /*
     ===============================
@@ -134,6 +139,12 @@ public class Controller {
     public String loginDoctor(@RequestBody Doctor doctor) {
         return doctorService.findDoctor(doctor);
     }
+    
+    @RequestMapping(value="auth/doctor/id", method=RequestMethod.POST)
+    public String sessionDoctorId(@RequestBody Doctor doctor) {
+        return doctorService.retrieveId(doctor);
+    }
+
 
     /*
     ===============================
@@ -182,6 +193,13 @@ public class Controller {
     public String login(@RequestBody Patient patient) {
         return patientService.findPatient(patient);
     }
+    
+    // Retrieving id for user given pw and un
+    @RequestMapping(value="auth/patient/id", method=RequestMethod.POST)
+    public String sessionPatientId(@RequestBody Patient patient) {
+        return patientService.retrieveId(patient);
+    }
+
 
     /*
     ===============================
