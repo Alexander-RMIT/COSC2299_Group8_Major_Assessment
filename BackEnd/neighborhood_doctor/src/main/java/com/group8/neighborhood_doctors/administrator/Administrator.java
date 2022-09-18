@@ -2,6 +2,7 @@ package com.group8.neighborhood_doctors.administrator;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Administrator {
@@ -9,8 +10,13 @@ public class Administrator {
     @Id
     private int id;
 
+    @NotEmpty(message = "Username is required")
     private String username;
+
+    @NotEmpty(message = "Password is required")
     private String password;
+
+    @NotEmpty(message = "Email is required")
     private String email;
 
     public Administrator() {
