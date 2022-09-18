@@ -267,6 +267,12 @@ public class Controller {
         return availabilityService.readAvailabilities();
     }
 
+    // When updating, the id of the availability must be provided
+    @RequestMapping(value = "availability/updateAvailability", method = RequestMethod.PUT)
+    public String updateAvailability(@RequestBody Availability availability){
+        return availabilityService.updateAvailability(availability);
+    }
+
     // Only id is needed to delete a chat
     @RequestMapping(value = "availability/deleteAvailability", method = RequestMethod.DELETE)
     public String deleteAvailability(@RequestBody Availability availability){
