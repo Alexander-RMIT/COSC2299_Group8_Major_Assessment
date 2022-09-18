@@ -4,6 +4,8 @@ import 'package:neighborhood_doctors/pages/doctor/patientHealthInfoDovView.dart'
 import 'package:neighborhood_doctors/pages/doctor/editAvailability.dart';
 import 'package:neighborhood_doctors/pages/doctor/viewAppointmentsDocView.dart';
 import 'package:neighborhood_doctors/pages/doctor/editAvailability.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class NavigationBarDoc extends StatefulWidget{
   final int id;
@@ -19,6 +21,28 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
   final int id;
   NavBarStateDoc(this.id);
 
+  // Set at runtime instead of compile time
+  String _fname = "";
+
+  Future<String> userFirstName(int id, BuildContext context) async {
+    Uri urlDcotorName = Uri.parse("http://10.0.2.2:8080/doctor/firstname");
+
+    var response = await http.post(urlDcotorName,
+        headers: <String, String>{"Content-Type": "application/json", },
+        body: jsonEncode(<String, dynamic>{
+          "id": id,
+        }));
+    String strResponse = response.body;
+
+    if (response.statusCode == 200) {
+      _fname = strResponse;
+      return strResponse;
+    } else {
+      return strResponse;
+    }
+  }
+
+
 
   final minimumPadding = 5.0;
   @override
@@ -27,7 +51,17 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
       appBar: AppBar(
           title: Text('Neighborhood Doctors Pages')
       ),
-      body: Center(child: Text('Welcome to the Neighborhood Doctors website')),
+      body: FutureBuilder<String>(
+        future: userFirstName(id, context),
+        builder: (firstname, context) {
+          if (firstname != "") {
+            String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_fname";
+            return Center(child: Text(welcomeMsg, textAlign: TextAlign.center));
+          } else {
+            return Center(child: Text("Welcome to Neighborhood Doctors"));
+          }
+        },
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.only(top: minimumPadding, bottom: minimumPadding),
