@@ -1,12 +1,7 @@
-import 'package:neighborhood_doctors/pages/signUp.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import './signUp.dart';
-import 'package:neighborhood_doctors/pages/patient/navigationBarPat.dart';
-import 'package:neighborhood_doctors/pages/doctor/navigationBarDoc.dart';
-import 'package:neighborhood_doctors/pages/admin/navigationBarAdmin.dart';
 import 'dart:convert';
+import 'package:neighborhood_doctors/pages/admin/createUser.dart';
+import 'package:http/http.dart' as http;
 
 class NavigationBarAdmin extends StatefulWidget{
   final int id;
