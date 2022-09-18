@@ -6,13 +6,20 @@ import 'package:neighborhood_doctors/pages/doctor/viewAppointmentsDocView.dart';
 import 'package:neighborhood_doctors/pages/doctor/editAvailability.dart';
 
 class NavigationBarDoc extends StatefulWidget{
+  final int id;
+  NavigationBarDoc(this.id);
+
   @override
   State<StatefulWidget> createState() {
-    return NavBarStateDac();
+    return NavBarStateDoc(this.id);
   }
 }
 
-class NavBarStateDac extends State<NavigationBarDoc> {
+class NavBarStateDoc extends State<NavigationBarDoc> {
+  final int id;
+  NavBarStateDoc(this.id);
+
+
   final minimumPadding = 5.0;
   @override
   Widget build(BuildContext context) {
