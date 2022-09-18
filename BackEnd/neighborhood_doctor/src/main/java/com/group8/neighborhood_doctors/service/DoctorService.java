@@ -112,7 +112,7 @@ public class DoctorService {
             try {
                 // If the patient exists in the database
                 int id = doctorRepo.findByEmailPassword(doctor.getEmail(), doctor.getPassword());
-                return "[SUCCESS] Doctor ID: " + id;
+                return "" + id;
                 
             } catch (Exception e) {
                 throw e;

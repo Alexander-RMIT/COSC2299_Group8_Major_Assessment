@@ -98,7 +98,7 @@ public class AdminService {
             try {
                 // If the patient exists in the database
                 int id = adminRepo.findByEmailPassword(admin.getEmail(), admin.getPassword());
-                return "[SUCCESS] Admin ID: " + id;
+                return "" + id;
                 
             } catch (Exception e) {
                 throw e;
