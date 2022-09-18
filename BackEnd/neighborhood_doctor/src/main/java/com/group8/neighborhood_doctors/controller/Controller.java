@@ -6,6 +6,7 @@ import com.group8.neighborhood_doctors.patient.Patient;
 import com.group8.neighborhood_doctors.appointment.Appointment;
 import com.group8.neighborhood_doctors.chat.Chat;
 import com.group8.neighborhood_doctors.availability.Availability;
+import com.group8.neighborhood_doctors.symptom.Symptom;
 
 import com.group8.neighborhood_doctors.service.AdminService;
 import com.group8.neighborhood_doctors.service.DoctorService;
@@ -13,6 +14,7 @@ import com.group8.neighborhood_doctors.service.PatientService;
 import com.group8.neighborhood_doctors.service.AppointmentService;
 import com.group8.neighborhood_doctors.service.ChatService;
 import com.group8.neighborhood_doctors.service.AvailabilityService;
+import com.group8.neighborhood_doctors.service.SymptomService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +43,9 @@ public class Controller {
 
     @Autowired
     private AvailabilityService availabilityService;
+
+    @Autowired
+    private SymptomService symptomService;
 
     /*
     ===============================
@@ -262,7 +267,7 @@ public class Controller {
         return availabilityService.createAvailability(availability);
     }
 
-    @RequestMapping(value = "availability/readAvailability", method = RequestMethod.GET)
+    @RequestMapping(value = "availability/readAvailabilities", method = RequestMethod.GET)
     public List<Availability> readAvailabilities(){
         return availabilityService.readAvailabilities();
     }
@@ -273,10 +278,37 @@ public class Controller {
         return availabilityService.updateAvailability(availability);
     }
 
-    // Only id is needed to delete a chat
+    // Only id is needed to delete an availability
     @RequestMapping(value = "availability/deleteAvailability", method = RequestMethod.DELETE)
     public String deleteAvailability(@RequestBody Availability availability){
         return availabilityService.deleteAvailability(availability);
     }
 
+    /*
+    ===============================
+    Symptom controller 
+    ===============================
+    */
+
+    @RequestMapping(value = "symptom/createSymptom", method = RequestMethod.POST)
+    public String createSymptom(@RequestBody Symptom symptom){
+        return symptomService.createSymptom(symptom);
+    }
+
+    @RequestMapping(value = "symptom/readSymptoms", method = RequestMethod.GET)
+    public List<Symptom> readSymptoms(){
+        return symptomService.readSymptoms();
+    }
+
+    // When updating, the id of the symptom must be provided
+    @RequestMapping(value = "symptom/updateSymptom", method = RequestMethod.PUT)
+    public String updateSymptom(@RequestBody Symptom symptom){
+        return symptomService.updateSymptom(symptom);
+    }
+
+    // Only id is needed to delete a chat
+    @RequestMapping(value = "symptom/deleteSymptom", method = RequestMethod.DELETE)
+    public String deleteSymptom(@RequestBody Symptom symptom){
+        return symptomService.deleteSymptom(symptom);
+    }
 }
