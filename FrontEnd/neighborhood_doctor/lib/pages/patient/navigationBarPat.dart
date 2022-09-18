@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:neighborhood_doctors/pages/login.dart';
 import 'package:neighborhood_doctors/pages/navigationBar.dart';
 import 'package:neighborhood_doctors/pages/patient/chatPat.dart';
+import 'package:neighborhood_doctors/Model/PatientModel.dart';
 import 'package:neighborhood_doctors/pages/patient/patientHealthInfoPatView.dart';
-
-// Navigation bar specific to the general landing page that doesnt have user heirarchy
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:io';
 
 class NavigationBarLanding extends StatefulWidget{
   final int id;
@@ -19,6 +21,28 @@ class NavBarLandingState extends State<NavigationBarLanding> {
   final int id;
   NavBarLandingState(this.id);
 
+  // Set at runtime instead of compile time
+  String _fname = "";
+
+  Future<String> userFirstName(int id, BuildContext context) async {
+    Uri urlPatientName = Uri.parse("http://10.0.2.2:8080/patient/firstname");
+
+    var response = await http.post(urlPatientName,
+        headers: <String, String>{"Content-Type": "application/json", },
+        body: jsonEncode(<String, dynamic>{
+          "id": id,
+        }));
+    String strResponse = response.body;
+
+    if (response.statusCode == 200) {
+      _fname = strResponse;
+      return strResponse;
+    } else {
+      return strResponse;
+    }
+  }
+
+
   final minimumPadding = 5.0;
   @override
   Widget build(BuildContext context) {
@@ -26,7 +50,19 @@ class NavBarLandingState extends State<NavigationBarLanding> {
       appBar: AppBar(
           title: Text('Neighborhood Doctors Pages')
       ),
-      body: Center(child: Text('Welcome to the Neighborhood Doctors website')),
+      body:
+          FutureBuilder<String>(
+            future: userFirstName(id, context),
+            builder: (firstname, context) {
+              if (firstname != "") {
+                String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_fname";
+                return Center(child: Text(welcomeMsg, textAlign: TextAlign.center));
+              } else {
+                return Center(child: Text("Welcome to Neighborhood Doctors"));
+              }
+            },
+          ),
+          //Center(child: Text(welcomeMsg)),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.only(top: minimumPadding, bottom: minimumPadding),
