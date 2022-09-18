@@ -102,6 +102,12 @@ public class Controller {
     public String sessionAdminId(@RequestBody Administrator admin) {
         return adminService.retrieveId(admin);
     }
+    
+    // Retrieving username of admin
+    @RequestMapping(value="admin/username", method=RequestMethod.POST)
+    public String sessionAdminFname(@RequestBody Administrator admin) {
+        return adminService.retrieveUsername(admin);
+    }
 
     /*
     ===============================
@@ -148,6 +154,12 @@ public class Controller {
     @RequestMapping(value="auth/doctor/id", method=RequestMethod.POST)
     public String sessionDoctorId(@RequestBody Doctor doctor) {
         return doctorService.retrieveId(doctor);
+    }
+    
+    // Retrieving first name of doctor
+    @RequestMapping(value="doctor/firstname", method=RequestMethod.POST)
+    public String sessionDoctorFname(@RequestBody Doctor doctor) {
+        return doctorService.retrieveFirstName(doctor);
     }
 
 
@@ -203,6 +215,12 @@ public class Controller {
     @RequestMapping(value="auth/patient/id", method=RequestMethod.POST)
     public String sessionPatientId(@RequestBody Patient patient) {
         return patientService.retrieveId(patient);
+    }
+    
+    // Retrieving first name of patient
+    @RequestMapping(value="patient/firstname", method=RequestMethod.POST)
+    public String sessionPatientFname(@RequestBody Patient patient) {
+        return patientService.retrieveFirstName(patient);
     }
 
 
