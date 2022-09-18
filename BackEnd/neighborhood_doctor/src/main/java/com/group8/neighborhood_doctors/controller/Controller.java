@@ -5,12 +5,14 @@ import com.group8.neighborhood_doctors.doctor.Doctor;
 import com.group8.neighborhood_doctors.patient.Patient;
 import com.group8.neighborhood_doctors.appointment.Appointment;
 import com.group8.neighborhood_doctors.chat.Chat;
+import com.group8.neighborhood_doctors.availability.Availability;
 
 import com.group8.neighborhood_doctors.service.AdminService;
 import com.group8.neighborhood_doctors.service.DoctorService;
 import com.group8.neighborhood_doctors.service.PatientService;
 import com.group8.neighborhood_doctors.service.AppointmentService;
 import com.group8.neighborhood_doctors.service.ChatService;
+import com.group8.neighborhood_doctors.service.AvailabilityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +38,9 @@ public class Controller {
     
     @Autowired
     private ChatService chatService;
+
+    @Autowired
+    private AvailabilityService availabilityService;
 
     /*
     ===============================
@@ -226,6 +231,28 @@ public class Controller {
     @RequestMapping(value = "chat/deleteChat", method = RequestMethod.DELETE)
     public String deleteChat(@RequestBody Chat chat){
         return chatService.deleteChat(chat);
+    }
+
+    /*
+    ===============================
+    Availability controller 
+    ===============================
+    */
+
+    @RequestMapping(value = "availability/createAvailability", method = RequestMethod.POST)
+    public String createAvailability(@RequestBody Availability availability){
+        return availabilityService.createAvailability(availability);
+    }
+
+    @RequestMapping(value = "availability/readAvailability", method = RequestMethod.GET)
+    public List<Availability> readAvailabilities(){
+        return availabilityService.readAvailabilities();
+    }
+
+    // Only id is needed to delete a chat
+    @RequestMapping(value = "availability/deleteAvailability", method = RequestMethod.DELETE)
+    public String deleteAvailability(@RequestBody Availability availability){
+        return availabilityService.deleteAvailability(availability);
     }
 
 }
