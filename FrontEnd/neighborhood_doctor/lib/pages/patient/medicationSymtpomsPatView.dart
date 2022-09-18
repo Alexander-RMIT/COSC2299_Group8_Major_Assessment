@@ -10,9 +10,9 @@ import 'dart:convert';
 // https://github.com/hawier-dev/flutter-login-ui/blob/main/lib/main.dart
 
 class MedicationSymptomsPatient extends StatefulWidget {
-  const MedicationSymptomsPatient({Key? key, required this.title})
+  const MedicationSymptomsPatient({Key? key, required this.id})
       : super(key: key);
-  final String title;
+  final int id;
 
   @override
   State<StatefulWidget> createState() {
@@ -20,62 +20,10 @@ class MedicationSymptomsPatient extends StatefulWidget {
   }
 }
 
-Future<PatientModel> userMedicationSymptomsPatient(
-    String firstname,
-    String lastname,
-    String nameother,
-    int age,
-    String gender,
-    String address,
-    String phonenumber,
-    String email,
-    String password,
-    BuildContext context) async {
-  Uri url = Uri.parse("http://localhost:8080/patient/createSymptom");
-  var response = await http.post(url,
-      headers: <String, String>{
-        "Content-Type": "application/json",
-      },
-      body: jsonEncode(<String, dynamic>{
-        "firstname": firstname,
-        "lastname": lastname,
-        "nameother": nameother,
-        "age": age,
-        "gender": gender,
-        "address": address,
-        "phoneNumber": phonenumber,
-        "email": email,
-        "password": password,
-      }));
-
-  String strResponse = response.body;
-
-  if (response.statusCode == 200) {
-    // PatientModel patient = PatientModel(firstname: firstname, lastname: lastname, nameother: nameother, age: age, gender: gender, address: address, phonenumber: phonenumber, email: email, password: password);
-    // return patient;
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext dialogContext) {
-        return ResponseAlertDialog(
-            title: 'Backend response', content: response.body);
-      },
-    );
-  } else {
-    throw "Unable to get a backend response.";
-  }
-
-  throw NullThrownError();
-}
-
 class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
   //TextEditingController nameOtherController = TextEditingController();
 
   @override
