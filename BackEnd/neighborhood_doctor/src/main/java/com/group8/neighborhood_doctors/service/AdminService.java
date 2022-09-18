@@ -107,4 +107,17 @@ public class AdminService {
             return "[FAILED] Reason: Administrator not in database, try again.";
         }
     }
+    
+    // Retrieving the admin username by their id
+    @Transactional
+    public String retrieveUsername(Administrator admin) {
+        try {
+            String uname = adminRepo.findUsernameById(admin.getId());
+            return uname;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    
 }
