@@ -3,13 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:neighborhood_doctors/pages/admin/createUser.dart';
 
 class NavigationBarAdmin extends StatefulWidget{
+  final int id;
+  NavigationBarAdmin(this.id);
+
   @override
   State<StatefulWidget> createState() {
-    return NavBarStateAdmin();
+    return NavBarStateAdmin(this.id);
   }
 }
 
 class NavBarStateAdmin extends State<NavigationBarAdmin> {
+  final int id;
+  NavBarStateAdmin(this.id);
+
   final minimumPadding = 5.0;
   @override
   Widget build(BuildContext context) {
