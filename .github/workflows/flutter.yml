@@ -13,7 +13,8 @@ jobs:
           flutter-version: '2.5.0'
           channel: stable
       - name: Build apk
-        run: |
+        run:
+          working-directory: FrontEnd/neighborhood_doctor
           flutter pub get
           flutter format --set-exit-if-changed .
           flutter analyze
@@ -28,7 +29,8 @@ jobs:
           flutter-version: '2.5.0'
           channel: stable 
       - name: Build web
-        run: |
+        run:
+          working-directory: FrontEnd/neighborhood_doctor
           flutter pub get
           flutter format --set-exit-if-changed .
           flutter analyze
