@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:neighborhood_doctors/pages/doctor/chatDoc.dart';
+import 'package:neighborhood_doctors/pages/doctor/patientHealthInfoDovView.dart';
+import 'package:neighborhood_doctors/pages/doctor/editAvailability.dart';
+import 'package:neighborhood_doctors/pages/doctor/viewAppointmentsDocView.dart';
+import 'package:neighborhood_doctors/pages/doctor/editAvailability.dart';
 import 'dart:convert';
-import 'package:neighborhood_doctors/pages/admin/createUser.dart';
 import 'package:http/http.dart' as http;
 
-class NavigationBarAdmin extends StatefulWidget{
+class NavigationBarDoc extends StatefulWidget{
   final int id;
-  NavigationBarAdmin(this.id);
+  NavigationBarDoc(this.id);
 
   @override
   State<StatefulWidget> createState() {
-    return NavBarStateAdmin(this.id);
+    return NavBarStateDoc(this.id);
   }
 }
 
-class NavBarStateAdmin extends State<NavigationBarAdmin> {
+class NavBarStateDoc extends State<NavigationBarDoc> {
   final int id;
-  NavBarStateAdmin(this.id);
+  NavBarStateDoc(this.id);
 
   // Set at runtime instead of compile time
-  String _uname = "";
-  Future<String> userFirstName(int id, BuildContext context) async {
-    Uri urlAdminName = Uri.parse("http://10.0.2.2:8080/admin/username");
+  String _fname = "";
 
-    var response = await http.post(urlAdminName,
+  Future<String> userFirstName(int id, BuildContext context) async {
+    Uri urlDcotorName = Uri.parse("http://10.0.2.2:8080/doctor/firstname");
+
+    var response = await http.post(urlDcotorName,
         headers: <String, String>{"Content-Type": "application/json", },
         body: jsonEncode(<String, dynamic>{
           "id": id,
@@ -30,12 +35,14 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
     String strResponse = response.body;
 
     if (response.statusCode == 200) {
-      _uname = strResponse;
+      _fname = strResponse;
       return strResponse;
     } else {
       return strResponse;
     }
   }
+
+
 
   final minimumPadding = 5.0;
   @override
@@ -46,9 +53,9 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
       ),
       body: FutureBuilder<String>(
         future: userFirstName(id, context),
-        builder: (username, context) {
-          if (username != "") {
-            String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_uname";
+        builder: (firstname, context) {
+          if (firstname != "") {
+            String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_fname";
             return Center(child: Text(welcomeMsg, textAlign: TextAlign.center));
           } else {
             return Center(child: Text("Welcome to Neighborhood Doctors"));
@@ -69,14 +76,29 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
               ),
             ),
             ListTile(
-              title: Text('Create user'),
+              title: Text('Chat'),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(
-                        builder: (context) => CreateUser(title: 'Create User')));
+                        builder: (context) => ChatDoctor(title: 'Chat')));
               },
             ),
-
+            ListTile(
+              title: Text('View patient health information'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => PatientHealthInfoDoctor(title: 'Health Information')));
+              },
+            ),
+            ListTile(
+              title: Text('Edit availability'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => DoctorAvailability(title: 'Edit availability')));
+              },
+            ),
             ListTile(
                 title: Text('Sign out'),
                 onTap: () {
