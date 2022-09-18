@@ -125,5 +125,16 @@ public class PatientService {
             return "[FAILED] Reason: Patient not in database, try again.";
         }
     }
+       
+    // Retrieve Patient first name by their id
+    @Transactional
+    public String retrieveFirstName(Patient patient) {
+        try {
+            String fname = patientRepo.findNameById(patient.getId());
+            return fname;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
 }
