@@ -106,5 +106,24 @@ public class PatientService {
             throw e;
         }
     }
+    
+    /*
+     * Retrieve the patient id in the database by email and password
+     */
+    @Transactional
+    public String retrieveId(Patient patient) {
+        if (patientRepo.existsByEmail(patient.getEmail()) && patientRepo.existsByPassword(patient.getPassword())) {
+            try {
+                // If the patient exists in the database
+                int id = patientRepo.findByEmailPassword(patient.getEmail(), patient.getPassword());
+                return "" + id;
+                
+            } catch (Exception e) {
+                throw e;
+            }
+        } else {
+            return "Patient not in database, try again.";
+        }
+    }
 
 }
