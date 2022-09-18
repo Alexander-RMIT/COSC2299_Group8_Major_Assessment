@@ -94,9 +94,9 @@ public class DoctorService {
     public String findDoctor(Doctor doctor) {
         try {
             if (doctorRepo.existsByEmail(doctor.getEmail()) && doctorRepo.existsByPassword(doctor.getPassword())) {
-                return "[SUCCESS] Successful login";
+                return "Successful login";
             } else {
-                return "[FAILED] Reason: Incorrect login credentials entered";
+                return "Incorrect login credentials entered";
             }
         } catch (Exception e) {
             throw e;
@@ -118,7 +118,7 @@ public class DoctorService {
                 throw e;
             }
         } else {
-            return "[FAILED] Reason: Doctor not in database, try again.";
+            return "Doctor not in database, try again.";
         }
     }
     

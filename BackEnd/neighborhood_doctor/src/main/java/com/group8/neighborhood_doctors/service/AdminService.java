@@ -80,9 +80,9 @@ public class AdminService {
     public String findAdmin(Administrator admin) {
         try {
             if (adminRepo.existsByEmail(admin.getEmail()) && adminRepo.existsByPassword(admin.getPassword())) {
-                return "[SUCCESS] Successful login";
+                return "Successful login";
             } else {
-                return "[FAILED] Reason: Incorrect login credentials entered";
+                return "Incorrect login credentials entered";
             }
         } catch (Exception e) {
             throw e;
@@ -104,7 +104,7 @@ public class AdminService {
                 throw e;
             }
         } else {
-            return "[FAILED] Reason: Administrator not in database, try again.";
+            return "Administrator not in database, try again.";
         }
     }
     
