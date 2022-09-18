@@ -23,4 +23,7 @@ public interface DoctorRepo extends JpaRepository<Doctor, Integer> {
     @Query("SELECT s.id FROM Doctor s WHERE s.email=:email AND s.password=:password")
     public Integer findByEmailPassword(@Param("email") String email, 
                                         @Param("password") String password);
+    
+    @Query("SELECT s.firstname FROM Doctor s WHERE s.id=:id")
+    public String findNameById(@Param("id") int id);
 }
