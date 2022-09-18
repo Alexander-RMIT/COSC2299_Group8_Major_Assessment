@@ -88,4 +88,23 @@ public class AdminService {
             throw e;
         }
     }
+    
+    /*
+     * Retrieve the patient id in the database by email and password
+     */
+    @Transactional
+    public String retrieveId(Administrator admin) {
+        if (adminRepo.existsByEmail(admin.getEmail()) && adminRepo.existsByPassword(admin.getPassword())) {
+            try {
+                // If the patient exists in the database
+                int id = adminRepo.findByEmailPassword(admin.getEmail(), admin.getPassword());
+                return "" + id;
+                
+            } catch (Exception e) {
+                throw e;
+            }
+        } else {
+            return "Administrator not in database, try again.";
+        }
+    }
 }

@@ -7,13 +7,18 @@ import 'package:neighborhood_doctors/pages/patient/patientHealthInfoPatView.dart
 // Navigation bar specific to the general landing page that doesnt have user heirarchy
 
 class NavigationBarLanding extends StatefulWidget{
+  final int id;
+  NavigationBarLanding(this.id);
   @override
   State<StatefulWidget> createState() {
-    return NavBarLandingState();
+    return NavBarLandingState(this.id);
   }
 }
 
 class NavBarLandingState extends State<NavigationBarLanding> {
+  final int id;
+  NavBarLandingState(this.id);
+
   final minimumPadding = 5.0;
   @override
   Widget build(BuildContext context) {
