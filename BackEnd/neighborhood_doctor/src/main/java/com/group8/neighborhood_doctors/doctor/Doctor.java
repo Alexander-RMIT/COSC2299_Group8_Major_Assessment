@@ -2,15 +2,25 @@ package com.group8.neighborhood_doctors.doctor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
+@Table(name = "Doctor")
 public class Doctor {
     @Id
     private int id;
 
+    @NotEmpty(message = "First name is required")
     private String firstname;
+
+    @NotEmpty(message = "Last name is required")
     private String lastname;
+    
+    @NotEmpty(message = "Email name is required")
     private String email;
+
+    @NotEmpty(message = "Password name is required")
     private String password;
 
     public Doctor() {
