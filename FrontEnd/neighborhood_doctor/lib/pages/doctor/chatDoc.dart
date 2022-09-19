@@ -55,16 +55,19 @@ Future<void> createChate(
         "doctorID": doctorID,
         "patientID": patientID,
       }));
-  if (response.statusCode == 200) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext dialogContext) {
-        return ResponseAlertDialog(
-            title: 'Sent to backend', content: response.body);
+}
+
+Future<void> deleteChat(
+    int doctorID, int patientID, BuildContext context) async {
+  Uri url = Uri.parse("http://10.0.2.2:8080/chat/deleteChat");
+  var response = await http.post(url,
+      headers: <String, String>{
+        "Content-Type": "application/json",
       },
-    );
-  }
+      body: jsonEncode(<String, dynamic>{
+        "doctorID": doctorID,
+        "patientID": patientID,
+      }));
 }
 
 Future<void> sendMessage(
