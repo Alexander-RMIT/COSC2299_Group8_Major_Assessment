@@ -25,6 +25,9 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
   var rememberValue = false;
 
   //TextEditingController nameOtherController = TextEditingController();
+  TextEditingController symptomController = TextEditingController();
+  TextEditingController severityController = TextEditingController();
+  TextEditingController notesController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,30 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
                         Text('4'),
                         Text('none'),
                       ]),
+                      TableRow(children: [
+                        ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          String symptom = symptomController.text;
+
+                          print(symptom);
+                          print("has been pressed");
+
+                          var createSymptom = addSymptom(id, symptom);
+
+                        symptomController.text = '';
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
+                      ),
+                      child: const Text(
+                        'Add symptom',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      ])
                     ],
                   ),
                 ])));
@@ -79,4 +106,39 @@ class ResponseAlertDialog extends StatelessWidget {
       ),
     );
   }
+}
+
+
+Future<void> addSymptom(int patientId, String symptom) async{
+  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/createSymptom");
+  var response = await http.post(
+      url, 
+      headers: <String, String>{"Content-Type": "application/json", },
+      body: jsonEncode(<String, dynamic>{
+        "name" : symptom,
+        "patientId" : patientId,
+  }));
+
+}
+
+Future<void> deleteSymptom(int patientId, String symptom) async {
+  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/deleteSymptom");
+  var response = await http.post(
+      url, 
+      headers: <String, String>{"Content-Type": "application/json", },
+      body: jsonEncode(<String, dynamic>{
+        "name" : symptom,
+        "patientId" : patientId,
+  }));
+}
+
+Future<void> updateSymptom(int patientId, String symptom) async {
+  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/updateSymptom");
+  var response = await http.post(
+      url, 
+      headers: <String, String>{"Content-Type": "application/json", },
+      body: jsonEncode(<String, dynamic>{
+        "name" : symptom,
+        "patientId" : patientId,
+  }));
 }
