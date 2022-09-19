@@ -7,7 +7,7 @@
 * Weixi Guan (s3830776)
 * Ethan ()
 * Pak Yin Lai (s3827212)
-* Rylan ()
+* Rylan (s3896416)
 
 ## Records
 
