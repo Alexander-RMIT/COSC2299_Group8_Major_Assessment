@@ -5,7 +5,7 @@
 ## Members
 * Alexander (s3895606)
 * Weixi Guan (s3830776)
-* Ethan ()
+* Ethan (s3902240)
 * Pak Yin Lai (s3827212)
 * Rylan (s3896416)
 
