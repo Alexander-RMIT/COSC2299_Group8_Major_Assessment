@@ -2,6 +2,8 @@ package com.group8.neighborhood_doctors.availability;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Availability {
@@ -9,10 +11,19 @@ public class Availability {
     @Id
     private int id;
 
+    @NotNull(message = "Doctor ID cannot be null")
     private int doctorId;
+
+    @NotEmpty(message = "Date cannot be empty")
     private String date;
+
+    @NotEmpty(message = "Status cannot be empty")
     private String status;
+
+    @NotEmpty(message = "Starting Time cannot be empty")
     private String start;
+
+    @NotEmpty(message = "Ending Time cannot be empty")
     private String end;
 
     public Availability() {
