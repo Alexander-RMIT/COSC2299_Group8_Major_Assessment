@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:neighborhood_doctors/pages/admin/createUser.dart';
+import 'package:neighborhood_doctors/pages/admin/createAdmin.dart';
 import 'package:http/http.dart' as http;
 
 class NavigationBarAdmin extends StatefulWidget{
@@ -69,14 +70,13 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
               ),
             ),
             ListTile(
-              title: Text('Create user'),
+              title: Text('Create usertype'),
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(
                         builder: (context) => CreateUser(title: 'Create User')));
               },
             ),
-
             ListTile(
                 title: Text('Sign out'),
                 onTap: () {
