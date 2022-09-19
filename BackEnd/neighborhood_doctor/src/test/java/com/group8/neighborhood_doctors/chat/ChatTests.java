@@ -6,6 +6,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
@@ -16,14 +18,21 @@ import static org.assertj.core.api.Assertions.*;
 
 public class ChatTests {
     // create a validator factory
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    ValidatorFactory factory;
     // create a validator
-    Validator validator = factory.getValidator();
+    Validator validator;
 
     private String time;
     private String message;
     private int userone;
     private int usertwo;
+
+    @BeforeEach
+    @DisplayName("Create a validator factory and a validator")
+    void setup() {
+        factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     @Test
     public void testTime() {
