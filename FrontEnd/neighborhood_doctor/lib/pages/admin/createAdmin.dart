@@ -18,8 +18,8 @@ Future<AdminModel> userSignUp(String username,
   String email,
   String password,
   BuildContext context) async {
-  // Change to http://localhost/patient/createPatient for desktop
-  // Change to http://10.0.2.2:8080/patient/createPatient for android emulator
+  // Change to http://localhost/admin/createAdmin for desktop
+  // Change to http://10.0.2.2:8080/admin/createAdmin for android emulator
   Uri url = Uri.parse("http://10.0.2.2:8080/admin/createAdmin");
   var response = await http.post(url,
     headers: <String, String>{"Content-Type": "application/json", },
@@ -83,6 +83,8 @@ class CreateAdminState extends State<CreateAdmin> {
                   children: [
                     Row(
                       children: [
+
+                        // Username textfield
                         Expanded(
                           child: TextFormField(
                             controller: userNameController,
@@ -105,32 +107,13 @@ class CreateAdminState extends State<CreateAdmin> {
                         const SizedBox(
                           height: 20,
                         ),
-                        // Expanded(
-                        //   child: TextFormField(
-                        //     controller: lastNameController,
-                        //     validator: (value) {
-                        //       if (value == null || value.isEmpty) {
-                        //         return 'Please enter your last name';
-                        //       }
-                        //       return null;
-                        //     },
-                            
-                        //     maxLines: 1,
-                        //     decoration: InputDecoration(
-                        //       hintText: 'Last name',
-                        //       prefixIcon: const Icon(Icons.person),
-                        //       border: OutlineInputBorder(
-                        //         borderRadius: BorderRadius.circular(10),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     const SizedBox(
                       height: 20,
                     ),
 
+                    // Email textfield
                     TextFormField(
                       controller: emailController,
                       validator: (value) => EmailValidator.validate(value!)
@@ -148,147 +131,8 @@ class CreateAdminState extends State<CreateAdmin> {
                     const SizedBox(
                       height: 20,
                     ),
-                    // Name other
-                    // TextFormField(
-                    //   controller: nameOtherController,
-                    //   maxLines: 1,
-                    //   decoration: InputDecoration(
-                    //     hintText: 'Middle name/initial',
-                    //     prefixIcon: const Icon(Icons.person),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-
-                    // Age & Gender
-                    // Row(
-                    //   children: [
-                    //     Expanded(child: TextFormField(
-                    //       controller: ageController,
-                    //       validator: (value) {
-                    //         if (value == null || value.isEmpty) {
-                    //           return 'Please enter your age';
-                    //         }
-                    //         return null;
-                    //       },
-                    //       maxLines: 1,
-                    //       decoration: InputDecoration(
-                    //         hintText: 'Age',
-                    //         prefixIcon: const Icon(Icons.face),
-                    //         border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(10),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     ),
-
-                    //     const SizedBox(
-                    //       width: 20,
-                    //     ),
-                    //     Expanded(child:
-
-                    //       DropdownButtonFormField<String>(
-                    //         value: dropdownValue,
-                    //         icon: const Icon(Icons.arrow_downward),
-                    //         elevation: 16,
-                    //         style: const TextStyle(color: Colors.white),
-                    //         validator: (value) {
-                    //           if (value == "Gender") {
-                    //             return 'Please enter your gender';
-                    //           }
-                    //           return null;
-                    //           },
-                    //         onChanged: (String? value) {
-
-                    //           // This is called when the user selects an item.
-                    //           setState(() {
-                    //             dropdownValue = value!;
-                    //           });
-                    //         },
-
-                    //         items: genderList.map<DropdownMenuItem<String>>((String value) {
-                    //           return DropdownMenuItem<String>(
-                    //             value: value,
-                    //             child: Text(value),
-                    //           );
-                    //         }).toList(),
-                    //       ),
-                    //     ),
-                    //   ],
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-
-                    // // Address
-                    // TextFormField(
-                    //   controller: addressController,
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter your address';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   maxLines: 1,
-                    //   decoration: InputDecoration(
-                    //     hintText: 'Enter your address',
-                    //     prefixIcon: const Icon(Icons.home),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-
-                    // // Phone Number
-                    // TextFormField(
-                    //   controller: phoneNumController,
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter your phone number';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   maxLines: 1,
-                    //   decoration: InputDecoration(
-                    //     hintText: 'Enter your phone number',
-                    //     prefixIcon: const Icon(Icons.phone),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-
-                    // TextFormField(
-                    //   controller: emailController,
-                    //   validator: (value) => EmailValidator.validate(value!)
-                    //       ? null
-                    //       : "Please enter a valid email",
-                    //   maxLines: 1,
-                    //   decoration: InputDecoration(
-                    //     hintText: 'Enter your email',
-                    //     prefixIcon: const Icon(Icons.email),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
+                    
+                    // Password textfield
                     TextFormField(
                       controller: passwordController,
                       validator: (value) {
@@ -310,6 +154,8 @@ class CreateAdminState extends State<CreateAdmin> {
                     const SizedBox(
                       height: 20,
                     ),
+
+                    // Button that pass data to backend
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
@@ -317,11 +163,6 @@ class CreateAdminState extends State<CreateAdmin> {
                           String email = emailController.text;
                           String password = passwordController.text;
                           
-                          // String nameOther = nameOtherController.text;
-                          // int age = int.parse(ageController.text);
-                          // String gender = dropdownValue;
-                          // String address = addressController.text;
-                          // String phoneNumber = phoneNumController.text;
 
                           print("has been pressed");
 
@@ -330,11 +171,6 @@ class CreateAdminState extends State<CreateAdmin> {
                           emailController.text = '';
                           passwordController.text = '';
                           userNameController.text = '';
-                          // nameOtherController.text = '';
-                          // ageController.text = '';
-                          // dropdownValue = genderList.first;
-                          // addressController.text = '';
-                          // phoneNumController.text = '';
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -350,7 +186,6 @@ class CreateAdminState extends State<CreateAdmin> {
                     const SizedBox(
                       height: 20,
                     ),
-                  
                   ],
                 ),
               )

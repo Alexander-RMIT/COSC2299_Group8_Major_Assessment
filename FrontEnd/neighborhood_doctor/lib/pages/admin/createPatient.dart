@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-//import 'package:neighborhood_doctors/Model/AdminModel.dart';
 import 'package:neighborhood_doctors/Model/PatientModel.dart';
-import 'package:neighborhood_doctors/pages/login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-// https://flutterawesome.com/login-ui-made-with-flutter/
-// https://github.com/hawier-dev/flutter-login-ui/blob/main/lib/main.dart
 
 const List<String> genderList = <String>['Gender', 'Male', 'Female', 'Other'];
 
@@ -109,11 +104,13 @@ class CreatePatientState extends State<CreatePatient> {
                     Row(
                       children: [
                         Expanded(
+
+                          // First name textfield
                           child: TextFormField(
                             controller: firstNameController,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter your last name';
+                                return 'Please enter your first name';
                               }
                               return null;
                             },
@@ -131,6 +128,8 @@ class CreatePatientState extends State<CreatePatient> {
                           width: 20,
                         ),
                         Expanded(
+
+                          // Last name textfield
                           child: TextFormField(
                             controller: lastNameController,
                             validator: (value) {
@@ -139,9 +138,7 @@ class CreatePatientState extends State<CreatePatient> {
                               }
                               return null;
                             },
-                            // validator: (value) => EmailValidator.validate(value!)
-                            //     ? null
-                            //     : "Please enter a valid email",
+                            
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: 'Last name',
@@ -158,7 +155,7 @@ class CreatePatientState extends State<CreatePatient> {
                       height: 20,
                     ),
 
-                    // Name other
+                    // Name other textfield
                     TextFormField(
                       controller: nameOtherController,
                       maxLines: 1,
@@ -175,7 +172,7 @@ class CreatePatientState extends State<CreatePatient> {
                       height: 20,
                     ),
 
-                    // Age & Gender
+                    // Age & Gender textfield
                     Row(
                       children: [
                         Expanded(child: TextFormField(
@@ -202,6 +199,7 @@ class CreatePatientState extends State<CreatePatient> {
                         ),
                         Expanded(child:
 
+                          // Dropdown button
                           DropdownButtonFormField<String>(
                             value: dropdownValue,
                             icon: const Icon(Icons.arrow_downward),
@@ -236,7 +234,7 @@ class CreatePatientState extends State<CreatePatient> {
                       height: 20,
                     ),
 
-                    // Address
+                    // Address textfield
                     TextFormField(
                       controller: addressController,
                       validator: (value) {
@@ -259,7 +257,7 @@ class CreatePatientState extends State<CreatePatient> {
                       height: 20,
                     ),
 
-                    // Phone Number
+                    // Phone Number textfield
                     TextFormField(
                       controller: phoneNumController,
                       validator: (value) {
@@ -282,6 +280,7 @@ class CreatePatientState extends State<CreatePatient> {
                       height: 20,
                     ),
 
+                    // Email textfield
                     TextFormField(
                       controller: emailController,
                       validator: (value) => EmailValidator.validate(value!)
@@ -299,6 +298,8 @@ class CreatePatientState extends State<CreatePatient> {
                     const SizedBox(
                       height: 20,
                     ),
+                    
+                    // Password textfield
                     TextFormField(
                       controller: passwordController,
                       validator: (value) {
@@ -320,6 +321,8 @@ class CreatePatientState extends State<CreatePatient> {
                     const SizedBox(
                       height: 20,
                     ),
+
+                    // Button that pass data to backend
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {

@@ -39,6 +39,7 @@ class CreateUserState extends State<CreateUser> {
               const SizedBox(
                 height: 60,
               ),
+              // To create admin page
               Center(
                 child: ElevatedButton(
                   child: Text('Create Admin'),
@@ -51,6 +52,7 @@ class CreateUserState extends State<CreateUser> {
               const SizedBox(
                   height: 20,
               ),
+              // To create patient page
               Center(
                 child: ElevatedButton(
                   child: Text('Create Patient'),
@@ -63,6 +65,7 @@ class CreateUserState extends State<CreateUser> {
               const SizedBox(
                   height: 20,
               ),
+              // To create doctor page
               Center(
                 child: ElevatedButton(
                   child: Text('Create Doctor'),
@@ -77,8 +80,6 @@ class CreateUserState extends State<CreateUser> {
         ),
       ),
     );
-
-
   }
 }
 

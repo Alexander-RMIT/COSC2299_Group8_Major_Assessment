@@ -20,8 +20,8 @@ Future<DoctorModel> userSignUp(String firstname, String lastname,
   String email,
   String password,
   BuildContext context) async {
-  // Change to http://localhost/patient/createPatient for desktop
-  // Change to http://10.0.2.2:8080/patient/createPatient for android emulator
+  // Change to http://localhost/doctor/createDoctor for desktop
+  // Change to http://10.0.2.2:8080/doctor/createDoctor for android emulator
   Uri url = Uri.parse("http://10.0.2.2:8080/doctor/createDoctor");
   var response = await http.post(url,
     headers: <String, String>{"Content-Type": "application/json", },
@@ -88,6 +88,7 @@ class CreateDoctorState extends State<CreateDoctor> {
                     Row(
                       children: [
                         Expanded(
+                          // First name textfield
                           child: TextFormField(
                             controller: firstNameController,
                             validator: (value) {
@@ -110,6 +111,7 @@ class CreateDoctorState extends State<CreateDoctor> {
                           width: 20,
                         ),
                         Expanded(
+                          // Last name textfield
                           child: TextFormField(
                             controller: lastNameController,
                             validator: (value) {
@@ -134,7 +136,7 @@ class CreateDoctorState extends State<CreateDoctor> {
                     const SizedBox(
                       height: 20,
                     ),
-
+                    // Email textfield
                     TextFormField(
                       controller: emailController,
                       validator: (value) => EmailValidator.validate(value!)
@@ -152,147 +154,7 @@ class CreateDoctorState extends State<CreateDoctor> {
                     const SizedBox(
                       height: 20,
                     ),
-                    // Name other
-                    // TextFormField(
-                    //   controller: nameOtherController,
-                    //   maxLines: 1,
-                    //   decoration: InputDecoration(
-                    //     hintText: 'Middle name/initial',
-                    //     prefixIcon: const Icon(Icons.person),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-
-                    // Age & Gender
-                    // Row(
-                    //   children: [
-                    //     Expanded(child: TextFormField(
-                    //       controller: ageController,
-                    //       validator: (value) {
-                    //         if (value == null || value.isEmpty) {
-                    //           return 'Please enter your age';
-                    //         }
-                    //         return null;
-                    //       },
-                    //       maxLines: 1,
-                    //       decoration: InputDecoration(
-                    //         hintText: 'Age',
-                    //         prefixIcon: const Icon(Icons.face),
-                    //         border: OutlineInputBorder(
-                    //           borderRadius: BorderRadius.circular(10),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     ),
-
-                    //     const SizedBox(
-                    //       width: 20,
-                    //     ),
-                    //     Expanded(child:
-
-                    //       DropdownButtonFormField<String>(
-                    //         value: dropdownValue,
-                    //         icon: const Icon(Icons.arrow_downward),
-                    //         elevation: 16,
-                    //         style: const TextStyle(color: Colors.white),
-                    //         validator: (value) {
-                    //           if (value == "Gender") {
-                    //             return 'Please enter your gender';
-                    //           }
-                    //           return null;
-                    //           },
-                    //         onChanged: (String? value) {
-
-                    //           // This is called when the user selects an item.
-                    //           setState(() {
-                    //             dropdownValue = value!;
-                    //           });
-                    //         },
-
-                    //         items: genderList.map<DropdownMenuItem<String>>((String value) {
-                    //           return DropdownMenuItem<String>(
-                    //             value: value,
-                    //             child: Text(value),
-                    //           );
-                    //         }).toList(),
-                    //       ),
-                    //     ),
-                    //   ],
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-
-                    // // Address
-                    // TextFormField(
-                    //   controller: addressController,
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter your address';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   maxLines: 1,
-                    //   decoration: InputDecoration(
-                    //     hintText: 'Enter your address',
-                    //     prefixIcon: const Icon(Icons.home),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-
-                    // // Phone Number
-                    // TextFormField(
-                    //   controller: phoneNumController,
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Please enter your phone number';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   maxLines: 1,
-                    //   decoration: InputDecoration(
-                    //     hintText: 'Enter your phone number',
-                    //     prefixIcon: const Icon(Icons.phone),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-
-                    // TextFormField(
-                    //   controller: emailController,
-                    //   validator: (value) => EmailValidator.validate(value!)
-                    //       ? null
-                    //       : "Please enter a valid email",
-                    //   maxLines: 1,
-                    //   decoration: InputDecoration(
-                    //     hintText: 'Enter your email',
-                    //     prefixIcon: const Icon(Icons.email),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //     ),
-                    //   ),
-                    // ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
+                    // Password textfield
                     TextFormField(
                       controller: passwordController,
                       validator: (value) {
@@ -314,6 +176,7 @@ class CreateDoctorState extends State<CreateDoctor> {
                     const SizedBox(
                       height: 20,
                     ),
+                    // Button that pass data to backend
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
@@ -321,12 +184,6 @@ class CreateDoctorState extends State<CreateDoctor> {
                           String lastname = lastNameController.text;
                           String email = emailController.text;
                           String password = passwordController.text;
-                          
-                          // String nameOther = nameOtherController.text;
-                          // int age = int.parse(ageController.text);
-                          // String gender = dropdownValue;
-                          // String address = addressController.text;
-                          // String phoneNumber = phoneNumController.text;
 
                           print("has been pressed");
 
@@ -336,11 +193,6 @@ class CreateDoctorState extends State<CreateDoctor> {
                           passwordController.text = '';
                           firstNameController.text = '';
                           lastNameController.text = '';
-                          // nameOtherController.text = '';
-                          // ageController.text = '';
-                          // dropdownValue = genderList.first;
-                          // addressController.text = '';
-                          // phoneNumController.text = '';
                         }
                       },
                       style: ElevatedButton.styleFrom(
