@@ -96,7 +96,7 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(
-                        builder: (context) => DoctorAvailability(title: 'Edit availability')));
+                        builder: (context) => DoctorAvailability(id)));
               },
             ),
             ListTile(
