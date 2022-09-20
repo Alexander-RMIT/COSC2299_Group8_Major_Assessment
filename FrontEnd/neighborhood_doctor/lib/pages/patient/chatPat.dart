@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-
 class ChatPatient extends StatefulWidget {
-  const ChatPatient({Key? key, required this.title}) : super(key: key);
+  const ChatPatient({Key? key, required this.id, required this.title})
+      : super(key: key);
+  final int id;
   final String title;
-
   @override
   State<ChatPatient> createState() => ChatPatientState();
 }
@@ -14,9 +14,7 @@ class ChatPatientState extends State<ChatPatient> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('Neighborhood Doctors Pages')
-      ),
+      appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Container(
         padding: const EdgeInsets.all(20),

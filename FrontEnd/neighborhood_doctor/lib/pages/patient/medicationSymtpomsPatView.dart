@@ -1,26 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
-//import 'package:neighborhood_doctors/Model/AdminModel.dart';
-import 'package:neighborhood_doctors/Model/PatientModel.dart';
-import 'package:neighborhood_doctors/pages/login.dart';
+import 'package:neighborhood_doctors/Model/SymptomModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:neighborhood_doctors/pages/navigationBar.dart';
 
 // https://flutterawesome.com/login-ui-made-with-flutter/
 // https://github.com/hawier-dev/flutter-login-ui/blob/main/lib/main.dart
 
 class MedicationSymptomsPatient extends StatefulWidget {
-  const MedicationSymptomsPatient({Key? key, required this.id})
+  const MedicationSymptomsPatient(
+      {Key? key, required this.title, required this.id})
       : super(key: key);
+  final String title;
   final int id;
-
   @override
   State<StatefulWidget> createState() {
-    return MedicationSymptomsPatientState();
+    return MedicationSymptomsPatientState(this.id, this.title);
   }
 }
 
 class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
+  final int id;
+  final String title;
+  MedicationSymptomsPatientState(this.id, this.title);
+
+  late List<SymptomModel> _symptomList;
+
+  @override
+  void initState() {
+    _symptomList = [];
+
+    super.initState();
+  }
+
+  Future<void> readSymptoms(int patientId) async {
+    Uri uriReadSymptoms =
+        Uri.parse("http://10.0.2.2:8080/symptom/readSymptoms");
+
+    var response = await http.get(
+      uriReadSymptoms,
+      headers: <String, String>{
+        "Content-Type": "application/json",
+      },
+    );
+    String strResponse = response.body;
+
+    var parsedJson = jsonDecode(strResponse);
+
+    int len = parsedJson.length;
+    List<SymptomModel> symptomList;
+    symptomList = (json.decode(response.body) as List)
+        .map((i) => SymptomModel.fromJson(i))
+        .toList();
+
+    _symptomList = symptomList;
+  }
+
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
@@ -31,6 +67,8 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
 
   @override
   Widget build(BuildContext context) {
+    //read all symptoms into symptoms
+    readSymptoms(1);
     return Scaffold(
         appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -40,47 +78,50 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Table(
-                    border: TableBorder.all(color: Colors.white),
-                    children: [
-                      TableRow(children: [
-                        Text('Symptom'),
-                        Text('Severity'),
-                        Text('Notes'),
-                      ]),
-                      TableRow(children: [
-                        Text('Cough'),
-                        Text('4'),
-                        Text('none'),
-                      ]),
-                      TableRow(children: [
-                        ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          String symptom = symptomController.text;
-
-                          print(symptom);
-                          print("has been pressed");
-
-                          var createSymptom = addSymptom(id, symptom);
-
-                        symptomController.text = '';
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
-                      ),
-                      child: const Text(
-                        'Add symptom',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      ])
-                    ],
-                  ),
+                  ElevatedButton(
+                    child: Text('Add Symptom'),
+                    onPressed: () {
+                      openAddDialog();
+                    },
+                  )
+                  // ElevatedButton(
+                  //     onPressed: addSymptom(),
+                  //     child: const Text("add Symptom")),
                 ])));
   }
+
+  Future openAddDialog() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text("New Symptom"),
+          content: Column(children: <Widget>[
+            TextField(
+                controller: symptomController,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.timer),
+                  labelText: 'Enter Symptom Name',
+                )),
+            TextField(
+                controller: severityController,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.timer),
+                  labelText: 'Enter severity',
+                )),
+            TextField(
+              controller: notesController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.timer),
+                labelText: 'Enter notes here',
+              ),
+            ),
+            ElevatedButton(
+              child: Text('Add Symptom'),
+              onPressed: () {
+                addSymptom(id, symptomController.text, severityController.text,
+                    notesController.text);
+              },
+            )
+          ])));
 }
 
 class ResponseAlertDialog extends StatelessWidget {
@@ -108,37 +149,43 @@ class ResponseAlertDialog extends StatelessWidget {
   }
 }
 
-
-Future<void> addSymptom(int patientId, String symptom) async{
+Future<void> addSymptom(
+    int patientId, String symptom, String severity, String notes) async {
   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/createSymptom");
-  var response = await http.post(
-      url, 
-      headers: <String, String>{"Content-Type": "application/json", },
+  var response = await http.post(url,
+      headers: <String, String>{
+        "Content-Type": "application/json",
+      },
       body: jsonEncode(<String, dynamic>{
-        "name" : symptom,
-        "patientId" : patientId,
-  }));
-
+        "name": symptom,
+        "patientId": patientId,
+        "severity": severity,
+        "note": notes,
+      }));
 }
+//Not for M2
+// Future<void> deleteSymptom(int patientId, String symptom) async {
+//   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/deleteSymptom");
+//   var response = await http.post(url,
+//       headers: <String, String>{
+//         "Content-Type": "application/json",
+//       },
+//       body: jsonEncode(<String, dynamic>{
+//         "name": symptom,
+//         "patientId": patientId,
+//       }));
+// }
 
-Future<void> deleteSymptom(int patientId, String symptom) async {
-  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/deleteSymptom");
-  var response = await http.post(
-      url, 
-      headers: <String, String>{"Content-Type": "application/json", },
-      body: jsonEncode(<String, dynamic>{
-        "name" : symptom,
-        "patientId" : patientId,
-  }));
-}
+//Not for M2
+// Future<void> updateSymptom(int patientId, String symptom) async {
+//   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/updateSymptom");
+//   var response = await http.post(url,
+//       headers: <String, String>{
+//         "Content-Type": "application/json",
+//       },
+//       body: jsonEncode(<String, dynamic>{
+//         "name": symptom,
+//         "patientId": patientId,
+//       }));
+// }
 
-Future<void> updateSymptom(int patientId, String symptom) async {
-  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/updateSymptom");
-  var response = await http.post(
-      url, 
-      headers: <String, String>{"Content-Type": "application/json", },
-      body: jsonEncode(<String, dynamic>{
-        "name" : symptom,
-        "patientId" : patientId,
-  }));
-}
