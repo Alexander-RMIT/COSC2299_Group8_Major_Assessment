@@ -17,14 +17,14 @@ import 'utils.dart';
 
 import 'dart:developer';
 
-class Availability extends StatefulWidget {
+class DoctorAvailability extends StatefulWidget {
   //const Availability({Key? key, required this.title}) : super(key: key);
   //final String title;
   final int id;
-  Availability(this.id);
+  DoctorAvailability(this.id);
 
   @override
-  State<Availability> createState() => AvailabilityState(this.id);
+  State<DoctorAvailability> createState() => AvailabilityState(this.id);
 }
 
 //List<AvailabilityModel> getAvailabilities (int date) {}
@@ -88,17 +88,6 @@ Future<AvailabilityModel> deleteAvailability(int? id, int doctorId, String date,
         "end": end
       }));
 
-  print(id);
-  print(doctorId);
-  print(date);
-  print(status);
-  print(start);
-  print(end);
-
-  String strResponse = response.body;
-
-  print(strResponse);
-
   if (response.statusCode == 200) {
     showDialog(
       context: context,
@@ -120,7 +109,7 @@ Future<AvailabilityModel> deleteAvailability(int? id, int doctorId, String date,
 }
 
 
-class AvailabilityState extends State<Availability> {
+class AvailabilityState extends State<DoctorAvailability> {
   late final ValueNotifier<List<Event>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
@@ -159,7 +148,7 @@ class AvailabilityState extends State<Availability> {
 
   Future<void> _getAvailabilities() async {
     Uri uriReadAvailabilities =
-        Uri.parse("http://10.0.2.2:8080/availability/readAvailability");
+        Uri.parse("http://10.0.2.2:8080/availability/readAvailabilities");
 
     var response = await http.get(
       uriReadAvailabilities,
@@ -185,7 +174,7 @@ class AvailabilityState extends State<Availability> {
 
     String formattedDate = DateFormat('yyyy-MM-dd').format(_focusedDay);
     for (AvailabilityModel model in _availabilityList) {
-      if (model.date == formattedDate) {
+      if (model.date == formattedDate && model.doctorId==id) {
         events.add(availabilityToEvent(model));
       }
     }
@@ -319,7 +308,6 @@ class AvailabilityState extends State<Availability> {
             ElevatedButton(
               child: Text('Confirm'),
               onPressed: () {
-                print("object");
                 deleteAvailability(event.model.id, event.model.doctorId, event.model.status, 'Available',
                     event.model.start, event.model.end, context);
               },
@@ -350,13 +338,10 @@ class AvailabilityState extends State<Availability> {
                 );
 
                 if (pickedTime != null) {
-                  print(pickedTime.format(context)); //output 10:51 PM
                   DateTime parsedTime = DateFormat.jm()
                       .parse(pickedTime.format(context).toString());
                   //converting to DateTime so that we can further format on different pattern.
-                  print(parsedTime); //output 1970-01-01 22:53:00.000
                   String formattedTime = DateFormat('HH:mm').format(parsedTime);
-                  print(formattedTime); //output 14:59:00
                   //DateFormat() is from intl package, you can format the time on any pattern you need.
 
                   setState(() {
@@ -382,14 +367,10 @@ class AvailabilityState extends State<Availability> {
                 );
 
                 if (pickedTime != null) {
-                  print(pickedTime.format(context)); //output 10:51 PM
                   DateTime parsedTime = DateFormat.jm()
                       .parse(pickedTime.format(context).toString());
                   //converting to DateTime so that we can further format on different pattern.
-                  print(parsedTime); //output 1970-01-01 22:53:00.000
                   String formattedTime = DateFormat('HH:mm').format(parsedTime);
-                  print(formattedTime); //output 14:59:00
-                  //DateFormat() is from intl package, you can format the time on any pattern you need.
 
                   setState(() {
                     endTimeController.text =
@@ -409,7 +390,7 @@ class AvailabilityState extends State<Availability> {
                 String formattedStartTime = startTimeController.text;
                 String formattedEndTime = endTimeController.text;
 
-                createAvailability(1, 1, formattedDate, 'Available',
+                createAvailability(1, id, formattedDate, 'Available',
                     formattedStartTime, formattedEndTime, context);
               },
             )
