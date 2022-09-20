@@ -3,12 +3,13 @@ import 'package:neighborhood_doctors/pages/login.dart';
 import 'package:neighborhood_doctors/pages/navigationBar.dart';
 import 'package:neighborhood_doctors/pages/patient/chatPat.dart';
 import 'package:neighborhood_doctors/Model/PatientModel.dart';
+import 'package:neighborhood_doctors/pages/patient/medicationSymtpomsPatView.dart';
 import 'package:neighborhood_doctors/pages/patient/patientHealthInfoPatView.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 
-class NavigationBarLanding extends StatefulWidget{
+class NavigationBarLanding extends StatefulWidget {
   final int id;
   NavigationBarLanding(this.id);
   @override
@@ -28,7 +29,9 @@ class NavBarLandingState extends State<NavigationBarLanding> {
     Uri urlPatientName = Uri.parse("http://10.0.2.2:8080/patient/firstname");
 
     var response = await http.post(urlPatientName,
-        headers: <String, String>{"Content-Type": "application/json", },
+        headers: <String, String>{
+          "Content-Type": "application/json",
+        },
         body: jsonEncode(<String, dynamic>{
           "id": id,
         }));
@@ -42,27 +45,23 @@ class NavBarLandingState extends State<NavigationBarLanding> {
     }
   }
 
-
   final minimumPadding = 5.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('Neighborhood Doctors Pages')
+      appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
+      body: FutureBuilder<String>(
+        future: userFirstName(id, context),
+        builder: (firstname, context) {
+          if (firstname != "") {
+            String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_fname";
+            return Center(child: Text(welcomeMsg, textAlign: TextAlign.center));
+          } else {
+            return Center(child: Text("Welcome to Neighborhood Doctors"));
+          }
+        },
       ),
-      body:
-          FutureBuilder<String>(
-            future: userFirstName(id, context),
-            builder: (firstname, context) {
-              if (firstname != "") {
-                String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_fname";
-                return Center(child: Text(welcomeMsg, textAlign: TextAlign.center));
-              } else {
-                return Center(child: Text("Welcome to Neighborhood Doctors"));
-              }
-            },
-          ),
-          //Center(child: Text(welcomeMsg)),
+      //Center(child: Text(welcomeMsg)),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.only(top: minimumPadding, bottom: minimumPadding),
@@ -79,27 +78,39 @@ class NavBarLandingState extends State<NavigationBarLanding> {
             ListTile(
               title: Text('Chat'),
               onTap: () {
-                Navigator.push(context,
+                Navigator.push(
+                    context,
                     MaterialPageRoute(
-                        builder: (context) => ChatPatient(title: 'Chat')));
+                        builder: (context) =>
+                            ChatPatient(title: 'Chat', id: id)));
               },
             ),
             ListTile(
               title: Text('View health information'),
               onTap: () {
-                Navigator.push(context,
+                Navigator.push(
+                    context,
                     MaterialPageRoute(
-                        builder: (context) => PatientHealthInfo(title: 'Health Information')));
+                        builder: (context) =>
+                            PatientHealthInfo(title: 'Health Information')));
               },
             ),
             ListTile(
-              title: Text('Sign out'),
+                title: Text('Sign out'),
+                onTap: () {
+                  // Navigator.push(context,
+                  //   MaterialPageRoute(builder: (context) => NavigationBarLanding()));
+                  Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+                }),
+            ListTile(
+              title: Text('View health information'),
               onTap: () {
-                // Navigator.push(context,
-                //   MaterialPageRoute(builder: (context) => NavigationBarLanding()));
-                Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
-
-              }
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MedicationSymptomsPatient(
+                            title: 'Medication/Symptoms', id: id)));
+              },
             )
           ],
         ),
@@ -107,5 +118,3 @@ class NavBarLandingState extends State<NavigationBarLanding> {
     );
   }
 }
-
-

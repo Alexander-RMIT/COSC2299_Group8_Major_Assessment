@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 //import 'package:neighborhood_doctors/Model/AdminModel.dart';
-import 'package:neighborhood_doctors/Model/DoctorModel.dart';
+import 'package:neighborhood_doctors/Model/SymptomModel.dart';
 import 'package:neighborhood_doctors/pages/login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:neighborhood_doctors/pages/navigationBar.dart';
 
 // https://flutterawesome.com/login-ui-made-with-flutter/
 // https://github.com/hawier-dev/flutter-login-ui/blob/main/lib/main.dart
 
 class MedicationSymptomsDoctor extends StatefulWidget {
-  const MedicationSymptomsDoctor({Key? key, required this.id})
+  const MedicationSymptomsDoctor(
+      {Key? key, required this.title, required this.id})
       : super(key: key);
+  final String title;
   final int id;
-
   @override
   State<StatefulWidget> createState() {
-    return MedicationSymptomsDoctorState();
+    return MedicationSymptomsDoctorState(this.id, this.title);
   }
 }
 
 class MedicationSymptomsDoctorState extends State<MedicationSymptomsDoctor> {
+  final int id;
+  final String title;
+  MedicationSymptomsDoctorState(this.id, this.title);
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
@@ -48,34 +54,32 @@ class MedicationSymptomsDoctorState extends State<MedicationSymptomsDoctor> {
                         Text('Severity'),
                         Text('Notes'),
                       ]),
-                      TableRow(children: [
-                        Text('Cough'),
-                        Text('4'),
-                        Text('none'),
-                      ]),
+                      // List<SymptomModel> symptoms = readSymptoms(patientId)
+                      // for ()
                       TableRow(children: [
                         ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          String symptom = symptomController.text;
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              String symptom = symptomController.text;
 
-                          print(symptom);
-                          print("has been pressed");
+                              print(symptom);
+                              print("has been pressed");
 
-                          var createSymptom = addSymptom(id, symptom);
+                              var createSymptom = addSymptom(id, symptom);
 
-                        symptomController.text = '';
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
-                      ),
-                      child: const Text(
-                        'Add symptom',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                              symptomController.text = '';
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
+                          ),
+                          child: const Text(
+                            'Add symptom',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
                       ])
                     ],
                   ),
@@ -108,37 +112,71 @@ class ResponseAlertDialog extends StatelessWidget {
   }
 }
 
-
-Future<void> addSymptom(int doctorId, String symptom) async{
+Future<void> addSymptom(int doctorId, String symptom) async {
   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/createSymptom");
-  var response = await http.post(
-      url, 
-      headers: <String, String>{"Content-Type": "application/json", },
+  var response = await http.post(url,
+      headers: <String, String>{
+        "Content-Type": "application/json",
+      },
       body: jsonEncode(<String, dynamic>{
-        "name" : symptom,
-        "doctorId" : doctorId,
-  }));
-
+        "name": symptom,
+        "doctorId": doctorId,
+      }));
 }
 
 Future<void> deleteSymptom(int doctorId, String symptom) async {
   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/deleteSymptom");
-  var response = await http.post(
-      url, 
-      headers: <String, String>{"Content-Type": "application/json", },
+  var response = await http.post(url,
+      headers: <String, String>{
+        "Content-Type": "application/json",
+      },
       body: jsonEncode(<String, dynamic>{
-        "name" : symptom,
-        "doctorId" : doctorId,
-  }));
+        "name": symptom,
+        "doctorId": doctorId,
+      }));
 }
 
 Future<void> updateSymptom(int doctorId, String symptom) async {
   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/updateSymptom");
-  var response = await http.post(
-      url, 
-      headers: <String, String>{"Content-Type": "application/json", },
+  var response = await http.post(url,
+      headers: <String, String>{
+        "Content-Type": "application/json",
+      },
       body: jsonEncode(<String, dynamic>{
-        "name" : symptom,
-        "doctorId" : doctorId,
-  }));
+        "name": symptom,
+        "doctorId": doctorId,
+      }));
+}
+
+Future<List<SymptomModel>> readSymptoms(int patientId) async {
+  List<SymptomModel> symptoms = [];
+
+  //get list of symptoms
+  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/getLength");
+  var length = await http.post(url,
+      headers: <String, String>{
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(<String, dynamic>{}));
+
+  if (int.parse(length.body) != 0) {
+    for (int i = 0; i < int.parse(length.body); i++) {
+      Uri url = Uri.parse("http://10.0.2.2:8080/symptom/readSymptoms");
+      var response = await http.post(url,
+          headers: <String, String>{
+            "Content-Type": "application/json",
+          },
+          body: jsonEncode(
+              <String, dynamic>{"patientId": patientId, "symptomId": i}));
+      SymptomModel curSymptom =
+          SymptomModel(name: response.body, patientId: response.body);
+      //add response to list
+      symptoms.add(curSymptom);
+    }
+  }
+  return symptoms;
+}
+
+int getMaxId() {
+  return 0;
 }
