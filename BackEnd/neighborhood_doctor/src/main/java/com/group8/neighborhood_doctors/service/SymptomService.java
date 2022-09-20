@@ -92,4 +92,14 @@ public class SymptomService {
             return "[FAILED] Reason: Symptom does not exist";
         }
     }
+
+    // Retrieve symptom name by patient id
+    @Transactional
+    public List<Symptom> retrieveSymtomName(Symptom symptom) {
+        try {
+            return symptomRepo.findNameByPatientId(symptom.getPatientId());
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }
