@@ -23,8 +23,8 @@ public class SymptomService {
         try {
             // Check if the patient exists in the database
             if (patientRepo.existsById(symptom.getPatientId())) {
-                // If patient already have a symptom, then the symptom already exists
-                if (!symptomRepo.existsByPatientId(symptom.getPatientId())) {
+                // If patient already have a symptom, then the symptom already exists for the patient
+                if (!(symptomRepo.existsByPatientId(symptom.getPatientId()) && symptomRepo.existsByName(symptom.getName()))) {
                     symptom.setId(null == symptomRepo.findMaxId()? 1 : symptomRepo.findMaxId() + 1);
                     symptomRepo.save(symptom);
                     return "[SUCCESS] New symptom record created successfully.";
@@ -44,7 +44,7 @@ public class SymptomService {
     }
 
     /*
-     * Can only update the symptom name
+     * Can update the symptom name, serverity, and note
      */
     @Transactional
     public String updateSymptom(Symptom symptom) {
@@ -58,6 +58,8 @@ public class SymptomService {
                 symptoms.stream().forEach(s -> {
                     Symptom symptomToBeUpdate = symptomRepo.findById(s.getId()).get();
                     symptomToBeUpdate.setName(symptom.getName());
+                    symptomToBeUpdate.setName(symptom.getSeverity());
+                    symptomToBeUpdate.setName(symptom.getNote());
                     symptomRepo.save(symptomToBeUpdate);
                 });
                 return "[SUCCESS] Symptom record updated.";

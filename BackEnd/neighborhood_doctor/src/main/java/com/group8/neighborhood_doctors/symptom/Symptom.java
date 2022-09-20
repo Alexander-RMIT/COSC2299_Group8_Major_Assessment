@@ -3,7 +3,11 @@ package com.group8.neighborhood_doctors.symptom;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+// Serverity of the symptom
+// Note: This is a lookup table
 
 @Entity
 @Table(name = "Symptom")
@@ -18,6 +22,11 @@ public class Symptom {
 
     @NotNull(message = "Patient ID is required")
     private int patientId;
+
+    @NotEmpty(message = "Symptom severity cannot be empty")
+    private String severity;
+
+    private String note;
 
     public Symptom() {
     }
@@ -34,6 +43,14 @@ public class Symptom {
         return patientId;
     }
 
+    public String getSeverity() {
+        return severity;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -46,12 +63,22 @@ public class Symptom {
         this.patientId = patientId;
     }
 
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
     @Override
     public String toString() {
         return "Symptom{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", patientId=" + patientId +
+                ", severity='" + severity + '\'' +
+                ", note='" + note + '\'' +
                 '}';
     }
 

@@ -12,6 +12,8 @@ import com.group8.neighborhood_doctors.symptom.Symptom;
 public interface SymptomRepo extends JpaRepository<Symptom, Integer> {
     public boolean existsByPatientId(int patientId);
 
+    public boolean existsByName(String name);
+
     public Optional<Symptom> findByPatientId(int patientId);
     
     @Query("select max(s.id) from Symptom s")
