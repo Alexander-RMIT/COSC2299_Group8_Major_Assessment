@@ -1,11 +1,4 @@
-import 'dart:collection';
-import 'package:neighborhood_doctors/pages/signUp.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:neighborhood_doctors/pages/patient/navigationBarPat.dart';
-import 'package:neighborhood_doctors/pages/doctor/navigationBarDoc.dart';
-import 'package:neighborhood_doctors/pages/admin/navigationBarAdmin.dart';
 import 'dart:convert';
 import 'package:neighborhood_doctors/Model/AvailabilityModel.dart';
 
@@ -19,15 +12,6 @@ class Event {
 
   @override
   String toString() => title;
-}
-
-class Availability {
-  var id;
-  var doctorId;
-  var date;
-  var status;
-  var start;
-  var end;
 }
 
 Event availabilityToEvent(AvailabilityModel model) {
@@ -83,7 +67,3 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
         (index) => DateTime.utc(first.year, first.month, first.day + index),
   );
 }
-
-final kToday = DateTime.now();
-final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
-final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
