@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @RestController
 public class Controller {
@@ -328,5 +330,10 @@ public class Controller {
     @RequestMapping(value = "symptom/deleteSymptom", method = RequestMethod.DELETE)
     public String deleteSymptom(@RequestBody Symptom symptom){
         return symptomService.deleteSymptom(symptom);
+    }
+
+    @RequestMapping(value = "symptom/retrieveSymtomName", method = RequestMethod.POST)
+    public List<Symptom> retrieveSymtomName(@RequestBody Symptom symptom){
+        return symptomService.retrieveSymtomName(symptom);
     }
 }
