@@ -27,6 +27,16 @@ class MedicationSymptomsDoctorState extends State<MedicationSymptomsDoctor> {
   final int id;
   final String title;
   MedicationSymptomsDoctorState(this.id, this.title);
+
+  late List<SymptomModel> _symptomList;
+
+  @override
+  void initState() {
+    _symptomList = [];
+
+    super.initState();
+  }
+
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
@@ -37,6 +47,8 @@ class MedicationSymptomsDoctorState extends State<MedicationSymptomsDoctor> {
 
   @override
   Widget build(BuildContext context) {
+    //read all symptoms into symptoms
+    readSymptoms(0);
     return Scaffold(
         appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -48,41 +60,33 @@ class MedicationSymptomsDoctorState extends State<MedicationSymptomsDoctor> {
                 children: <Widget>[
                   Table(
                     border: TableBorder.all(color: Colors.white),
-                    children: [
-                      TableRow(children: [
-                        Text('Symptom'),
-                        Text('Severity'),
-                        Text('Notes'),
-                      ]),
-                      // List<SymptomModel> symptoms = readSymptoms(patientId)
-                      // for ()
-                      TableRow(children: [
-                        ElevatedButton(
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              String symptom = symptomController.text;
-
-                              print(symptom);
-                              print("has been pressed");
-
-                              var createSymptom = addSymptom(id, symptom);
-
-                              symptomController.text = '';
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
-                          ),
-                          child: const Text(
-                            'Add symptom',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ])
-                    ],
+                    children: _symptomList.map((symptom) {
+                      //display data dynamically from namelist List.
+                      return TableRow(//return table row in every loop
+                          children: [
+                        //table cells inside table row
+                        TableCell(
+                            child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Text(symptom.id.toString()))),
+                        TableCell(
+                            child: Padding(
+                                padding: EdgeInsets.all(5),
+                                child: Text(symptom.name))),
+                        // TableCell(
+                        //     child: Padding(
+                        //         padding: EdgeInsets.all(5),
+                        //         child: Text(symptom.severity))),
+                        // TableCell(
+                        //     child: Padding(
+                        //         padding: EdgeInsets.all(5),
+                        //         child: Text(symptom.notes))),
+                      ]);
+                    }).toList(),
                   ),
+                  // ElevatedButton(
+                  //     onPressed: addSymptom(),
+                  //     child: const Text("add Symptom")),
                 ])));
   }
 }
@@ -148,7 +152,7 @@ Future<void> updateSymptom(int doctorId, String symptom) async {
       }));
 }
 
-Future<List<SymptomModel>> readSymptoms(int patientId) async {
+Future<void> readSymptoms(int patientId) async {
   List<SymptomModel> symptoms = [];
 
   //get list of symptoms
@@ -174,7 +178,7 @@ Future<List<SymptomModel>> readSymptoms(int patientId) async {
       symptoms.add(curSymptom);
     }
   }
-  return symptoms;
+  //_symptomList = symptoms;
 }
 
 int getMaxId() {

@@ -103,7 +103,7 @@ class NavBarLandingState extends State<NavigationBarLanding> {
                   Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
                 }),
             ListTile(
-              title: Text('View health information'),
+              title: Text('View Symptoms'),
               onTap: () {
                 Navigator.push(
                     context,
