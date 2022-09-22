@@ -1,5 +1,13 @@
 name: Flutter Build
-on: push
+only:
+  changes:
+    - FrontEnd/*
+on:
+  push:
+    branches: [ "feature" ]
+  pull_request:
+    branches: [ "feature" ]
+    
 jobs:
   build-apk:
     runs-on: ubuntu-latest
