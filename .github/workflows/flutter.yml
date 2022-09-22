@@ -1,15 +1,16 @@
 name: Flutter Build
-only:
-  changes:
-    - FrontEnd/*
+
 on:
   push:
     branches: [ "feature" ]
   pull_request:
     branches: [ "feature" ]
-    
+
 jobs:
   build-apk:
+    only:
+      changes:
+        - FrontEnd/*
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -28,6 +29,9 @@ jobs:
           flutter pub get
           flutter build apk --debug
   build-web:
+    only:
+      changes:
+        - FrontEnd/*
     runs-on: ubuntu-latest
     defaults:
       run:
