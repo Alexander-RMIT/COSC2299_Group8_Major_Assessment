@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:email_validator/email_validator.dart';
 
 class ChatDoctor extends StatefulWidget {
-  const ChatDoctor({Key? key, required this.title}) : super(key: key);
+  const ChatDoctor({Key? key, required this.id, required this.title})
+      : super(key: key);
+  final int id;
   final String title;
-
   @override
-  State<ChatDoctor> createState() => ChatDoctorState();
+  State<ChatDoctor> createState() {
+    return ChatDoctorState(this.id, this.title);
+  }
 }
 
 class ChatDoctorState extends State<ChatDoctor> {
   final _formKey = GlobalKey<FormState>();
+
+  final int id;
+  final String title;
+  ChatDoctorState(this.id, this.title);
+
+  TextEditingController messageController = TextEditingController();
+  TextEditingController usertwoController = TextEditingController();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,91 +34,56 @@ class ChatDoctorState extends State<ChatDoctor> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const Text(
-                'Chat, Doctor POV',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                ),
-              ),
-              const SizedBox(
-                height: 60,
-              ),
+              ElevatedButton(
+                child: Text('Create Chat'),
+                onPressed: () {
+                  openChatDialog();
+                },
+              )
             ],
           ),
         ),
       ),
     );
   }
-}
 
-Future<void> createChate(
-    int doctorID, int patientID, BuildContext context) async {
-  Uri url = Uri.parse("http://10.0.2.2:8080/chat/createChat");
-  var response = await http.post(url,
-      headers: <String, String>{
-        "Content-Type": "application/json",
-      },
-      body: jsonEncode(<String, dynamic>{
-        "doctorID": doctorID,
-        "patientID": patientID,
-      }));
-}
+  Future openChatDialog() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text("New Chat"),
+          content: Column(children: <Widget>[
+            TextField(
+                controller: messageController,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.timer),
+                  labelText: 'Enter Message',
+                )),
+            TextField(
+              controller: usertwoController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.timer),
+                labelText: 'Enter patientId',
+              ),
+            ),
+            ElevatedButton(
+              child: Text('Send Chat'),
+              onPressed: () {
+                createChat(messageController.text, id,
+                    int.parse(usertwoController.text));
+              },
+            )
+          ])));
 
-Future<void> deleteChat(
-    int doctorID, int patientID, BuildContext context) async {
-  Uri url = Uri.parse("http://10.0.2.2:8080/chat/deleteChat");
-  var response = await http.post(url,
-      headers: <String, String>{
-        "Content-Type": "application/json",
-      },
-      body: jsonEncode(<String, dynamic>{
-        "doctorID": doctorID,
-        "patientID": patientID,
-      }));
-}
-
-Future<void> sendMessage(
-    int chatId, int doctorID, int patientId, BuildContext context) async {
-  TextEditingController messageController = TextEditingController();
-  //to be implemented to service
-  Uri url = Uri.parse("http://10.0.2.2:8080/chat/sendChat");
-}
-
-Future<void> getMessages(int chatId, int doctorID, int patientId) async {
-  Uri url = Uri.parse("http://10.0.2.2:8080/chat/readChats");
-  var response = await http.post(url,
-      headers: <String, String>{
-        "Content-Type": "application/json",
-      },
-      body: jsonEncode(<String, dynamic>{
-        "chatId": chatId,
-        "doctorId": doctorID,
-        "patientId": patientId,
-      }));
-}
-
-class ResponseAlertDialog extends StatelessWidget {
-  final String title;
-  final String content;
-  final List<Widget> actions;
-
-  ResponseAlertDialog({
-    required this.title,
-    required this.content,
-    this.actions = const [],
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(
-        this.title,
-      ),
-      actions: this.actions,
-      content: Text(
-        this.content,
-      ),
-    );
+  Future<void> createChat(String message, int user1, int user2) async {
+    Uri url = Uri.parse("http://10.0.2.2:8080/chat/createChat");
+    var response = await http.post(url,
+        headers: <String, String>{
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(<String, dynamic>{
+          "message": message,
+          "userone": user1,
+          "usertwo": user2
+        }));
   }
 }

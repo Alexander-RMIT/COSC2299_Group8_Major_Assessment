@@ -7,7 +7,7 @@ import 'package:neighborhood_doctors/pages/doctor/editAvailability.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class NavigationBarDoc extends StatefulWidget{
+class NavigationBarDoc extends StatefulWidget {
   final int id;
   NavigationBarDoc(this.id);
 
@@ -28,7 +28,9 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
     Uri urlDcotorName = Uri.parse("http://10.0.2.2:8080/doctor/firstname");
 
     var response = await http.post(urlDcotorName,
-        headers: <String, String>{"Content-Type": "application/json", },
+        headers: <String, String>{
+          "Content-Type": "application/json",
+        },
         body: jsonEncode(<String, dynamic>{
           "id": id,
         }));
@@ -42,15 +44,11 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
     }
   }
 
-
-
   final minimumPadding = 5.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text('Neighborhood Doctors Pages')
-      ),
+      appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
       body: FutureBuilder<String>(
         future: userFirstName(id, context),
         builder: (firstname, context) {
@@ -78,23 +76,30 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
             ListTile(
               title: Text('Chat'),
               onTap: () {
-                Navigator.push(context,
+                Navigator.push(
+                    context,
                     MaterialPageRoute(
-                        builder: (context) => ChatDoctor(title: 'Chat')));
+                        builder: (context) => ChatDoctor(
+                              title: 'Chat',
+                              id: id,
+                            )));
               },
             ),
             ListTile(
               title: Text('View patient health information'),
               onTap: () {
-                Navigator.push(context,
+                Navigator.push(
+                    context,
                     MaterialPageRoute(
-                        builder: (context) => PatientHealthInfoDoctor(title: 'Health Information')));
+                        builder: (context) => PatientHealthInfoDoctor(
+                            title: 'Health Information')));
               },
             ),
             ListTile(
               title: Text('Edit availability'),
               onTap: () {
-                Navigator.push(context,
+                Navigator.push(
+                    context,
                     MaterialPageRoute(
                         builder: (context) => DoctorAvailability(id)));
               },
@@ -105,9 +110,7 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
                   // Navigator.push(context,
                   //   MaterialPageRoute(builder: (context) => NavigationBarLanding()));
                   Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
-
-                }
-            )
+                })
           ],
         ),
       ),
