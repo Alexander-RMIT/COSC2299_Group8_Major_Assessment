@@ -1,30 +1,41 @@
 package com.group8.neighborhood_doctors.service;
 
-import com.group8.neighborhood_doctors.availability.Availability;
-import com.group8.neighborhood_doctors.repository.AvailabilityRepo;
+import java.util.List;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import com.group8.neighborhood_doctors.availability.Availability;
+import com.group8.neighborhood_doctors.repository.AvailabilityRepo;
+import com.group8.neighborhood_doctors.repository.DoctorRepo;
 
 @Service
 public class AvailabilityService {
     @Autowired
     private AvailabilityRepo availabilityRepo;
 
+    @Autowired
+    private DoctorRepo doctorRepo;
+
     @Transactional
     public String createAvailability(Availability availability){
         try {
-            // If date, timeStart, timeEnd, doctorId and patientId are not unique, then the availability already exists
-            if (!(availabilityRepo.existsByDate(availability.getDate()) && availabilityRepo.existsByStart(availability.getStart()) && 
-                    availabilityRepo.existsByEnd(availability.getEnd()) && availabilityRepo.existsByDoctorId(availability.getDoctorId()))) {
-                availability.setId(null == availabilityRepo.findMaxId()? 1 : availabilityRepo.findMaxId() + 1);
-                availabilityRepo.save(availability);
-                return "[SUCCESS] New availability record created successfully.";
+            // Check if the doctor exists in the database
+            if (doctorRepo.existsById(availability.getDoctorId())) {
+                // If date, timeStart, timeEnd, doctorId and patientId are not unique, then the availability already exists
+                if (!(availabilityRepo.existsByDate(availability.getDate()) && availabilityRepo.existsByStart(availability.getStart()) && 
+                        availabilityRepo.existsByEnd(availability.getEnd()) && availabilityRepo.existsByDoctorId(availability.getDoctorId()))) {
+                    availability.setId(null == availabilityRepo.findMaxId()? 1 : availabilityRepo.findMaxId() + 1);
+                    availabilityRepo.save(availability);
+                    return "[SUCCESS] New availability record created successfully.";
+                } else {
+                    return "[FAILED] Reason: Availability already exists in the database.";
+                }
             } else {
-                return "[FAILED] Reason: Availability already exists in the database.";
+                return "[FAILED] Reason: Doctor does not exist in the database.";
             }
         } catch (Exception e) {
             throw e;
