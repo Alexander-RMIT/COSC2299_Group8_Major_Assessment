@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.BeanIds;
 
-@ComponentScan(basePackages = {"com.rjproject"}) // Handle multiple config classes
+@ComponentScan(basePackages = {"com.group8.neighborhood_doctors.jwt"}) // Handle multiple config classes
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(

@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /*
  * This class is used to enable CORS for the whole application.
  */
-@ComponentScan(basePackages = {"com.rjproject"}) // Handle multiple config classes
+@ComponentScan(basePackages = {"com.group8.neighborhood_doctors"}) // Handle multiple config classes
 @Configuration
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
