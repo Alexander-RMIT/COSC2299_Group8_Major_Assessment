@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Optional;
 
 
 import org.springframework.http.ResponseEntity;
@@ -361,7 +359,6 @@ public class Controller {
     public List<Symptom> retrieveSymtomName(@RequestBody Symptom symptom){
         return symptomService.retrieveSymtomName(symptom);
     }
-    
     
     // ~JWT Tokenisation~
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
