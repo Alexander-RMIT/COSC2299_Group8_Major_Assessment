@@ -5,29 +5,25 @@ import 'package:neighborhood_doctors/pages/admin/createAdmin.dart';
 import 'package:http/http.dart' as http;
 
 class NavigationBarAdmin extends StatefulWidget{
-  final int id;
-  NavigationBarAdmin(this.id);
+  final String jwt;
+  NavigationBarAdmin(this.jwt);
 
   @override
   State<StatefulWidget> createState() {
-    return NavBarStateAdmin(this.id);
+    return NavBarStateAdmin(this.jwt);
   }
 }
 
 class NavBarStateAdmin extends State<NavigationBarAdmin> {
-  final int id;
-  NavBarStateAdmin(this.id);
+  final String jwt;
+  NavBarStateAdmin(this.jwt);
 
   // Set at runtime instead of compile time
   String _uname = "";
-  Future<String> userFirstName(int id, BuildContext context) async {
+  Future<String> userFirstName(String token, BuildContext context) async {
     Uri urlAdminName = Uri.parse("http://10.0.2.2:8080/admin/username");
-
     var response = await http.post(urlAdminName,
-        headers: <String, String>{"Content-Type": "application/json", },
-        body: jsonEncode(<String, dynamic>{
-          "id": id,
-        }));
+        body: token);
     String strResponse = response.body;
 
     if (response.statusCode == 200) {
@@ -46,7 +42,7 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
           title: Text('Neighborhood Doctors Pages')
       ),
       body: FutureBuilder<String>(
-        future: userFirstName(id, context),
+        future: userFirstName(jwt, context),
         builder: (username, context) {
           if (username != "") {
             String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_uname";
