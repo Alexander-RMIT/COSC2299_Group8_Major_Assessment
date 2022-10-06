@@ -1,5 +1,9 @@
 package com.group8.neighborhood_doctors.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.group8.neighborhood_doctors.administrator.Administrator;
 import com.group8.neighborhood_doctors.doctor.Doctor;
 import com.group8.neighborhood_doctors.patient.Patient;
@@ -16,25 +20,39 @@ import com.group8.neighborhood_doctors.service.ChatService;
 import com.group8.neighborhood_doctors.service.AvailabilityService;
 import com.group8.neighborhood_doctors.service.SymptomService;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import com.group8.neighborhood_doctors.service.JwtUserDetailsService;
+import org.springframework.validation.BindingResult;
 
-import com.group8.neighborhood_doctors.jwt.JwtTokenUtil;
-import com.group8.neighborhood_doctors.jwt.JwtRequest;
-import com.group8.neighborhood_doctors.jwt.JwtResponse;
+
+import static com.group8.neighborhood_doctors.jwt.SecurityConstant.TOKEN_PREFIX;
+import static com.group8.neighborhood_doctors.jwt.SecurityConstant.SECRET;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.logging.Log;
+
+import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
 @RestController
 public class Controller {
@@ -62,14 +80,9 @@ public class Controller {
     
     
     // ~JWT Tokenisation~
-    @Autowired
-	private AuthenticationManager authenticationManager;
+    // @Autowired
+	// private AuthenticationManager authenticationManager;
 
-	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
-
-	@Autowired
-	private JwtUserDetailsService userDetailsService;
     // ~=============================================~
 
     /*
@@ -173,7 +186,33 @@ public class Controller {
 
     @RequestMapping(value = "auth/doctor/login", method = RequestMethod.POST)
     public String loginDoctor(@RequestBody Doctor doctor) {
-        return doctorService.findDoctor(doctor);
+
+        if (doctorService.findDoctor(doctor) == "Incorrect login credentials entered") {
+            return "Incorrect login credentials entered";
+        }
+
+        // JWT Token logging in
+        Base64.Encoder encode = Base64.getEncoder();
+
+        // Header
+        JSONObject header_raw = new JSONObject();
+        header_raw.put("alg", "HS256");
+        header_raw.put("type", "auth");
+        String header = encode.encodeToString(header_raw.toString().getBytes());
+
+        // Payload
+        JSONObject payload_raw = new JSONObject();
+        payload_raw.put("id", doctorService.retrieveId(doctor));
+        payload_raw.put("email", doctor.getEmail());
+        payload_raw.put("password", doctor.getPassword());
+        String payload = encode.encodeToString(payload_raw.toString().getBytes());
+
+        JwtUtility util = new JwtUtility();
+        
+        // Making token with signature
+        String JWT = TOKEN_PREFIX + util.HS256(header, payload);
+
+        return JWT;
     }
     
     @RequestMapping(value="auth/doctor/id", method=RequestMethod.POST)
@@ -183,8 +222,23 @@ public class Controller {
     
     // Retrieving first name of doctor
     @RequestMapping(value="doctor/firstname", method=RequestMethod.POST)
-    public String sessionDoctorFname(@RequestBody Doctor doctor) {
-        return doctorService.retrieveFirstName(doctor);
+    public String sessionDoctorFname(@RequestBody String token) {
+        JwtUtility util = new JwtUtility();
+        
+        if (util.verifyToken(token)) {
+            String token_contents[] = token.split("\\.");
+            Base64.Decoder decode = Base64.getDecoder();
+            String payload = new String(decode.decode(token_contents[1].getBytes()));
+            JsonObject json = JsonParser.parseString(payload).getAsJsonObject();
+            System.out.println(json);
+            int id = json.get("id").getAsInt();
+            System.out.println("ID VALUE:" + id);
+
+            System.out.println("NAME:" + doctorService.retrieveFirstName(id));
+            return doctorService.retrieveFirstName(id);
+        } else {
+            return "";
+        }
     }
 
 
@@ -233,9 +287,40 @@ public class Controller {
     // Authentication process for login
     @RequestMapping(value = "auth/patient/login", method = RequestMethod.POST)
     public String login(@RequestBody Patient patient) {
-        return patientService.findPatient(patient);
+        // Create JWT Token: header.payload.signature
+        // 1. Create the header
+        // 2. Create the payload
+        //      Base 64 encode email + password
+        // 3. Create the signature: using the hashing algorithm specified in header
+        // https://blog.logrocket.com/secure-rest-api-jwt-authentication/
+
+        if (patientService.findPatient(patient) == "Incorrect login credentials entered") {
+            return "Incorrect login credentials entered";
+        }
+        // JWT Token logging in
+        Base64.Encoder encode = Base64.getEncoder();
+
+        // Header
+        JSONObject header_raw = new JSONObject();
+        header_raw.put("alg", "HS256");
+        header_raw.put("type", "auth");
+        String header = encode.encodeToString(header_raw.toString().getBytes());
+
+        // Payload
+        JSONObject payload_raw = new JSONObject();
+        payload_raw.put("id", patientService.retrieveId(patient));
+        payload_raw.put("email", patient.getEmail());
+        payload_raw.put("password", patient.getPassword());
+        String payload = encode.encodeToString(payload_raw.toString().getBytes());
+
+        JwtUtility util = new JwtUtility();
+        
+        // Making token with signature
+        String JWT = TOKEN_PREFIX + util.HS256(header, payload);
+        
+        return JWT;
     }
-    
+
     // Retrieving id for user given pw and un
     @RequestMapping(value="auth/patient/id", method=RequestMethod.POST)
     public String sessionPatientId(@RequestBody Patient patient) {
@@ -244,10 +329,24 @@ public class Controller {
     
     // Retrieving first name of patient
     @RequestMapping(value="patient/firstname", method=RequestMethod.POST)
-    public String sessionPatientFname(@RequestBody Patient patient) {
-        return patientService.retrieveFirstName(patient);
-    }
+    public String sessionPatientFname(@RequestBody String token) {
+        JwtUtility util = new JwtUtility();
+        if (util.verifyToken(token)) {
+            String token_contents[] = token.split("\\.");
+            Base64.Decoder decode = Base64.getDecoder();
+            String payload = new String(decode.decode(token_contents[1].getBytes()));
+            JsonObject json = JsonParser.parseString(payload).getAsJsonObject();
+            System.out.println(json);
+            int id = json.get("id").getAsInt();
+            System.out.println("ID VALUE:" + id);
 
+            System.out.println("NAME:" + patientService.retrieveFirstName(id));
+            return patientService.retrieveFirstName(id);
+        } else {
+            return "";
+        }
+        
+    }
 
     /*
     ===============================
@@ -359,30 +458,4 @@ public class Controller {
     public List<Symptom> retrieveSymtomName(@RequestBody Symptom symptom){
         return symptomService.retrieveSymtomName(symptom);
     }
-    
-    // ~JWT Tokenisation~
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-
-		final UserDetails userDetails = userDetailsService
-				.loadUserByUsername(authenticationRequest.getUsername());
-
-		final String token = jwtTokenUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new JwtResponse(token));
-	}
-
-	private void authenticate(String username, String password) throws Exception {
-		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		} catch (DisabledException e) {
-			throw new Exception("USER_DISABLED", e);
-		} catch (BadCredentialsException e) {
-			throw new Exception("INVALID_CREDENTIALS", e);
-		}
-	}
-    // <>=================================<>
-    
 }

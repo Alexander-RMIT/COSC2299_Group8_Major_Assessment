@@ -128,13 +128,12 @@ public class PatientService {
        
     // Retrieve Patient first name by their id
     @Transactional
-    public String retrieveFirstName(Patient patient) {
+    public String retrieveFirstName(int id) {
         try {
-            String fname = patientRepo.findNameById(patient.getId());
+            String fname = patientRepo.findNameById(id);
             return fname;
         } catch (Exception e) {
             throw e;
         }
     }
-
 }

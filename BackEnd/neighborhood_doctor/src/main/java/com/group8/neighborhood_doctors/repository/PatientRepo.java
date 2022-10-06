@@ -27,4 +27,12 @@ public interface PatientRepo extends JpaRepository<Patient, Integer> {
     
     @Query("SELECT s.firstname FROM Patient s WHERE s.id=:id")
     public String findNameById(@Param("id") int id);
+
+
+    @Query("SELECT s FROM Patient s WHERE s.id=:id")
+    public Patient getById(@Param("id")int id);
+
+    @Query("SELECT s FROM Patient s WHERE s.email=:email")
+    public Patient getByEmail(@Param("email")String email);
+
 }

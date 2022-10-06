@@ -124,9 +124,9 @@ public class DoctorService {
     
     // Retrieve doctor first name by id
     @Transactional
-    public String retrieveFirstName(Doctor doctor) {
+    public String retrieveFirstName(int id) {
         try {
-            String fname = doctorRepo.findNameById(doctor.getId());
+            String fname = doctorRepo.findNameById(id);
             return fname;
         } catch (Exception e) {
             throw e;
