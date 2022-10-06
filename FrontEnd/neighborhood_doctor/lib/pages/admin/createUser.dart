@@ -4,16 +4,20 @@ import 'package:neighborhood_doctors/pages/admin/createDoctor.dart';
 import 'package:neighborhood_doctors/pages/admin/createPatient.dart';
 
 class CreateUser extends StatefulWidget{
-  const CreateUser({Key? key, required this.title}) : super(key: key);
+  const CreateUser({Key? key, required this.jwt, required this.title}) 
+      : super(key: key);
+  final String jwt;
   final String title;
-
   @override
   State<StatefulWidget> createState() {
-    return CreateUserState();
+    return CreateUserState(this.jwt, this.title);
   }
 }
 
 class CreateUserState extends State<CreateUser> {
+  final String jwt;
+  final String title;
+  CreateUserState(this.jwt, this.title);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,8 @@ class CreateUserState extends State<CreateUser> {
                   onPressed: () {
                     Navigator.push(context,
                     MaterialPageRoute(
-                        builder: (context) => CreateAdmin(title: 'Create Admin')));
+                        // builder: (context) => CreateAdmin(title: 'Create Admin', jwt: jwt)));
+                        builder: (context) => CreateAdmin(title: 'Create Admin', jwt: jwt)));
                   })
               ),
               const SizedBox(
@@ -59,7 +64,7 @@ class CreateUserState extends State<CreateUser> {
                   onPressed: () {
                     Navigator.push(context,
                     MaterialPageRoute(
-                        builder: (context) => CreatePatient(title: 'Create Patient')));
+                        builder: (context) => CreatePatient(title: 'Create Patient', jwt: jwt)));
                   })
               ),
               const SizedBox(
@@ -72,7 +77,7 @@ class CreateUserState extends State<CreateUser> {
                   onPressed: () {
                     Navigator.push(context,
                     MaterialPageRoute(
-                        builder: (context) => CreateDoctor(title: 'Create Admin')));
+                        builder: (context) => CreateDoctor(title: 'Create Admin', jwt: jwt)));
                   })
               ),
             ],

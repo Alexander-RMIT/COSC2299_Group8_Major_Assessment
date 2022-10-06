@@ -5,12 +5,14 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CreateDoctor extends StatefulWidget{
-  const CreateDoctor({Key? key, required this.title}) : super(key: key);
+  const CreateDoctor({Key? key, required this.jwt, required this.title}) 
+      : super(key: key);
+  final String jwt;
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return CreateDoctorState();
+    return CreateDoctorState(this.jwt, this.title);
   }
 }
 
@@ -52,6 +54,9 @@ class CreateDoctorState extends State<CreateDoctor> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
+  final String jwt;
+  final String title;
+  CreateDoctorState(this.jwt, this.title);
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();

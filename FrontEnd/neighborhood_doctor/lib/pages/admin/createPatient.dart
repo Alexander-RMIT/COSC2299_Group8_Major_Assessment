@@ -8,12 +8,14 @@ const List<String> genderList = <String>['Gender', 'Male', 'Female', 'Other'];
 
 
 class CreatePatient extends StatefulWidget{
-  const CreatePatient({Key? key, required this.title}) : super(key: key);
+  const CreatePatient({Key? key, required this.jwt, required this.title}) 
+      : super(key: key);
+  final String jwt;
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return CreatePatientState();
+    return CreatePatientState(this.jwt, this.title);
   }
 }
 
@@ -60,6 +62,10 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
 class CreatePatientState extends State<CreatePatient> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
+
+  final String jwt;
+  final String title;
+  CreatePatientState(this.jwt, this.title);
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();

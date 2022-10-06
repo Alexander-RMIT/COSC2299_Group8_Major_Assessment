@@ -70,7 +70,7 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(
-                        builder: (context) => CreateUser(title: 'Create User')));
+                        builder: (context) => CreateUser(title: 'Create User', jwt: jwt)));
               },
             ),
             ListTile(

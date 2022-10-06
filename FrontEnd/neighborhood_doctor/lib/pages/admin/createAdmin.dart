@@ -5,12 +5,14 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CreateAdmin extends StatefulWidget{
-  const CreateAdmin({Key? key, required this.title}) : super(key: key);
+  const CreateAdmin({Key? key, required this.jwt, required this.title}) 
+      : super(key: key);
+  final String jwt;
   final String title;
 
   @override
   State<StatefulWidget> createState() {
-    return CreateAdminState();
+    return CreateAdminState(this.jwt, this.title);
   }
 }
 
@@ -49,6 +51,9 @@ class CreateAdminState extends State<CreateAdmin> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
 
+  final String jwt;
+  final String title;
+  CreateAdminState(this.jwt, this.title);
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
