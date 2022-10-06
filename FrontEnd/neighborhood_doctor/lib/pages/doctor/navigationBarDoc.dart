@@ -8,32 +8,26 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NavigationBarDoc extends StatefulWidget {
-  final int id;
-  NavigationBarDoc(this.id);
+  final String jwt;
+  NavigationBarDoc(this.jwt);
 
   @override
   State<StatefulWidget> createState() {
-    return NavBarStateDoc(this.id);
+    return NavBarStateDoc(this.jwt);
   }
 }
 
 class NavBarStateDoc extends State<NavigationBarDoc> {
-  final int id;
-  NavBarStateDoc(this.id);
+  final String jwt;
+  NavBarStateDoc(this.jwt);
 
   // Set at runtime instead of compile time
   String _fname = "";
 
-  Future<String> userFirstName(int id, BuildContext context) async {
+  Future<String> userFirstName(String jwt, BuildContext context) async {
     Uri urlDcotorName = Uri.parse("http://10.0.2.2:8080/doctor/firstname");
 
-    var response = await http.post(urlDcotorName,
-        headers: <String, String>{
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(<String, dynamic>{
-          "id": id,
-        }));
+    var response = await http.post(urlDcotorName, body: jwt);
     String strResponse = response.body;
 
     if (response.statusCode == 200) {
@@ -50,7 +44,7 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
     return Scaffold(
       appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
       body: FutureBuilder<String>(
-        future: userFirstName(id, context),
+        future: userFirstName(jwt, context),
         builder: (firstname, context) {
           if (firstname != "") {
             String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_fname";
@@ -81,7 +75,7 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
                     MaterialPageRoute(
                         builder: (context) => ChatDoctor(
                               title: 'Chat',
-                              id: id,
+                              jwt: jwt,
                             )));
               },
             ),
@@ -101,7 +95,7 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DoctorAvailability(id)));
+                        builder: (context) => DoctorAvailability(jwt)));
               },
             ),
             ListTile(

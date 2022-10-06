@@ -3,22 +3,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ChatDoctor extends StatefulWidget {
-  const ChatDoctor({Key? key, required this.id, required this.title})
+  const ChatDoctor({Key? key, required this.jwt, required this.title})
       : super(key: key);
-  final int id;
+  final String jwt;
   final String title;
   @override
   State<ChatDoctor> createState() {
-    return ChatDoctorState(this.id, this.title);
+    return ChatDoctorState(this.jwt, this.title);
   }
 }
 
 class ChatDoctorState extends State<ChatDoctor> {
   final _formKey = GlobalKey<FormState>();
 
-  final int id;
+  final String jwt;
   final String title;
-  ChatDoctorState(this.id, this.title);
+  ChatDoctorState(this.jwt, this.title);
 
   TextEditingController messageController = TextEditingController();
   TextEditingController usertwoController = TextEditingController();
@@ -68,13 +68,13 @@ class ChatDoctorState extends State<ChatDoctor> {
             ElevatedButton(
               child: Text('Send Chat'),
               onPressed: () {
-                createChat(messageController.text, id,
+                createChat(messageController.text, jwt,
                     int.parse(usertwoController.text));
               },
             )
           ])));
 
-  Future<void> createChat(String message, int user1, int user2) async {
+  Future<void> createChat(String message, String user1token, int user2) async {
     Uri url = Uri.parse("http://10.0.2.2:8080/chat/createChat");
     var response = await http.post(url,
         headers: <String, String>{
@@ -82,7 +82,7 @@ class ChatDoctorState extends State<ChatDoctor> {
         },
         body: jsonEncode(<String, dynamic>{
           "message": message,
-          "userone": user1,
+          "userone": user1token,
           "usertwo": user2
         }));
   }

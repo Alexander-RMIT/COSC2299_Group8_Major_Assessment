@@ -20,11 +20,11 @@ import 'dart:developer';
 class DoctorAvailability extends StatefulWidget {
   //const Availability({Key? key, required this.title}) : super(key: key);
   //final String title;
-  final int id;
-  DoctorAvailability(this.id);
+  final String jwt;
+  DoctorAvailability(this.jwt);
 
   @override
-  State<DoctorAvailability> createState() => AvailabilityState(this.id);
+  State<DoctorAvailability> createState() => AvailabilityState(this.jwt);
 }
 
 //List<AvailabilityModel> getAvailabilities (int date) {}
@@ -126,8 +126,8 @@ class AvailabilityState extends State<DoctorAvailability> {
   late List<AvailabilityModel> _availabilityList;
   final minimumPadding = 5.0;
 
-  final int id;
-  AvailabilityState(this.id);
+  final String jwt;
+  AvailabilityState(this.jwt);
 
   @override
   void initState() {
@@ -174,7 +174,7 @@ class AvailabilityState extends State<DoctorAvailability> {
 
     String formattedDate = DateFormat('yyyy-MM-dd').format(_focusedDay);
     for (AvailabilityModel model in _availabilityList) {
-      if (model.date == formattedDate && model.doctorId==id) {
+      if (model.date == formattedDate && model.doctorId==1234567890) {
         events.add(availabilityToEvent(model));
       }
     }
@@ -390,7 +390,7 @@ class AvailabilityState extends State<DoctorAvailability> {
                 String formattedStartTime = startTimeController.text;
                 String formattedEndTime = endTimeController.text;
 
-                createAvailability(1, id, formattedDate, 'Available',
+                createAvailability(1, 1234567890, formattedDate, 'Available',
                     formattedStartTime, formattedEndTime, context);
               },
             )
