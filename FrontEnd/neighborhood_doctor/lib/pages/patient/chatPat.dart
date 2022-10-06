@@ -3,21 +3,21 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ChatPatient extends StatefulWidget {
-  const ChatPatient({Key? key, required this.id, required this.title})
+  const ChatPatient({Key? key, required this.jwt, required this.title})
       : super(key: key);
-  final int id;
+  final String jwt;
   final String title;
   @override
   State<StatefulWidget> createState() {
-    return ChatPatientState(this.id, this.title);
+    return ChatPatientState(this.jwt, this.title);
   }
 }
 
 class ChatPatientState extends State<ChatPatient> {
-  final int id;
+  final String jwt;
   final String title;
   final _formKey = GlobalKey<FormState>();
-  ChatPatientState(this.id, this.title);
+  ChatPatientState(this.jwt, this.title);
   TextEditingController messageController = TextEditingController();
   TextEditingController useroneController = TextEditingController();
 
@@ -66,7 +66,7 @@ class ChatPatientState extends State<ChatPatient> {
               child: Text('Send Chat'),
               onPressed: () {
                 createChat(messageController.text,
-                    int.parse(useroneController.text), id);
+                    int.parse(useroneController.text), 1234567890);
               },
             )
           ])));

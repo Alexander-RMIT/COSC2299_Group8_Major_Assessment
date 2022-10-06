@@ -10,20 +10,20 @@ import 'package:neighborhood_doctors/pages/navigationBar.dart';
 
 class MedicationSymptomsPatient extends StatefulWidget {
   const MedicationSymptomsPatient(
-      {Key? key, required this.title, required this.id})
+      {Key? key, required this.title, required this.jwt})
       : super(key: key);
   final String title;
-  final int id;
+  final String jwt;
   @override
   State<StatefulWidget> createState() {
-    return MedicationSymptomsPatientState(this.id, this.title);
+    return MedicationSymptomsPatientState(this.jwt, this.title);
   }
 }
 
 class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
-  final int id;
+  final String jwt;
   final String title;
-  MedicationSymptomsPatientState(this.id, this.title);
+  MedicationSymptomsPatientState(this.jwt, this.title);
 
   late List<SymptomModel> _symptomList;
 
@@ -117,7 +117,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
             ElevatedButton(
               child: Text('Add Symptom'),
               onPressed: () {
-                addSymptom(id, symptomController.text, severityController.text,
+                addSymptom(jwt, symptomController.text, severityController.text,
                     notesController.text);
               },
             )
@@ -150,7 +150,7 @@ class ResponseAlertDialog extends StatelessWidget {
 }
 
 Future<void> addSymptom(
-    int patientId, String symptom, String severity, String notes) async {
+    String token, String symptom, String severity, String notes) async {
   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/createSymptom");
   var response = await http.post(url,
       headers: <String, String>{
@@ -158,7 +158,7 @@ Future<void> addSymptom(
       },
       body: jsonEncode(<String, dynamic>{
         "name": symptom,
-        "patientId": patientId,
+        "jwt": token,
         "severity": severity,
         "note": notes,
       }));

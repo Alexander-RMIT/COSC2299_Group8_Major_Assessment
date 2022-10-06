@@ -10,33 +10,27 @@ import 'dart:convert';
 import 'dart:io';
 
 class NavigationBarLanding extends StatefulWidget {
-  final int id;
-  NavigationBarLanding(this.id);
+  final String jwt;
+  NavigationBarLanding(this.jwt);
   @override
   State<StatefulWidget> createState() {
-    return NavBarLandingState(this.id);
+    return NavBarLandingState(this.jwt);
   }
 }
 
 class NavBarLandingState extends State<NavigationBarLanding> {
-  final int id;
-  NavBarLandingState(this.id);
+  final String jwt;
+  NavBarLandingState(this.jwt);
 
   // Set at runtime instead of compile time
   String _fname = "";
 
-  Future<String> userFirstName(int id, BuildContext context) async {
+  Future<String> userFirstName(String jwt, BuildContext context) async {
     Uri urlPatientName = Uri.parse("http://10.0.2.2:8080/patient/firstname");
 
-    var response = await http.post(urlPatientName,
-        headers: <String, String>{
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(<String, dynamic>{
-          "id": id,
-        }));
+    var response = await http.post(urlPatientName, body: jwt);
     String strResponse = response.body;
-
+    print("NAME:" + strResponse);
     if (response.statusCode == 200) {
       _fname = strResponse;
       return strResponse;
@@ -51,7 +45,7 @@ class NavBarLandingState extends State<NavigationBarLanding> {
     return Scaffold(
       appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
       body: FutureBuilder<String>(
-        future: userFirstName(id, context),
+        future: userFirstName(jwt, context),
         builder: (firstname, context) {
           if (firstname != "") {
             String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_fname";
@@ -82,7 +76,7 @@ class NavBarLandingState extends State<NavigationBarLanding> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ChatPatient(title: 'Chat', id: id)));
+                            ChatPatient(title: 'Chat', jwt: jwt)));
               },
             ),
             ListTile(
@@ -96,22 +90,24 @@ class NavBarLandingState extends State<NavigationBarLanding> {
               },
             ),
             ListTile(
-                title: Text('Sign out'),
-                onTap: () {
-                  // Navigator.push(context,
-                  //   MaterialPageRoute(builder: (context) => NavigationBarLanding()));
-                  Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
-                }),
-            ListTile(
               title: Text('View Symptoms'),
               onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => MedicationSymptomsPatient(
-                            title: 'Medication/Symptoms', id: id)));
+                            title: 'Medication/Symptoms', jwt: jwt)));
               },
-            )
+            ),
+            ListTile(
+                title: Text('Sign out'),
+                onTap: () {
+                  // Navigator.push(context,
+                  //   MaterialPageRoute(builder: (context) => NavigationBarLanding()));
+                  Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
+                }
+                ),
+
           ],
         ),
       ),
