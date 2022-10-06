@@ -31,36 +31,24 @@ Future<void> userLogin(String email, String password, BuildContext context) asyn
           "password": password,
         }));
     String strResponse = response.body;
+    String token = strResponse;
 
-    Uri urlPatientId = Uri.parse("http://10.0.2.2:8080/auth/patient/id");
-    Uri urlDoctorId = Uri.parse("http://10.0.2.2:8080/auth/doctor/id");
-    Uri urlAdminId = Uri.parse("http://10.0.2.2:8080/auth/admin/id");
+    if (response.statusCode == 200) {
+      if (response.body != "Incorrect login credentials entered") {
+        // HMACSHA256 JWT containing email, password, id
+        print("JWT Token:" + response.body);
 
-
-    var urlListId = [urlPatientId, urlDoctorId, urlAdminId];
-    // Another response to get the patients id
-    var retrieveID = await http.post(urlListId[i],
-        headers: <String, String>{"Content-Type": "application/json", },
-        body: jsonEncode(<String, dynamic>{
-          "email": email,
-          "password": password,
-        }));
-    String respID = retrieveID.body;
-
-    if (response.statusCode == 200 && retrieveID.statusCode == 200) {
-      if (response.body == "Successful login") {
         // Check what type the user is for the correct landing page
         found = true;
-        int id = int.parse(respID);
         if (i == 0) {
           // Patient
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBarLanding(id)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBarLanding(token)));
         } else if (i == 1) {
           // Doctor
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBarDoc(id)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBarDoc(token)));
         } else if (i == 2) {
           // Admin
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBarAdmin(id)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBarAdmin(token)));
         }
       } else {
         if (i == urlList.length - 1 && found == false) {
