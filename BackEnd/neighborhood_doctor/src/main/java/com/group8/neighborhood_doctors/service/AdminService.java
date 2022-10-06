@@ -110,14 +110,12 @@ public class AdminService {
     
     // Retrieving the admin username by their id
     @Transactional
-    public String retrieveUsername(Administrator admin) {
+    public String retrieveUsername(int id) {
         try {
-            String uname = adminRepo.findUsernameById(admin.getId());
+            String uname = adminRepo.findUsernameById(id);
             return uname;
         } catch (Exception e) {
             throw e;
         }
     }
-    
-    
 }
