@@ -86,7 +86,7 @@ public class AdminController {
      * [POST] Get Administrator Username
      */
     @RequestMapping(value = "admin/username", method = RequestMethod.POST)
-    public String sessionAdminFname(@RequestBody Administrator admin) {
-        return adminService.retrieveUsername(admin);
+    public String sessionAdminFname(@RequestBody int id) {
+        return adminService.retrieveUsername(id);
     }
 }
