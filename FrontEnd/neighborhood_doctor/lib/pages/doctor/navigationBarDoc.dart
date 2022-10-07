@@ -86,7 +86,7 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => PatientHealthInfoDoctor(
-                            title: 'Health Information')));
+                            title: 'Health Information', jwt: jwt)));
               },
             ),
             ListTile(
