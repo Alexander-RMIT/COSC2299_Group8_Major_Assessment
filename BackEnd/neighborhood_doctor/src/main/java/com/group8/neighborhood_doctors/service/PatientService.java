@@ -136,4 +136,68 @@ public class PatientService {
             throw e;
         }
     }
+    
+    /*
+    Get all the patients from the database
+    */
+    public String readPatientsString() {
+        List<Patient> patients = patientRepo.findAll();
+        // firstname    lastname    name/other  gender  age DoB 
+        String strPatients = "[";
+
+        for (int i = 0; i < patients.size(); i++) {
+            Patient curPatient = patients.get(i);
+            // Format to be a map
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", curPatient.getId());
+            map.put("firstname", curPatient.getFirstname());
+            map.put("lastname", curPatient.getLastname());
+            map.put("nameother", curPatient.getNameother());
+            map.put("gender", curPatient.getGender());
+            map.put("age", curPatient.getAge());
+            Gson gson = new Gson();
+            String json = gson.toJson(map);
+            
+
+            strPatients += json;
+            
+            if (i != patients.size() - 1) {
+                strPatients += ", ";
+            }
+            
+        }
+        strPatients += "]";
+
+        return strPatients;
+    }
+
+    /*
+     * Retrieving Patient by their id
+     */
+    @Transactional 
+    public String retrievePatient(int id) {
+        if (patientRepo.existsById(id)) {
+            String patient = "[";
+            Patient p = patientRepo.getById(id);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", p.getId());
+            map.put("firstname", p.getFirstname());
+            map.put("lastname", p.getLastname());
+            map.put("nameother", p.getNameother());
+            map.put("gender", p.getGender());
+            map.put("age", p.getAge());
+            map.put("address", p.getAddress());
+            map.put("phonenumber", p.getPhonenumber());
+            Gson gson = new Gson();
+            String json = gson.toJson(map);
+            
+            patient += json;
+            patient += "]";
+            return patient;
+
+        } else {
+            return "patient not in database, try again";
+        }
+    }
 }
