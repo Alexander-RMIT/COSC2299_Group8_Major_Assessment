@@ -152,4 +152,32 @@ public class PatientController {
             return "";
         }
     }
+    
+    @RequestMapping(value="patient/retrieveAllPatients", method=RequestMethod.POST)
+    public String retrieveAllPatients(@RequestBody String token) {
+        JwtUtility util = new JwtUtility();
+
+        if (util.verifyToken(token)) {
+            String patients = patientService.readPatientsString();
+            return patients;
+        } else {
+            return "";
+        }
+    }
+
+
+    @RequestMapping(value="patient/retrievePatient", method=RequestMethod.GET)
+    public String retrievePatient(@RequestBody String token, int id) {
+        JwtUtility util = new JwtUtility();
+
+        if (util.verifyToken(token)) {
+            String patient = patientService.retrievePatient(id);
+            return patient;
+        } else {
+            return "";
+        }
+    }
+    
+    
+    
 }
