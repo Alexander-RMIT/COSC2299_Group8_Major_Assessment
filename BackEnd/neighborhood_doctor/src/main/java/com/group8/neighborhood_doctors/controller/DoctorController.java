@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.group8.neighborhood_doctors.jwt.SecurityConstant.TOKEN_PREFIX;
-import org.json.simple.JSONObject;
+// import org.json.simple.JSONObject;
 
 /*
     =========================
@@ -90,13 +91,15 @@ public class DoctorController {
         Base64.Encoder encode = Base64.getEncoder();
 
         // Header
-        JSONObject header_raw = new JSONObject();
+        // JSONObject header_raw = new JSONObject();
+        HashMap<String, Object> header_raw = new HashMap<>();
         header_raw.put("alg", "HS256");
         header_raw.put("type", "auth");
         String header = encode.encodeToString(header_raw.toString().getBytes());
 
         // Payload
-        JSONObject payload_raw = new JSONObject();
+        // JSONObject payload_raw = new JSONObject();
+        HashMap<String, Object> payload_raw = new HashMap<>();
         payload_raw.put("id", doctorService.retrieveId(doctor));
         payload_raw.put("email", doctor.getEmail());
         payload_raw.put("password", doctor.getPassword());
