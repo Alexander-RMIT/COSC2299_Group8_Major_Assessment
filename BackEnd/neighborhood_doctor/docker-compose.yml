@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  neighborhood_doctors-mysql:
+    image: "mysql"
+    restart: always
+    environment:
+      MYSQL_DATABASE: neighborhood_doctors
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - spring-net
+
+  neighborhood_doctors:
+    build: .
+    image: neighborhood_doctors
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      MYSQL_HOST: neighborhood_doctors-mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+    networks:
+      - spring-net
+
+networks:
+  spring-net:
+    driver: spring-net
+    external: true
