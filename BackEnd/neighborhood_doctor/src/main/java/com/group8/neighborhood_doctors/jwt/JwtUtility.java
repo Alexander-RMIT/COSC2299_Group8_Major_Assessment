@@ -48,8 +48,6 @@ public class JwtUtility {
         
         // In form prefix + header + payload + signature
         String token_expected = TOKEN_PREFIX + HS256(header, payload);
-        System.out.println("ACTUAL:" + jwt);
-        System.out.println("HERHERHERHHERHERHERH:" + token_expected);
         // Compare newly created token to original token
         //  - if they're the same, return true, otherwise return false
         if (jwt.equals(token_expected)) {
