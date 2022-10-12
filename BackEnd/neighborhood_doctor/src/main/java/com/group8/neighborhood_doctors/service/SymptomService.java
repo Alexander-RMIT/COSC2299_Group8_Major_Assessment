@@ -56,23 +56,12 @@ public class SymptomService {
         // Updating Patient Symptom, check if the patient has a symptom
         // Do not have to check if the patient exists in the database in updateSymptom
         // Because when patient add an new symptom, the program MUST check if the patient exists in the database
-        if (symptomRepo.existsByPatientId(symptom.getPatientId())) {
-            try {
-                Optional<Symptom> symptoms = symptomRepo.findByPatientId(symptom.getPatientId());
-                symptoms.stream().forEach(s -> {
-                    Symptom symptomToBeUpdate = symptomRepo.findById(s.getId()).get();
-                    symptomToBeUpdate.setName(symptom.getName());
-                    symptomToBeUpdate.setName(symptom.getSeverity());
-                    symptomToBeUpdate.setName(symptom.getNote());
-                    symptomRepo.save(symptomToBeUpdate);
-                });
+                Symptom symptomToBeUpdate = symptomRepo.findById(symptom.getId()).get();
+                symptomToBeUpdate.setName(symptom.getName());
+                symptomToBeUpdate.setSeverity(symptom.getSeverity());
+                symptomToBeUpdate.setNote(symptom.getNote());
+                symptomRepo.save(symptomToBeUpdate);
                 return "[SUCCESS] Symptom record updated.";
-            } catch (Exception e) {
-                throw e;
-            }
-        } else {
-            return "[FAILED] Reason: Symptom does not exists in the database.";
-        }
     }
 
     @Transactional
