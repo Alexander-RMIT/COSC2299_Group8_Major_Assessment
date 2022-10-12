@@ -35,7 +35,6 @@ class selectedSymptomState extends State<selectedSymptom> {
 
     final ret_symptom = json.decode(response.body);
     Map<String, dynamic> s = ret_symptom;
-
     if (response.statusCode == 200) {
       symptom = s;
       return s;
@@ -54,10 +53,52 @@ class selectedSymptomState extends State<selectedSymptom> {
             builder: (jwt, context) {
               return Container(
 
+
+                child: ElevatedButton(
+                  child: Text('Edit Symptom'),
+              onPressed: () {
+              openUpdateDialog();
+              },
+              )
+
+
               );
             }
         )
     );
   }
 
+
+  Future openUpdateDialog() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text("New Symptom"),
+          content: Column(children: <Widget>[
+            // TextField(
+            //     controller: symptomController,
+            //     decoration: InputDecoration(
+            //       icon: Icon(Icons.timer),
+            //       labelText: 'Enter Symptom Name',
+            //     )),
+            // TextField(
+            //     controller: severityController,
+            //     decoration: InputDecoration(
+            //       icon: Icon(Icons.timer),
+            //       labelText: 'Enter severity',
+            //     )),
+            // TextField(
+            //   controller: notesController,
+            //   decoration: InputDecoration(
+            //     icon: Icon(Icons.timer),
+            //     labelText: 'Enter notes here',
+            //   ),
+            // ),
+            ElevatedButton(
+              child: Text('Update Symptom'),
+              onPressed: () {
+                // addSymptom(jwt, symptomController.text, severityController.text,
+                //     notesController.text);
+              },
+            )
+          ])));
 }
