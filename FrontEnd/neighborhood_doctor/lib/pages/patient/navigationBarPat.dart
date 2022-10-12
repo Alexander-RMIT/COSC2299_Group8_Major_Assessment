@@ -8,6 +8,7 @@ import 'package:neighborhood_doctors/pages/patient/patientHealthInfoPatView.dart
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui' as ui;
 
 class NavigationBarLanding extends StatefulWidget {
   final String jwt;
@@ -49,7 +50,19 @@ class NavBarLandingState extends State<NavigationBarLanding> {
         builder: (firstname, context) {
           if (firstname != "") {
             String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_fname";
-            return Center(child: Text(welcomeMsg, textAlign: TextAlign.center));
+            return Center(child: Text(welcomeMsg, textAlign: TextAlign.center,
+            style: TextStyle(
+            fontSize: 15,
+            foreground: Paint()
+            ..shader = ui.Gradient.linear(
+            const Offset(0, 20),
+            const Offset(300, 20),
+        <Color>[
+          Color.fromARGB(255, 209, 16, 248),
+          Color.fromARGB(223, 0, 195, 255),
+        ],
+      )
+    ),));
           } else {
             return Center(child: Text("Welcome to Neighborhood Doctors"));
           }

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:neighborhood_doctors/pages/admin/createUser.dart';
 import 'package:neighborhood_doctors/pages/admin/createAdmin.dart';
 import 'package:http/http.dart' as http;
+import 'dart:ui' as ui;
 
 class NavigationBarAdmin extends StatefulWidget{
   final String jwt;
@@ -46,10 +47,22 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
         builder: (username, context) {
           if (username != "") {
             String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_uname";
-            return Center(child: Text(welcomeMsg, textAlign: TextAlign.center));
+            return Center(child: Text(welcomeMsg, textAlign: TextAlign.center,
+            style: TextStyle(
+            fontSize: 15,
+            foreground: Paint()
+            ..shader = ui.Gradient.linear(
+            const Offset(0, 20),
+            const Offset(300, 20),
+          <Color>[
+          Color.fromARGB(255, 209, 16, 248),
+          Color.fromARGB(223, 0, 195, 255),
+          ],
+       )
+    ),));
           } else {
             return Center(child: Text("Welcome to Neighborhood Doctors"));
-          }
+    }
         },
       ),
       drawer: Drawer(
