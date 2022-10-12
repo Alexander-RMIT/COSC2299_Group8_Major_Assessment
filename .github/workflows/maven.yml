@@ -39,5 +39,7 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Docker-compose build
       run: docker-compose build
+    - name: Create network
+      run: docker network create spring-net
     - name: Docker-compose up
       run: docker-compose up
