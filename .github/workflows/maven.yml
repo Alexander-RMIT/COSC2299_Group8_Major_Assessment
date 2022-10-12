@@ -40,7 +40,7 @@ jobs:
     - name: MySQL Server Stop
       run: /etc/init.d/mysql stop
     - name: Docker-compose build
-        run: docker-compose build
+      run: docker-compose build
     - name: Create network
       run: docker network create spring-net
     - name: Docker-compose up
