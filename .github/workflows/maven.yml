@@ -43,5 +43,5 @@ jobs:
       run: docker-compose build
     - name: Create network
       run: docker network create spring-net
-    # - name: Docker-compose up
-    #   run: docker-compose up --exit-code-from integrationtest integrationtest
+    - name: Docker-compose up
+      run: docker-compose up -d neighborhood_doctors-mysql && docker-compose up -d neighborhood_doctors && docker-compose stop -t 20 neighborhood_doctors-mysql && docker-compose stop -t 20 neighborhood_doctors
