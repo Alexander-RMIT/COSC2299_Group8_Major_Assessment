@@ -1,0 +1,20 @@
+name: dockerCI
+
+on:
+  push:
+    branches: [ "feature" ]
+  pull_request:
+    branches: [ "feature" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: BackEnd/neighborhood_doctor
+    - name: Docker-compose build
+      run: docker-compose build
+    - name: Create network
+      run: docker network create spring-net
+    - name: Docker-compose up
+      run: docker-compose up
