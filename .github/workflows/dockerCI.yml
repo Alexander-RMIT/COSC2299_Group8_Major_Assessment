@@ -12,9 +12,14 @@ jobs:
     defaults:
       run:
         working-directory: BackEnd/neighborhood_doctor
-    - name: Docker-compose build
-      run: docker-compose build
-    - name: Create network
-      run: docker network create spring-net
-    - name: Docker-compose up
-      run: docker-compose up
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Docker-compose build
+        run: docker-compose build
+      - name: Create network
+        run: docker network create spring-net
+      - name: Docker-compose up
+        run: docker-compose up
