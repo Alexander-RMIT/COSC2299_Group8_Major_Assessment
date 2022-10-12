@@ -44,4 +44,4 @@ jobs:
     - name: Create network
       run: docker network create spring-net
     - name: Docker-compose up
-      run: docker-compose up
+      run: docker-compose up --exit-code-from integrationtest integrationtest
