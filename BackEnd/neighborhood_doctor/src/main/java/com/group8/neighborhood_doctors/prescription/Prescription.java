@@ -1,5 +1,10 @@
 package com.group8.neighborhood_doctors.prescription;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 // id: int
 // date
 // time start
@@ -23,7 +28,7 @@ public class Prescription {
     public int getId() {
         return id;
     }
-    public void setId(int id) {this.is = id;}
+    public void setId(int id) {this.id = id;}
 
     public String getDate(){return date;}
     public void setDate(String date){this.date=date;}
