@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: defaultColorScheme,
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.black,
       ),
       home: NavigationBarLanding(),
     );

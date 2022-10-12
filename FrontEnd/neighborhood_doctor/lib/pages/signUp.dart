@@ -85,7 +85,7 @@ class SignUpState extends State<SignUp> {
       appBar: AppBar(
       title: Text('Neighborhood Doctors Pages')
       ),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Colors.black,
       body: Container(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
