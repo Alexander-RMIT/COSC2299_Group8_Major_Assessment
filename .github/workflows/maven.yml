@@ -11,7 +11,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -34,15 +33,11 @@ jobs:
       run: |
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-
     - name: Maven clean
       run: mvn clean
-
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-
     - name: Docker-compose build
       run: docker-compose build
-
     - name: Docker-compose up
-    - run: docker-compose up
+      run: docker-compose up
