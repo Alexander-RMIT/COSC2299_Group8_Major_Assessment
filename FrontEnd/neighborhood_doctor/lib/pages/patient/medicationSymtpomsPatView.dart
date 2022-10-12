@@ -89,6 +89,10 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
   TextEditingController severityController = TextEditingController();
   TextEditingController notesController = TextEditingController();
 
+  TextEditingController updateSymptomController = TextEditingController();
+  TextEditingController updateSeverityController = TextEditingController();
+  TextEditingController updateNotesController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     //read all symptoms into symptoms
@@ -151,16 +155,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
                               DataCell(Text(element["note"])),
                             ],
                             onSelectChanged: (value) {
-                              Navigator.push(
-                                  this.context,
-                                  MaterialPageRoute(
-                                      builder: (context) => selectedSymptom(
-                                          jwt: this.jwt,
-                                          symID: element["id"]
-                                      )));
-                              // Retrieve elements details and open patient health info specific to patient
-                              print(element["firstname"] + " has been pressed");
-
+                              openUpdateDialog(element["id"]);
                             }
                           )))
                               .toList(),
@@ -187,7 +182,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
   Future openAddDialog() => showDialog(
       context: context,
       builder: (context) => AlertDialog(
-          title: Text("New Symptom"),
+          title: Text("Edit Symptom"),
           content: Column(children: <Widget>[
             TextField(
                 controller: symptomController,
@@ -213,6 +208,41 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
               onPressed: () {
                 addSymptom(jwt, symptomController.text, severityController.text,
                     notesController.text);
+              },
+            )
+          ])));
+
+
+
+  Future openUpdateDialog(int id) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text("New Symptom"),
+          content: Column(children: <Widget>[
+            TextField(
+                controller: updateSymptomController,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.timer),
+                  labelText: 'Enter Symptom Name',
+                )),
+            TextField(
+                controller: updateSeverityController,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.timer),
+                  labelText: 'Enter severity',
+                )),
+            TextField(
+              controller: updateNotesController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.timer),
+                labelText: 'Enter notes here',
+              ),
+            ),
+            ElevatedButton(
+              child: Text('Edit Symptom'),
+              onPressed: () {
+                updateSymptom(id, jwt, updateSymptomController.text, updateSeverityController.text,
+                    updateNotesController.text);
               },
             )
           ])));
@@ -271,14 +301,18 @@ Future<void> addSymptom(
 // }
 
 // Not for M2
-Future<void> updateSymptom(int patientId, int symptomId) async {
+Future<void> updateSymptom(int symptomId, String token, String symptom, String severity, String note) async {
   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/updateSymptom");
-  var response = await http.post(url,
+  debugPrint("PRESSED");
+  var response = await http.put(url,
       headers: <String, String>{
         "Content-Type": "application/json",
       },
       body: jsonEncode(<String, dynamic>{
-        "name": symptomId,
-        "patientId": patientId,
+        "id": symptomId,
+        "name": symptom, //Change one to getId(token, context) when its working, //works when patientId is passed to it
+        "severity": severity,
+        "note": note,
       }));
+
 }
