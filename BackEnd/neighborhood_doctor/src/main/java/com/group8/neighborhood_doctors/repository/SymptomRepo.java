@@ -23,4 +23,7 @@ public interface SymptomRepo extends JpaRepository<Symptom, Integer> {
 
     @Query("SELECT s FROM Symptom s WHERE s.patientId=:patientId")
     public List<Symptom> findNameByPatientId(@Param("patientId") int patientId);
+
+    @Query("SELECT s FROM Symptom s WHERE s.patientId=:patientId")
+    public Symptom getById(@Param("id")int id);
 }

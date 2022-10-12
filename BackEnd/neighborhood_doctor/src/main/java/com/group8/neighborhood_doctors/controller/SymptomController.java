@@ -3,6 +3,7 @@ package com.group8.neighborhood_doctors.controller;
 import com.group8.neighborhood_doctors.symptom.Symptom;
 
 import com.group8.neighborhood_doctors.service.SymptomService;
+import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -65,4 +68,17 @@ public class SymptomController {
     public List<Symptom> retrieveSymtomName(@RequestBody Symptom symptom){
         return symptomService.retrieveSymtomName(symptom);
     }
+    
+    @RequestMapping(value="symptoms/retrieveAllSymptoms", method=RequestMethod.POST)
+    public String retrieveAllSymptoms(@RequestBody String token) {
+        JwtUtility util = new JwtUtility();
+
+        if (util.verifyToken(token)) {
+            String symptoms = symptomService.readSymptomsString();
+            return symptoms;
+        } else {
+            return "";
+        }
+    }
+
 }
