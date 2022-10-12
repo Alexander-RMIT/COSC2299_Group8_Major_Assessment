@@ -32,6 +32,7 @@ class PatientHealthInfoDoctorState extends State<PatientHealthInfoDoctor> {
 
     // Convert to list of maps
     //https://stackoverflow.com/questions/51601519/how-to-decode-json-in-flutter
+
     final entries = json.decode(response.body);
     List<dynamic> patients_dynamic = entries;
     int num_patients = patients_dynamic.length;

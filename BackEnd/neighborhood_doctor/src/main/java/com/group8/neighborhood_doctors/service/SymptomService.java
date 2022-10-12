@@ -1,7 +1,5 @@
 package com.group8.neighborhood_doctors.service;
 
-import com.google.gson.Gson;
-
 import com.group8.neighborhood_doctors.symptom.Symptom;
 import com.group8.neighborhood_doctors.repository.SymptomRepo;
 import com.group8.neighborhood_doctors.repository.PatientRepo;
@@ -10,10 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.io.Console;
-import java.util.HashMap;
 
 @Service
 public class SymptomService {
@@ -107,36 +102,4 @@ public class SymptomService {
             throw e;
         }
     }
-
-    public String readSymptomsString() {
-        List<Symptom> symptoms = symptomRepo.findAll();
-        // firstname    lastname    name/other  gender  age DoB
-        String strSymptoms = "[";
-
-        for (int i = 0; i < symptoms.size(); i++) {
-            Symptom curSymptom = symptoms.get(i);
-            // Format to be a map
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", curSymptom.getId());
-            map.put("name", curSymptom.getName());
-            map.put("patientId", curSymptom.getPatientId());
-            map.put("severity", curSymptom.getSeverity());
-            map.put("note", curSymptom.getNote());
-            Gson gson = new Gson();
-            String json = gson.toJson(map);
-
-
-            strSymptoms += json;
-
-            if (i != symptoms.size() - 1) {
-                strSymptoms += ", ";
-            }
-
-        }
-        strSymptoms += "]";
-
-        return strSymptoms;
-    }
-
-
 }
