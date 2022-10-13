@@ -183,7 +183,7 @@ public class PatientController {
     }
     
     @RequestMapping(value="patient/getId", method=RequestMethod.POST)
-    public int sessionPatientId(@RequestBody String token) {
+    public String sessionPatientId(@RequestBody String token) {
         JwtUtility util = new JwtUtility();
         if (util.verifyToken(token)) {
             String token_contents[] = token.split("\\.");
@@ -194,9 +194,9 @@ public class PatientController {
             int id = json.get("id").getAsInt();
             System.out.println("ID VALUE:" + id);
             
-            return id;
+            return patientService.retrievePatient(id);
         } else {
-            return 0;
+            return "";
         }
     }
     

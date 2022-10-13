@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:neighborhood_doctors/Model/SymptomModel.dart';
 import 'selectedSymptom.dart';
@@ -27,15 +29,26 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
   MedicationSymptomsPatientState(this.jwt, this.title);
 
   // Need to get this to find patient ID
-  // Future<String> getId(String jwt, BuildContext context) async {
-  //   Uri urlViewPatients = Uri.parse("http://10.0.2.2:8080/patient/getId");
-  //   // Return id for patient
-  //   var response = await http.post(urlViewPatients, body: jwt);
-  //   debugPrint("HERE");
-  //   String fin_response = jsonDecode(response.body);
-  //   debugPrint("HERE2");
-  //   return (fin_response);
-  // }
+  Future<String> getId(String jwt, BuildContext context) async {
+    Uri urlViewPatients = Uri.parse("http://10.0.2.2:8080/patient/getId");
+    // Return id for patient
+    var response = await http.post(urlViewPatients, body: jwt);
+    debugPrint("HERE");
+    String tempStr = response.body;
+    tempStr = tempStr.substring(1, tempStr.length-1);
+    final fin_response = json.decode(tempStr);
+    print(tempStr);
+    dynamic dyn_response = fin_response;
+    Map<String, dynamic> responseMap = dyn_response;
+    print(responseMap["id"].toString());
+    if(response.statusCode == 200){
+      return (responseMap["id"].toString()); //{"id": 1}
+    }
+    else{
+      return "";
+    }
+
+  }
 
   List<Map<String, dynamic>> symptoms = [
     {"name": ""}
@@ -43,7 +56,8 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
 
   Future<List<Map<String, dynamic>>> allSymptoms(
       String token, BuildContext context) async {
-    var patientId= 1;//await getId(token, context); //Change one to getId(token, context) when its working
+    var tempId = await getId(token, context);
+    var patientId= int.tryParse(tempId); // getId(token, context);//await getId(token, context); //Change one to getId(token, context) when its working
     symptoms.clear();
     Uri urlViewSymptoms =
     Uri.parse("http://10.0.2.2:8080/symptoms/retrieveAllSymptoms");
@@ -68,7 +82,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
     }
     List<Map<String, dynamic>> r = symptom_list;
 
-    var wait = await allPrescriptions(token, context);
+    var wait = await allPrescriptions(token, context, patientId);
     if (response.statusCode == 200) {
       symptoms = r;
       return r;
@@ -82,8 +96,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
     {"name": ""}
   ];
   Future<List<Map<String, dynamic>>> allPrescriptions(
-      String token, BuildContext context) async {
-    var patientId = 1; //await getId(token, context); //Change one to getId(token, context) when its working
+      String token, BuildContext context, int? patientId) async {
     prescriptions.clear();
     Uri urlViewPrescriptions =
     Uri.parse("http://10.0.2.2:8080/prescriptions/retrieveAllprescriptions");
@@ -274,7 +287,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
   Future openAddDialog() => showDialog(
       context: context,
       builder: (context) => AlertDialog(
-          title: Text("Edit Symptom"),
+          title: Text("Add Symptom"),
           content: Column(children: <Widget>[
             TextField(
                 controller: symptomController,
@@ -313,7 +326,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
   Future openUpdateDialog(int id) => showDialog(
       context: context,
       builder: (context) => AlertDialog(
-          title: Text("New Symptom"),
+          title: Text("Update Symptom"),
           content: Column(children: <Widget>[
             TextField(
                 controller: updateSymptomController,
@@ -383,18 +396,7 @@ Future<void> addSymptom(
         "note": notes,
       }));
 }
-//Not for M2
-// Future<void> deleteSymptom(int patientId, String symptom) async {
-//   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/deleteSymptom");
-//   var response = await http.post(url,
-//       headers: <String, String>{
-//         "Content-Type": "application/json",
-//       },
-//       body: jsonEncode(<String, dynamic>{
-//         "name": symptom,
-//         "patientId": patientId,
-//       }));
-// }
+
 
 // Not for M2
 Future<void> updateSymptom(int symptomId, String token, String symptom, String severity, String note) async {
