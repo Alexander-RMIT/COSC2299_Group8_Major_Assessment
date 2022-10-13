@@ -125,6 +125,7 @@ class AvailabilityState extends State<DoctorAvailability> {
   late Future<List<AvailabilityModel>> availabilityList;
   late List<AvailabilityModel> _availabilityList;
   final minimumPadding = 5.0;
+  int id = 1;
 
   final String jwt;
   AvailabilityState(this.jwt);
@@ -174,7 +175,7 @@ class AvailabilityState extends State<DoctorAvailability> {
 
     String formattedDate = DateFormat('yyyy-MM-dd').format(_focusedDay);
     for (AvailabilityModel model in _availabilityList) {
-      if (model.date == formattedDate && model.doctorId==1234567890) {
+      if (model.date == formattedDate && model.doctorId==id) {
         events.add(availabilityToEvent(model));
       }
     }
@@ -390,7 +391,7 @@ class AvailabilityState extends State<DoctorAvailability> {
                 String formattedStartTime = startTimeController.text;
                 String formattedEndTime = endTimeController.text;
 
-                createAvailability(1, 1234567890, formattedDate, 'Available',
+                createAvailability(1, id, formattedDate, 'Available',
                     formattedStartTime, formattedEndTime, context);
               },
             )
