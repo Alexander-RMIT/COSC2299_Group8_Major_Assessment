@@ -203,7 +203,15 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
                           )))
                               .toList(),
                         ),
+
                       ),
+
+                    ),
+                    ElevatedButton(
+                      child: Text('Add Symptom'),
+                      onPressed: () {
+                        openAddDialog();
+                      },
                     ),
                     const SizedBox(
                       height: 60,
@@ -251,12 +259,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
                         ),
                       ),
                     ),
-                    ElevatedButton(
-                      child: Text('Add Symptom'),
-                      onPressed: () {
-                        openAddDialog();
-                      },
-                    )
+
                   ],
                 ),
 
@@ -305,7 +308,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
       context: context,
       builder: (context) => AlertDialog(
           title: Text("Prescription Details"),
-          content: Text("This prescription is for " + Name + "\n" + description + "\nPrescribed On:" + date )));
+          content: Text("This prescription is for " + Name + "\n" + description + "\nPrescribed On: " + date )));
 
   Future openUpdateDialog(int id) => showDialog(
       context: context,
