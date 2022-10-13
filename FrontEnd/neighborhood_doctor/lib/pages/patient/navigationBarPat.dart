@@ -113,6 +113,14 @@ class NavBarLandingState extends State<NavigationBarLanding> {
               },
             ),
             ListTile(
+              title: Text('Schedule Appointment'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => ScheduleAppointment.Schedule(1)));
+              },
+            ),
+            ListTile(
                 title: Text('Sign out'),
                 onTap: () {
                   // Navigator.push(context,
