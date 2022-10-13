@@ -182,6 +182,22 @@ public class PatientController {
         }
     }
     
-    
+    @RequestMapping(value="patient/getId", method=RequestMethod.POST)
+    public int sessionPatientId(@RequestBody String token) {
+        JwtUtility util = new JwtUtility();
+        if (util.verifyToken(token)) {
+            String token_contents[] = token.split("\\.");
+            Base64.Decoder decode = Base64.getDecoder();
+            String payload = new String(decode.decode(token_contents[1].getBytes()));
+            JsonObject json = JsonParser.parseString(payload).getAsJsonObject();
+            System.out.println(json);
+            int id = json.get("id").getAsInt();
+            System.out.println("ID VALUE:" + id);
+            
+            return id;
+        } else {
+            return 0;
+        }
+    }
     
 }

@@ -87,5 +87,6 @@ public class SymptomController {
     public String retrieveAllSymptoms(@RequestBody int symptomId) {
         return symptomService.findSymptom(symptomId);
     }
+    
     }
 

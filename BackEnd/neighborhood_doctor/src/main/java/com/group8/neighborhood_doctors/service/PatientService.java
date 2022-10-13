@@ -141,6 +141,16 @@ public class PatientService {
             throw e;
         }
     }
+
+    @Transactional
+    public String retrieveId(int id) {
+        try {
+            Optional<Patient> patient = patientRepo.findById(id);
+            return patient.toString();
+        } catch (Exception e) {
+            throw e;
+        }
+    }
     
     /*
     Get all the patients from the database

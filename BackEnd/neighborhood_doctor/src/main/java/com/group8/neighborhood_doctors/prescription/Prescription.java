@@ -13,8 +13,10 @@ import javax.validation.constraints.NotNull;
 // patient id
 // description
 // medication id
-
+@Entity
+@Table(name = "Prescription")
 public class Prescription {
+    @Id
     private int id;
 
     private int patientId;
@@ -24,6 +26,10 @@ public class Prescription {
     private String description;
     @NotNull(message = "medicationId name cannot be null")
     private int medicationId;
+
+    @NotNull(message = "name must not be null")
+    private String name;
+
 
     public int getId() {
         return id;
@@ -42,10 +48,12 @@ public class Prescription {
     public void setPatientId(int patientId) {
         this.patientId = patientId;
     }
-
     public int getPatientId() {
         return patientId;
     }
+
+    public void setName(String name){this.name = name;}
+    public String getName(){return name;}
 
     @Override
     public String toString() {
@@ -53,6 +61,7 @@ public class Prescription {
                 "id=" + id +
                 ", patientId='" + patientId + '\'' +
                 ", medicationId='" + medicationId + '\'' +
+                ", name='" + name + '\'' +
                 ", date='" + date + '\'' +
                 ", description=" + description +
                 '}';
