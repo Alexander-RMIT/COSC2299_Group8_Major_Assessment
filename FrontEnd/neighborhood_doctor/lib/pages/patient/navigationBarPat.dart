@@ -5,6 +5,7 @@ import 'package:neighborhood_doctors/pages/patient/chatPat.dart';
 import 'package:neighborhood_doctors/Model/PatientModel.dart';
 import 'package:neighborhood_doctors/pages/patient/medicationSymtpomsPatView.dart';
 import 'package:neighborhood_doctors/pages/patient/patientHealthInfoPatView.dart';
+import 'package:neighborhood_doctors/pages/patient/scheduleAppointment.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
@@ -110,6 +111,14 @@ class NavBarLandingState extends State<NavigationBarLanding> {
                     MaterialPageRoute(
                         builder: (context) => MedicationSymptomsPatient(
                             title: 'Medication/Symptoms', jwt: jwt)));
+              },
+            ),
+            ListTile(
+              title: Text('Schedule Appointment'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => ScheduleAppointment.Schedule(1)));
               },
             ),
             ListTile(
