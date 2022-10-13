@@ -3,7 +3,6 @@ package com.group8.neighborhood_doctors.controller;
 import com.group8.neighborhood_doctors.prescription.Prescription;
 import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
-import com.group8.neighborhood_doctors.service.PatientService;
 import com.group8.neighborhood_doctors.service.PrescriptionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import java.util.Base64;
-import java.util.HashMap;
-
+/*
+    ===============================
+        Prescription Controller
+    ===============================
+*/
 
 @RestController
 public class PrescriptionController {

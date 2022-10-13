@@ -10,7 +10,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.io.Console;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
@@ -36,7 +35,7 @@ public class PrescriptionService {
                     return "[FAILED] Reason: Prescription already exists in the database.";
                 }
             } else {
-                return "[FAILED] Reason: Patient does not exist in the database.";
+                return "[FAILED] Reason: Prescription does not exist in the database.";
             }
         } catch (Exception e) {
             throw e;
