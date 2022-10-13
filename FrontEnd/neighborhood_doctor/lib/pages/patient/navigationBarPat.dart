@@ -5,6 +5,7 @@ import 'package:neighborhood_doctors/pages/patient/chatPat.dart';
 import 'package:neighborhood_doctors/Model/PatientModel.dart';
 import 'package:neighborhood_doctors/pages/patient/medicationSymtpomsPatView.dart';
 import 'package:neighborhood_doctors/pages/patient/patientHealthInfoPatView.dart';
+import 'package:neighborhood_doctors/pages/patient/scheduleAppointment.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
