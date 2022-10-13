@@ -2,9 +2,11 @@ package com.group8.neighborhood_doctors.administrator;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
+@Table(name = "administrator")
 public class Administrator {
     
     @Id

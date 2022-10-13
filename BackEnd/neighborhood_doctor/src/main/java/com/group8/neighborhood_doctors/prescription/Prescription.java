@@ -3,7 +3,6 @@ package com.group8.neighborhood_doctors.prescription;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 // id: int
 // date
