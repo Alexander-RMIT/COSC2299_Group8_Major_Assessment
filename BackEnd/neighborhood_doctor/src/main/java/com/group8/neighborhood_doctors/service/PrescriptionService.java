@@ -35,7 +35,7 @@ public class PrescriptionService {
                     return "[FAILED] Reason: Prescription already exists in the database.";
                 }
             } else {
-                return "[FAILED] Reason: Prescription does not exist in the database.";
+                return "[FAILED] Reason: Patient does not exist in the database.";
             }
         } catch (Exception e) {
             throw e;
