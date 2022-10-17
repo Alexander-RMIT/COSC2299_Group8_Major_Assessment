@@ -15,6 +15,7 @@
 	<description>Group8 sept assignment1 project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<log4j2.version>2.17.1</log4j2.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -106,6 +107,20 @@
 			<version>1.15</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>2.17.2</version>
+			<type>pom</type>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.17.2</version>
+		</dependency>
 
 	</dependencies>
 
