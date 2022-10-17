@@ -25,7 +25,8 @@ public class Chat {
 
     @NotNull(message = "userone id should not be empty")
     private int usertwo; // Patient id
-    
+    @NotNull(message = "sender cannot be null")
+    private String sender;
     public Chat() {
     }
 
@@ -49,6 +50,10 @@ public class Chat {
         return usertwo;
     }
 
+    public String getSender(){
+        return sender;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -69,6 +74,10 @@ public class Chat {
         this.usertwo = usertwo;
     }
 
+    public void setSender(String sender){
+        this.sender = sender;
+    }
+    
     @Override
     public String toString() {
         return "Chat{" +
@@ -77,6 +86,7 @@ public class Chat {
                 ", message='" + message + '\'' +
                 ", userone=" + userone +
                 ", usertwo=" + usertwo +
+                ", sender=" + sender +
                 '}';
     }
 }

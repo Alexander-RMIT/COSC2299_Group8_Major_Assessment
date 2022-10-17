@@ -1,14 +1,15 @@
 package com.group8.neighborhood_doctors.controller;
 
 import com.group8.neighborhood_doctors.chat.Chat;
+import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
 import com.group8.neighborhood_doctors.service.ChatService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.List;
 
@@ -47,5 +48,18 @@ public class ChatController {
     @RequestMapping(value = "chat/deleteChat", method = RequestMethod.DELETE)
     public String deleteChat(@RequestBody Chat chat){
         return chatService.deleteChat(chat);
+    }
+
+
+    @RequestMapping(value="chat/retrieveAllChats", method=RequestMethod.POST)
+    public String retrieveAllChats(@RequestBody String token) {
+        JwtUtility util = new JwtUtility();
+
+        if (util.verifyToken(token)) {
+            String chats = chatService.readChatsString();
+            return chats;
+        } else {
+            return "";
+        }
     }
 }
