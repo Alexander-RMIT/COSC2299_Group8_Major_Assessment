@@ -16,27 +16,38 @@
 * Discord : No link due to Discord invite link being expired in 24hrs.
 * Heroku BackEnd: https://neighborhood-doctors-backend.herokuapp.com/
 
+## System Requirements
+- Java JDK 11 (Recommanded) or above
+- Installed Maven (User Variable Path & System Variable Path)
+- Installed MySQL WorkBench 8.0 CE application
+- Installed Android Studio
+- Installed an emulator (Recommanded: Pixel XL API 31 with Android 12.0 | x86_64, storage: ≥1024MB)
+- Installed Postman (Optional)
+- Installed Docker
+- Installed VS Code or any other IDE
+- Have a MySQL database server running on your local machine (Port: 3306, username: root, password: root)
+- Have a schema named "neighborhood_doctors" created in your MySQL database server
+
 ## How to run?
 * Method 1 - Original
 1. Clone the repository
 2. Switch to the `feature` branch
 3. Open folder Backend/neighborhood_doctor in VS Code and run the backend
-4. Open Android Studio and create an emulator (Recommanded: Pixel XL API 31 with Android 12.0 | x86_64)
-5. Ensure that your emulator has enough internal storage (Recommanded: ≥1024MB)
-6. Ensure that you have a MySQL database running on your local machine (Port: 3306, schema: neighborhood_doctors, username: root, password: root)
-7. Run the app on the emulator in Android Studio
-8. Run backend application in VS Code
-9. Enjoy the app!
+4. Open Android Studio and create an emulator
+5. Run the app on the emulator in Android Studio
+6. Run backend application in VS Code
+7. Enjoy the app!
 
 * Method 2 - Docker
-1. Do step 1 to 7 from Method 1
+1. Do step 1 to 5 from Method 1
 2. In VS Code, open the terminal and type `mvn clean install` (Make sure you have Maven installed)
 3. Open CMD as administrator
 4. (CMD as Admin) Run `cd <Your_directory>/COSC2299_Group8_Major_Assessment/Backend/neighborhood_doctor` to go to the backend folder
 5. (CMD as Admin) Run `docker network create spring-net` to create a network bridge 
 6. (CMD as Admin) Run `docker-compose build` to build the docker image, MySQL database and the backend application
-7. (CMD as Admin) Run `docker-compose up` to run the docker image to two different containers
-8. Enjoy the app!
+7. Before running the images to the containers, make sure your port 3306 is not occupied by any other applications
+8. (CMD as Admin) Run `docker-compose up` to run the docker image to two different containers
+9. Enjoy the app!
 
 ## Code documentation - v0.1.0 - Sept 20th, 2022
 * Users are welcomed personally upon logging into the application
