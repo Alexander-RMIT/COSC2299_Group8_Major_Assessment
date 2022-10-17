@@ -124,6 +124,15 @@ public class AdminService {
         }
     }
 
+    public Optional<Administrator> find(int id) throws Exception {
+        if (adminRepo.existsById(id)) {
+            return adminRepo.findById(id);
+        }
+        else {
+            throw new Exception("[FAILED] Account ID:{" + id + "} does not exist");
+        }
+    }
+
     /*
     Get all the admins from the database
     */

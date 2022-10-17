@@ -195,4 +195,13 @@ public class DoctorService {
             return "doctor not in database, try again";
         }
     }
+
+    public Optional<Doctor> find(int id) throws Exception {
+        if (doctorRepo.existsById(id)) {
+            return doctorRepo.findById(id);
+        }
+        else {
+            throw new Exception("[FAILED] Account ID:{" + id + "} does not exist");
+        }
+    }
 }
