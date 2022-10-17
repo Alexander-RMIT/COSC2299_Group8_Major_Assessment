@@ -1,6 +1,3 @@
-
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:neighborhood_doctors/Model/SymptomModel.dart';
 import 'selectedSymptom.dart';
@@ -36,19 +33,17 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
     var response = await http.post(urlViewPatients, body: jwt);
     debugPrint("HERE");
     String tempStr = response.body;
-    tempStr = tempStr.substring(1, tempStr.length-1);
+    tempStr = tempStr.substring(1, tempStr.length - 1);
     final fin_response = json.decode(tempStr);
     print(tempStr);
     dynamic dyn_response = fin_response;
     Map<String, dynamic> responseMap = dyn_response;
     print(responseMap["id"].toString());
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       return (responseMap["id"].toString()); //{"id": 1}
-    }
-    else{
+    } else {
       return "";
     }
-
   }
 
   List<Map<String, dynamic>> symptoms = [
@@ -58,10 +53,11 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
   Future<List<Map<String, dynamic>>> allSymptoms(
       String token, BuildContext context) async {
     var tempId = await getId(token, context);
-    var patientId= int.tryParse(tempId); // getId(token, context);//await getId(token, context); //Change one to getId(token, context) when its working
+    var patientId = int.tryParse(
+        tempId); // getId(token, context);//await getId(token, context); //Change one to getId(token, context) when its working
     symptoms.clear();
     Uri urlViewSymptoms =
-    Uri.parse("http://10.0.2.2:8080/symptoms/retrieveAllSymptoms");
+        Uri.parse("http://10.0.2.2:8080/symptoms/retrieveAllSymptoms");
     // Return list in json format
     var response = await http.post(urlViewSymptoms, body: token);
     debugPrint(response.body);
@@ -77,7 +73,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
     symptom_list.clear();
     for (int i = 0; i < num_symptoms; i++) {
       Map<String, dynamic> cur = symptoms_dynamic[i];
-      if(cur["patientId"] == patientId) {
+      if (cur["patientId"] == patientId) {
         symptom_list.add(cur);
       }
     }
@@ -90,17 +86,16 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
     } else {
       return r;
     }
-
-
   }
+
   List<Map<String, dynamic>> prescriptions = [
     {"name": ""}
   ];
   Future<List<Map<String, dynamic>>> allPrescriptions(
       String token, BuildContext context, int? patientId) async {
     prescriptions.clear();
-    Uri urlViewPrescriptions =
-    Uri.parse("http://10.0.2.2:8080/prescriptions/retrieveAllprescriptions");
+    Uri urlViewPrescriptions = Uri.parse(
+        "http://10.0.2.2:8080/prescriptions/retrieveAllprescriptions");
     var response = await http.post(urlViewPrescriptions, body: token);
 
     debugPrint(response.body);
@@ -127,7 +122,6 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
       return p;
     }
   }
-
 
   late List<SymptomModel> _symptomList;
 
@@ -184,42 +178,39 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
                             DataColumn(
                               label: Expanded(
                                   child: Text(
-                                    'Name',
-                                    style: TextStyle(fontStyle: FontStyle.italic),
-                                  )),
+                                'Name',
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              )),
                             ),
                             DataColumn(
                               label: Expanded(
                                   child: Text(
-                                    'Severity',
-                                    style: TextStyle(fontStyle: FontStyle.italic),
-                                  )),
+                                'Severity',
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              )),
                             ),
                             DataColumn(
                               label: Expanded(
                                   child: Text(
-                                    'Note',
-                                    style: TextStyle(fontStyle: FontStyle.italic),
-                                  )),
+                                'Note',
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              )),
                             )
                           ],
                           showCheckboxColumn: false,
                           rows: symptoms
                               .map(((element) => DataRow(
-                            cells: <DataCell>[
-                              DataCell(Text(element["name"])),
-                              DataCell(Text(element["severity"])),
-                              DataCell(Text(element["note"])),
-                            ],
-                            onSelectChanged: (value) {
-                              openUpdateDialog(element["id"]);
-                            }
-                          )))
+                                      cells: <DataCell>[
+                                        DataCell(Text(element["name"])),
+                                        DataCell(Text(element["severity"])),
+                                        DataCell(Text(element["note"])),
+                                      ],
+                                      onSelectChanged: (value) {
+                                        openUpdateDialog(element["id"]);
+                                      })))
                               .toList(),
                         ),
-
                       ),
-
                     ),
                     ElevatedButton(
                       child: Text('Add Symptom'),
@@ -238,51 +229,49 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
                             DataColumn(
                               label: Expanded(
                                   child: Text(
-                                    'Name',
-                                    style: TextStyle(fontStyle: FontStyle.italic),
-                                  )),
+                                'Name',
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              )),
                             ),
                             DataColumn(
                               label: Expanded(
                                   child: Text(
-                                    'Prescribed on',
-                                    style: TextStyle(fontStyle: FontStyle.italic),
-                                  )),
+                                'Prescribed on',
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              )),
                             ),
                             DataColumn(
                               label: Expanded(
                                   child: Text(
-                                    'Description',
-                                    style: TextStyle(fontStyle: FontStyle.italic),
-                                  )),
+                                'Description',
+                                style: TextStyle(fontStyle: FontStyle.italic),
+                              )),
                             )
                           ],
                           showCheckboxColumn: false,
                           rows: prescriptions
                               .map(((element) => DataRow(
-                              cells: <DataCell>[
-                                DataCell(Text(element["name"])),
-                                DataCell(Text(element["date"])),
-                                DataCell(Text(element["description"])),
-                              ],
-                              onSelectChanged: (value) {
-                                openInfoDialog(element["date"], element["description"], element["name"]);
-                              }
-                          )))
+                                      cells: <DataCell>[
+                                        DataCell(Text(element["name"])),
+                                        DataCell(Text(element["date"])),
+                                        DataCell(Text(element["description"])),
+                                      ],
+                                      onSelectChanged: (value) {
+                                        openInfoDialog(
+                                            element["date"],
+                                            element["description"],
+                                            element["name"]);
+                                      })))
                               .toList(),
                         ),
                       ),
                     ),
-
                   ],
                 ),
-
               ),
-
             );
           },
         ));
-
   }
 
   Future openAddDialog() => showDialog(
@@ -318,11 +307,18 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
             )
           ])));
 
-  Future openInfoDialog(String date, String description, String Name) => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-          title: Text("Prescription Details"),
-          content: Text("This prescription is for " + Name + "\n" + description + "\nPrescribed On: " + date )));
+  Future openInfoDialog(
+          String date, String description, String Name) =>
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+              title: Text("Prescription Details"),
+              content: Text("This prescription is for " +
+                  Name +
+                  "\n" +
+                  description +
+                  "\nPrescribed On: " +
+                  date)));
 
   Future openUpdateDialog(int id) => showDialog(
       context: context,
@@ -351,8 +347,8 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
             ElevatedButton(
               child: Text('Edit Symptom'),
               onPressed: () {
-                updateSymptom(id, jwt, updateSymptomController.text, updateSeverityController.text,
-                    updateNotesController.text);
+                updateSymptom(id, jwt, updateSymptomController.text,
+                    updateSeverityController.text, updateNotesController.text);
               },
             )
           ])));
@@ -392,15 +388,16 @@ Future<void> addSymptom(
       },
       body: jsonEncode(<String, dynamic>{
         "name": symptom,
-        "patientId": 1, //Change one to getId(token, context) when its working, //works when patientId is passed to it
+        "patientId":
+            1, //Change one to getId(token, context) when its working, //works when patientId is passed to it
         "severity": severity,
         "note": notes,
       }));
 }
 
-
 // Not for M2
-Future<void> updateSymptom(int symptomId, String token, String symptom, String severity, String note) async {
+Future<void> updateSymptom(int symptomId, String token, String symptom,
+    String severity, String note) async {
   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/updateSymptom");
   debugPrint("PRESSED");
   var response = await http.put(url,
@@ -409,9 +406,9 @@ Future<void> updateSymptom(int symptomId, String token, String symptom, String s
       },
       body: jsonEncode(<String, dynamic>{
         "id": symptomId,
-        "name": symptom, //Change one to getId(token, context) when its working, //works when patientId is passed to it
+        "name":
+            symptom, //Change one to getId(token, context) when its working, //works when patientId is passed to it
         "severity": severity,
         "note": note,
       }));
-
 }
