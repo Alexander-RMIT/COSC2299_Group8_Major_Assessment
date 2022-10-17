@@ -132,4 +132,13 @@ public class DoctorService {
             throw e;
         }
     }
+
+    public Optional<Doctor> find(int id) throws Exception {
+        if (doctorRepo.existsById(id)) {
+            return doctorRepo.findById(id);
+        }
+        else {
+            throw new Exception("[FAILED] Account ID:{" + id + "} does not exist");
+        }
+    }
 }
