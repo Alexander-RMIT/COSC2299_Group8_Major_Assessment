@@ -25,4 +25,7 @@ public interface AdministratorRepo extends JpaRepository<Administrator, Integer>
     
     @Query("SELECT s.username FROM Administrator s WHERE s.id=:id")
     public String findUsernameById(@Param("id") int id);
+
+    @Query("SELECT s FROM Administrator s WHERE s.id=:id")
+    public Administrator getById(@Param("id")int id);
 }

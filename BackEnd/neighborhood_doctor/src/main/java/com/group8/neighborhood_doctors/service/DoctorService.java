@@ -1,5 +1,7 @@
 package com.group8.neighborhood_doctors.service;
 
+import com.google.gson.Gson;
+
 import com.group8.neighborhood_doctors.doctor.Doctor;
 import com.group8.neighborhood_doctors.repository.DoctorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
+import java.util.HashMap;
 @Service
 public class DoctorService {
     @Autowired
@@ -130,6 +133,66 @@ public class DoctorService {
             return fname;
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    /*
+    Get all the doctors from the database
+    */
+    public String readDoctorsString() {
+        List<Doctor> doctors = doctorRepo.findAll();
+        // username    password    email   
+        String strDoctors = "[";
+
+        for (int i = 0; i < doctors.size(); i++) {
+            Doctor curDoctor = doctors.get(i);
+            // Format to be a map
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", curDoctor.getId());
+            map.put("firstname", curDoctor.getFirstname());
+            map.put("lastname", curDoctor.getLastname());
+            map.put("email", curDoctor.getEmail());
+            map.put("password", curDoctor.getPassword());
+            Gson gson = new Gson();
+            String json = gson.toJson(map);
+            
+
+            strDoctors += json;
+            
+            if (i != doctors.size() - 1) {
+                strDoctors += ", ";
+            }
+            
+        }
+        strDoctors += "]";
+
+        return strDoctors;
+    }
+
+    /*
+     * Retrieving Doctor by their id
+     */
+    @Transactional 
+    public String retrieveDoctor(int id) {
+        if (doctorRepo.existsById(id)) {
+            String doctor = "[";
+            Doctor d = doctorRepo.getById(id);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", d.getId());
+            map.put("firstname", d.getFirstname());
+            map.put("lastname", d.getLastname());
+            map.put("email", d.getEmail());
+            map.put("password", d.getPassword());
+            Gson gson = new Gson();
+            String json = gson.toJson(map);
+            
+            doctor += json;
+            doctor += "]";
+            return doctor;
+
+        } else {
+            return "doctor not in database, try again";
         }
     }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:neighborhood_doctors/pages/admin/createUser.dart';
-import 'package:neighborhood_doctors/pages/admin/createAdmin.dart';
+import 'package:neighborhood_doctors/pages/admin/editUser.dart';
+import 'package:neighborhood_doctors/pages/admin/viewAdmin.dart';
 import 'package:http/http.dart' as http;
 import 'dart:ui' as ui;
+
+import 'package:neighborhood_doctors/pages/admin/viewUser.dart';
 
 class NavigationBarAdmin extends StatefulWidget{
   final String jwt;
@@ -84,6 +87,22 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
                 Navigator.push(context,
                     MaterialPageRoute(
                         builder: (context) => CreateUser(title: 'Create User', jwt: jwt)));
+              },
+            ),
+            // ListTile(
+            //   title: Text('Edit User'),
+            //   onTap: () {
+            //     Navigator.push(context,
+            //         MaterialPageRoute(
+            //             builder: (context) => EditUser(title: 'Edit User', jwt: jwt)));
+            //   },
+            // ),
+            ListTile(
+              title: Text('View User'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewUser(title: 'View User', jwt: jwt)));
               },
             ),
             ListTile(

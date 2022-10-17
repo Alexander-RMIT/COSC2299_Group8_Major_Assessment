@@ -143,4 +143,29 @@ public class DoctorController {
             return "";
         }
     }
+
+    @RequestMapping(value="doctor/retrieveAllDoctors", method=RequestMethod.POST)
+    public String retrieveAllPatients(@RequestBody String token) {
+        JwtUtility util = new JwtUtility();
+
+        if (util.verifyToken(token)) {
+            String patients = doctorService.readDoctorsString();
+            return patients;
+        } else {
+            return "";
+        }
+    }
+
+
+    @RequestMapping(value="doctor/retrieveDoctor", method=RequestMethod.GET)
+    public String retrievePatient(@RequestBody String token, int id) {
+        JwtUtility util = new JwtUtility();
+
+        if (util.verifyToken(token)) {
+            String patient = doctorService.retrieveDoctor(id);
+            return patient;
+        } else {
+            return "";
+        }
+    }
 }

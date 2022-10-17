@@ -1,5 +1,7 @@
 package com.group8.neighborhood_doctors.service;
 
+import com.google.gson.Gson;
+
 import com.group8.neighborhood_doctors.administrator.Administrator;
 import com.group8.neighborhood_doctors.repository.AdministratorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.HashMap;
+
 
 @Service
 public class AdminService {
@@ -116,6 +121,64 @@ public class AdminService {
             return uname;
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    /*
+    Get all the admins from the database
+    */
+    public String readAdminsString() {
+        List<Administrator> admins = adminRepo.findAll();
+        // username    password    email   
+        String strAdmins = "[";
+
+        for (int i = 0; i < admins.size(); i++) {
+            Administrator curAdmin = admins.get(i);
+            // Format to be a map
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", curAdmin.getId());
+            map.put("username", curAdmin.getUsername());
+            map.put("password", curAdmin.getPassword());
+            map.put("email", curAdmin.getEmail());
+            Gson gson = new Gson();
+            String json = gson.toJson(map);
+            
+
+            strAdmins += json;
+            
+            if (i != admins.size() - 1) {
+                strAdmins += ", ";
+            }
+            
+        }
+        strAdmins += "]";
+
+        return strAdmins;
+    }
+
+    /*
+     * Retrieving Admin by their id
+     */
+    @Transactional 
+    public String retrieveAdmin(int id) {
+        if (adminRepo.existsById(id)) {
+            String admin = "[";
+            Administrator a = adminRepo.getById(id);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", a.getId());
+            map.put("username", a.getUsername());
+            map.put("password", a.getPassword());
+            map.put("email", a.getEmail());
+            Gson gson = new Gson();
+            String json = gson.toJson(map);
+            
+            admin += json;
+            admin += "]";
+            return admin;
+
+        } else {
+            return "admin not in database, try again";
         }
     }
 }

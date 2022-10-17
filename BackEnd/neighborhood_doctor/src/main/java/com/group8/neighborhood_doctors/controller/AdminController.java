@@ -142,4 +142,29 @@ public class AdminController {
             return "";
         }
     }
+
+    @RequestMapping(value="admin/retrieveAllAdmins", method=RequestMethod.POST)
+    public String retrieveAllPatients(@RequestBody String token) {
+        JwtUtility util = new JwtUtility();
+
+        if (util.verifyToken(token)) {
+            String patients = adminService.readAdminsString();
+            return patients;
+        } else {
+            return "";
+        }
+    }
+
+
+    @RequestMapping(value="admin/retrieveAdmin", method=RequestMethod.GET)
+    public String retrievePatient(@RequestBody String token, int id) {
+        JwtUtility util = new JwtUtility();
+
+        if (util.verifyToken(token)) {
+            String patient = adminService.retrieveAdmin(id);
+            return patient;
+        } else {
+            return "";
+        }
+    }
 }

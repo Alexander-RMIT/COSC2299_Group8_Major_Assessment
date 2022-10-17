@@ -26,4 +26,7 @@ public interface DoctorRepo extends JpaRepository<Doctor, Integer> {
     
     @Query("SELECT s.firstname FROM Doctor s WHERE s.id=:id")
     public String findNameById(@Param("id") int id);
+
+    @Query("SELECT s FROM Doctor s WHERE s.id=:id")
+    public Doctor getById(@Param("id")int id);
 }
