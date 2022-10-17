@@ -8,6 +8,8 @@ import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
 import com.group8.neighborhood_doctors.service.AdminService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,8 @@ import static com.group8.neighborhood_doctors.jwt.SecurityConstant.TOKEN_PREFIX;
 @RestController
 public class AdminController {
 
+    private static final Logger logger = LogManager.getLogger(AdminController.class);
+
     @Autowired
     private AdminService adminService;
 
@@ -47,6 +51,7 @@ public class AdminController {
      */
     @RequestMapping(value = "admin/createAdmin", method = RequestMethod.POST)
     public String createAdmin(@RequestBody Administrator admin) {
+        logger.info("Creating a new administrator");
         return adminService.createAdmin(admin);
     }
 
@@ -55,6 +60,7 @@ public class AdminController {
      */
     @RequestMapping(value = "admin/readAdmins", method = RequestMethod.GET)
     public List<Administrator> readAdmins() {
+        logger.info("Reading all administrators");
         return adminService.readAdmins();
     }
 
@@ -64,6 +70,7 @@ public class AdminController {
      */
     @RequestMapping(value = "admin/updateAdmin", method = RequestMethod.PUT)
     public String updateAdmin(@RequestBody Administrator admin) {
+        logger.info("Updating information for a given administrators");
         return adminService.updateAdmin(admin);
     }
 
@@ -73,6 +80,7 @@ public class AdminController {
      */
     @RequestMapping(value = "admin/deleteAdmin", method = RequestMethod.DELETE)
     public String deleteAdmin(@RequestBody Administrator admin) {
+        logger.info("Deleting a given administrator");
         return adminService.deleteAdmin(admin);
     }
 
@@ -81,9 +89,10 @@ public class AdminController {
      */
     @RequestMapping(value = "auth/admin/login", method = RequestMethod.POST)
     public String loginAdmin(@RequestBody Administrator admin) {
-        // return adminService.findAdmin(admin);
+        logger.info("Logging in an administrator");
 
         if (adminService.findAdmin(admin) == "Incorrect login credentials entered") {
+            logger.error("Incorrect login credentials entered");
             return "Incorrect login credentials entered";
         }
 

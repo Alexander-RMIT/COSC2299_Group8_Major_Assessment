@@ -2,6 +2,8 @@ package com.group8.neighborhood_doctors.service;
 
 import com.google.gson.Gson;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.group8.neighborhood_doctors.administrator.Administrator;
 import com.group8.neighborhood_doctors.repository.AdministratorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ import java.util.HashMap;
 
 @Service
 public class AdminService {
+
+    private static final Logger logger = LogManager.getLogger(AdminService.class);
+
     @Autowired
     private AdministratorRepo adminRepo;
 
@@ -23,13 +28,22 @@ public class AdminService {
     public String createAdmin(Administrator admin){
         try {
             if (!adminRepo.existsByUsername(admin.getUsername())) {
+                logger.info("Adding " + admin.getUsername() + " information to the database");
                 admin.setId(null == adminRepo.findMaxId()? 1 : adminRepo.findMaxId() + 1);
                 adminRepo.save(admin);
+
+                logger.info("Email: " + admin.getEmail() + " [Saved]");
+                logger.info("Username: " + admin.getUsername() + " [Saved]");
+                logger.info("Password: " + admin.getPassword() + " [Saved]");
+                logger.info("Successfully added " + admin.getUsername() + " to the database");
+
                 return "[SUCCESS] Admin record created successfully.";
             } else {
+                logger.error("Username " + admin.getUsername() + " already exists in the database");
                 return "[FAILED] Reason: Admin already exists in the database.";
             }
         } catch (Exception e) {
+            logger.fatal("Something is not right when adding a new admin to the database");
             throw e;
         }
     }
