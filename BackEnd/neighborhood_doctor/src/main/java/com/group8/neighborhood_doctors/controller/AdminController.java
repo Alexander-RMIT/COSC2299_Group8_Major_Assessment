@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static com.group8.neighborhood_doctors.jwt.SecurityConstant.TOKEN_PREFIX;
 // import org.json.simple.JSONObject;
@@ -141,5 +142,13 @@ public class AdminController {
         } else {
             return "";
         }
+    }
+
+    /*
+     * [GET] Get Administrator Details by ID
+     */
+    @RequestMapping(value = "admin/details", method = RequestMethod.GET)
+    public Optional<Administrator> sessionAdminDetails(@RequestBody Administrator administrator) throws Exception {
+        return adminService.find(administrator.getId());
     }
 }
