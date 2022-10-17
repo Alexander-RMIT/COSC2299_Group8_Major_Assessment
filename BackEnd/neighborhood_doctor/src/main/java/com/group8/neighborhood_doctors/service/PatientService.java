@@ -215,4 +215,13 @@ public class PatientService {
             return "patient not in database, try again";
         }
     }
+
+    public Optional<Patient> find(int id) throws Exception {
+        if (patientRepo.existsById(id)) {
+            return patientRepo.findById(id);
+        }
+        else {
+            throw new Exception("[FAILED] Account ID:{" + id + "} does not exist");
+        }
+    }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static com.group8.neighborhood_doctors.jwt.SecurityConstant.TOKEN_PREFIX;
 
@@ -200,4 +201,11 @@ public class PatientController {
         }
     }
     
+    /*
+     * [GET] Get Patient Details by ID
+     */
+    @RequestMapping(value = "patient/details", method = RequestMethod.GET)
+    public Optional<Patient> sessionAdminDetails(@RequestBody Patient patient) throws Exception {
+        return patientService.find(patient.getId());
+    }
 }
