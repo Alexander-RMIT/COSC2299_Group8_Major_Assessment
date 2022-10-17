@@ -7,8 +7,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:neighborhood_doctors/pages/patient/selectedSymptom.dart';
 
-// https://flutterawesome.com/login-ui-made-with-flutter/
-// https://github.com/hawier-dev/flutter-login-ui/blob/main/lib/main.dart
+
 
 class MedicationSymptomsPatient extends StatefulWidget {
   const MedicationSymptomsPatient(
@@ -148,6 +147,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
 
   @override
   Widget build(BuildContext context) {
+
     //read all symptoms into symptoms
     return Scaffold(
         appBar: AppBar(title: Text('Neighborhood Doctors Pages')),

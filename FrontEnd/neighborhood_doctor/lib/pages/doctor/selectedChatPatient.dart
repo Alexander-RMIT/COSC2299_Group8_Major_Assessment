@@ -24,7 +24,6 @@ List<Map<String, dynamic>> chats = [
 
 Future<List<Map<String, dynamic>>> getChats(
     int patID, String token, BuildContext context) async {
-  // getId(token, context);//await getId(token, context); //Change one to getId(token, context) when its working
   chats.clear();
   Uri urlViewSymptoms =
       Uri.parse("http://10.0.2.2:8080/chat/retrieveAllChats");
@@ -73,7 +72,6 @@ Future<void> createChat(String message, String sender, int patID) async{
   print(patID.toString());
 }
 
-
 class SelectedPatientChatState extends State<SelectedPatientChat> {
   final _formKey = GlobalKey<FormState>();
 
@@ -105,12 +103,12 @@ class SelectedPatientChatState extends State<SelectedPatientChat> {
                                 hintText: 'Send Chat',
                                 suffixIcon: IconButton(
                                   icon: Icon(Icons.send),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     createChat(chatMessageController.text, "Doctor", patID);
                                     chatMessageController.clear();
-                                    setState(() {
+                                    await new Future.delayed((const Duration(milliseconds: 1)));
+                                    setState(() {});
 
-                                    });
                                     },
                                 )
                               ),
