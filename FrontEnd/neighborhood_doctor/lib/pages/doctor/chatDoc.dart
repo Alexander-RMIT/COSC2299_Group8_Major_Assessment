@@ -1,89 +1,163 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ChatDoctor extends StatefulWidget {
-  const ChatDoctor({Key? key, required this.jwt, required this.title})
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:neighborhood_doctors/pages/doctor/selectedChatPatient.dart';
+import 'package:neighborhood_doctors/pages/doctor/selectedPatient.dart';
+
+class chatDoctor extends StatefulWidget {
+  const chatDoctor({Key? key, required this.title, required this.jwt})
       : super(key: key);
-  final String jwt;
   final String title;
+  final String jwt;
+  //PatientHealthInfoDoctor(this.title, this.jwt);
   @override
-  State<ChatDoctor> createState() {
-    return ChatDoctorState(this.jwt, this.title);
+  State<StatefulWidget> createState() {
+    return ChatDoctorState(this.jwt);
   }
 }
 
-class ChatDoctorState extends State<ChatDoctor> {
+class ChatDoctorState extends State<chatDoctor> {
   final _formKey = GlobalKey<FormState>();
-
   final String jwt;
-  final String title;
-  ChatDoctorState(this.jwt, this.title);
+  ChatDoctorState(this.jwt);
 
-  TextEditingController messageController = TextEditingController();
-  TextEditingController usertwoController = TextEditingController();
+  List<Map<String, dynamic>> patients = [
+    {"firstname": ""}
+  ];
+  Future<List<Map<String, dynamic>>> allPatients(
+      String jwt, BuildContext context) async {
+    patients.clear();
+    Uri urlViewPatients =
+        Uri.parse("http://10.0.2.2:8080/patient/retrieveAllPatients");
+    // Return list in json format
+    var response = await http.post(urlViewPatients, body: jwt);
+
+    // Convert to list of maps
+    //https://stackoverflow.com/questions/51601519/how-to-decode-json-in-flutter
+
+    final entries = json.decode(response.body);
+    List<dynamic> patients_dynamic = entries;
+    int num_patients = patients_dynamic.length;
+
+    List<Map<String, dynamic>> patient_list = [
+      {"message": ""}
+    ];
+    patient_list.clear();
+    for (int i = 0; i < num_patients; i++) {
+      Map<String, dynamic> cur = patients_dynamic[i];
+      patient_list.add(cur);
+    }
+    List<Map<String, dynamic>> r = patient_list;
+    if (response.statusCode == 200) {
+      patients = r;
+      return r;
+    } else {
+      return r;
+    }
+  }
+
+  TextEditingController searchBarController = TextEditingController();
+  String searchResult = "";
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton(
-                child: Text('Create Chat'),
-                onPressed: () {
-                  openChatDialog();
-                },
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future openChatDialog() => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-          title: Text("New Chat"),
-          content: Column(children: <Widget>[
-            TextField(
-                controller: messageController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.timer),
-                  labelText: 'Enter Message',
-                )),
-            TextField(
-              controller: usertwoController,
-              decoration: InputDecoration(
-                icon: Icon(Icons.timer),
-                labelText: 'Enter patientId',
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: allPatients(jwt, context),
+        builder: (jwt, context) {
+          return Container(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    'Select a patient to chat',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  Form(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: DataTable(
+                        columns: const <DataColumn>[
+                          DataColumn(
+                            label: Expanded(
+                                child: Text(
+                              'Firstname',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            )),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                                child: Text(
+                              'Lastname',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            )),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                                child: Text(
+                              'Name/other',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            )),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                                child: Text(
+                              'Gender',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            )),
+                          ),
+                          DataColumn(
+                            label: Expanded(
+                                child: Text(
+                              'Age',
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                            )),
+                          ),
+                        ],
+                        showCheckboxColumn: false,
+                        rows: patients
+                            .map(((element) => DataRow(
+                                    cells: <DataCell>[
+                                      DataCell(Text(element["firstname"])),
+                                      DataCell(Text(element["lastname"])),
+                                      DataCell(Text(element["nameother"])),
+                                      DataCell(Text(element["gender"])),
+                                      DataCell(Text(element["age"].toString()))
+                                    ],
+                                    onSelectChanged: (value) {
+                                      Navigator.push(
+                                          this.context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SelectedPatientChat(
+                                                      jwt: this.jwt,
+                                                      patID: element["id"])));
+                                      // Retrieve elements details and open patient health info specific to patient
+                                      print(element["firstname"] +
+                                          " has been pressed");
+                                    })))
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            ElevatedButton(
-              child: Text('Send Chat'),
-              onPressed: () {
-                createChat(messageController.text, jwt,
-                    int.parse(usertwoController.text));
-              },
-            )
-          ])));
-
-  Future<void> createChat(String message, String user1token, int user2) async {
-    Uri url = Uri.parse("http://10.0.2.2:8080/chat/createChat");
-    var response = await http.post(url,
-        headers: <String, String>{
-          "Content-Type": "application/json",
+          );
         },
-        body: jsonEncode(<String, dynamic>{
-          "message": message,
-          "userone": user1token,
-          "usertwo": user2
-        }));
+      ),
+    );
   }
 }

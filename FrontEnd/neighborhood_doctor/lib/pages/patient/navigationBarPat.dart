@@ -90,7 +90,7 @@ class NavBarLandingState extends State<NavigationBarLanding> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ChatPatient(title: 'Chat', jwt: jwt)));
+                            chatPatient(title: 'Chat', jwt: jwt)));
               },
             ),
             ListTile(

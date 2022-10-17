@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:neighborhood_doctors/Model/SymptomModel.dart';
+import 'package:neighborhood_doctors/pages/patient/chatPat.dart';
 import 'selectedSymptom.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:neighborhood_doctors/pages/patient/selectedSymptom.dart';
 
-// https://flutterawesome.com/login-ui-made-with-flutter/
-// https://github.com/hawier-dev/flutter-login-ui/blob/main/lib/main.dart
+
 
 class MedicationSymptomsPatient extends StatefulWidget {
   const MedicationSymptomsPatient(
@@ -27,11 +27,10 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
   MedicationSymptomsPatientState(this.jwt, this.title);
 
   // Need to get this to find patient ID
-  Future<String> getId(String jwt, BuildContext context) async {
+  Future<String> getId(String jwt) async {
     Uri urlViewPatients = Uri.parse("http://10.0.2.2:8080/patient/getId");
     // Return id for patient
     var response = await http.post(urlViewPatients, body: jwt);
-    debugPrint("HERE");
     String tempStr = response.body;
     tempStr = tempStr.substring(1, tempStr.length - 1);
     final fin_response = json.decode(tempStr);
@@ -50,11 +49,13 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
     {"name": ""}
   ];
 
+
+
   Future<List<Map<String, dynamic>>> allSymptoms(
       String token, BuildContext context) async {
-    var tempId = await getId(token, context);
+    var tempId = await getId(token);
     var patientId = int.tryParse(
-        tempId); // getId(token, context);//await getId(token, context); //Change one to getId(token, context) when its working
+        tempId); //
     symptoms.clear();
     Uri urlViewSymptoms =
         Uri.parse("http://10.0.2.2:8080/symptoms/retrieveAllSymptoms");
@@ -146,12 +147,13 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
 
   @override
   Widget build(BuildContext context) {
+
     //read all symptoms into symptoms
     return Scaffold(
         appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: FutureBuilder<List<Map<String, dynamic>>>(
-          future: allSymptoms(jwt, context),
+        body: FutureBuilder<List<List<Map<String, dynamic>>>>(
+          future: Future.wait([allSymptoms(jwt, context)]),
           builder: (jwt, context) {
             return Container(
               padding: const EdgeInsets.all(20),
@@ -282,28 +284,28 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
             TextField(
                 controller: symptomController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.timer),
                   labelText: 'Enter Symptom Name',
                 )),
             TextField(
                 controller: severityController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.timer),
                   labelText: 'Enter severity',
                 )),
             TextField(
               controller: notesController,
               decoration: InputDecoration(
-                icon: Icon(Icons.timer),
                 labelText: 'Enter notes here',
               ),
             ),
             ElevatedButton(
               child: Text('Add Symptom'),
-              onPressed: () {
+              onPressed: () async {
                 addSymptom(jwt, symptomController.text, severityController.text,
                     notesController.text);
-              },
+                Navigator.of(context, rootNavigator: true).pop('dialog');
+                await new Future.delayed((const Duration(milliseconds: 1)));
+                setState(() {});
+                },
             )
           ])));
 
@@ -328,19 +330,16 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
             TextField(
                 controller: updateSymptomController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.timer),
                   labelText: 'Enter Symptom Name',
                 )),
             TextField(
                 controller: updateSeverityController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.timer),
                   labelText: 'Enter severity',
                 )),
             TextField(
               controller: updateNotesController,
               decoration: InputDecoration(
-                icon: Icon(Icons.timer),
                 labelText: 'Enter notes here',
               ),
             ),
@@ -349,6 +348,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
               onPressed: () {
                 updateSymptom(id, jwt, updateSymptomController.text,
                     updateSeverityController.text, updateNotesController.text);
+                Navigator.of(context, rootNavigator: true).pop('dialog');
               },
             )
           ])));
@@ -379,8 +379,29 @@ class ResponseAlertDialog extends StatelessWidget {
   }
 }
 
+Future<String> getId(String jwt) async {
+  Uri urlViewPatients = Uri.parse("http://10.0.2.2:8080/patient/getId");
+  // Return id for patient
+  var response = await http.post(urlViewPatients, body: jwt);
+  String tempStr = response.body;
+  tempStr = tempStr.substring(1, tempStr.length - 1);
+  final fin_response = json.decode(tempStr);
+  print(tempStr);
+  dynamic dyn_response = fin_response;
+  Map<String, dynamic> responseMap = dyn_response;
+  print(responseMap["id"].toString());
+  if (response.statusCode == 200) {
+    return (responseMap["id"].toString()); //{"id": 1}
+  } else {
+    return "";
+  }
+}
+
 Future<void> addSymptom(
     String token, String symptom, String severity, String notes) async {
+  var tempId = await getId(token);
+  var patientId = int.tryParse(
+      tempId);
   Uri url = Uri.parse("http://10.0.2.2:8080/symptom/createSymptom");
   var response = await http.post(url,
       headers: <String, String>{
@@ -388,8 +409,7 @@ Future<void> addSymptom(
       },
       body: jsonEncode(<String, dynamic>{
         "name": symptom,
-        "patientId":
-            1, //Change one to getId(token, context) when its working, //works when patientId is passed to it
+        "patientId": patientId,
         "severity": severity,
         "note": notes,
       }));
@@ -407,7 +427,7 @@ Future<void> updateSymptom(int symptomId, String token, String symptom,
       body: jsonEncode(<String, dynamic>{
         "id": symptomId,
         "name":
-            symptom, //Change one to getId(token, context) when its working, //works when patientId is passed to it
+            symptom,
         "severity": severity,
         "note": note,
       }));

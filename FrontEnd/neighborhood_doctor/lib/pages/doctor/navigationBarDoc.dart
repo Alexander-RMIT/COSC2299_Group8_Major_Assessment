@@ -49,19 +49,22 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
         builder: (firstname, context) {
           if (firstname != "") {
             String welcomeMsg = "Welcome to \nNeighborhood Doctors \n$_fname";
-            return Center(child: Text(welcomeMsg, textAlign: TextAlign.center,
-            style: TextStyle(
-            fontSize: 15,
-            foreground: Paint()
-            ..shader = ui.Gradient.linear(
-            const Offset(0, 20),
-            const Offset(300, 20),
-          <Color>[
-          Color.fromARGB(255, 209, 16, 248),
-          Color.fromARGB(223, 0, 195, 255),
-          ],
-        )
-    ),));
+            return Center(
+                child: Text(
+              welcomeMsg,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 15,
+                  foreground: Paint()
+                    ..shader = ui.Gradient.linear(
+                      const Offset(0, 20),
+                      const Offset(300, 20),
+                      <Color>[
+                        Color.fromARGB(255, 209, 16, 248),
+                        Color.fromARGB(223, 0, 195, 255),
+                      ],
+                    )),
+            ));
           } else {
             return Center(child: Text("Welcome to Neighborhood Doctors"));
           }
@@ -86,7 +89,7 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ChatDoctor(
+                        builder: (context) => chatDoctor(
                               title: 'Chat',
                               jwt: jwt,
                             )));

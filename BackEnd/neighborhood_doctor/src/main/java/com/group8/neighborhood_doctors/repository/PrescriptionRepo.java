@@ -12,7 +12,7 @@ import com.group8.neighborhood_doctors.prescription.Prescription;
 @Repository
 public interface PrescriptionRepo extends JpaRepository<Prescription, Integer> {
     public boolean existsByPatientId(int patientId);
-    public boolean existsBymedicationId(int medicationId);
+    public boolean existsByName(String name);
 
     public Optional<Prescription> findByPatientId(int patientId);
 
