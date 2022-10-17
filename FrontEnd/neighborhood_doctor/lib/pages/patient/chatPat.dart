@@ -39,13 +39,14 @@ Future<String> getId(String jwt) async {
     return "";
   }
 }
+int? patID= 0;
 
 Future<List<Map<String, dynamic>>> getChats(
     String token, BuildContext context) async {
   // getId(token, context);//await getId(token, context); //Change one to getId(token, context) when its working
   chats.clear();
   var tempId = await getId(token);
-  var patID = int.tryParse(
+  patID = int.tryParse(
       tempId);
   Uri urlViewSymptoms =
   Uri.parse("http://10.0.2.2:8080/chat/retrieveAllChats");
@@ -78,7 +79,7 @@ Future<List<Map<String, dynamic>>> getChats(
 }
 
 //Create Chat
-Future<void> createChat(String message, String sender, int patID) async{
+Future<void> createChat(String message, String sender, int? patId) async{
   Uri url = Uri.parse("http://10.0.2.2:8080/chat/createChat");
   var response = await http.post(url,
       headers: <String, String>{
@@ -90,8 +91,7 @@ Future<void> createChat(String message, String sender, int patID) async{
         "usertwo": patID,
         "sender": "Patient",
       }));
-  print(response.body);
-  print(patID.toString());
+
 }
 
 class chatPatientState extends State<chatPatient> {
@@ -126,7 +126,7 @@ class chatPatientState extends State<chatPatient> {
                                   suffixIcon: IconButton(
                                     icon: Icon(Icons.send),
                                     onPressed: () async {
-                                      createChat(chatMessageController.text, "Doctor", chats[0]["usertwo"]);
+                                      createChat(chatMessageController.text, "Doctor", patID);
                                       chatMessageController.clear();
                                       await new Future.delayed((const Duration(milliseconds: 1)));
                                       setState(() {});

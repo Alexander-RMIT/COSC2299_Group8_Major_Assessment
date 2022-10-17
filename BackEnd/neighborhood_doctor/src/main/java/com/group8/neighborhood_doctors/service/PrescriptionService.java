@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.HashMap;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 import com.google.gson.Gson;
 @Service
@@ -24,11 +26,16 @@ public class PrescriptionService {
     @Transactional
     public String createPrescription(Prescription prescription){
         try {
+            
             // Check if the patient exists in the database
             if (patientRepo.existsById(prescription.getPatientId())) {
                 // If patient already have a prescription, then the prescription already exists for the patient
-                if (!(prescriptionRepo.existsByPatientId(prescription.getPatientId()) && prescriptionRepo.existsBymedicationId(prescription.getMedicationId()))) {
+                if (!(prescriptionRepo.existsByName(prescription.getName()) )) {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now();
+                    
                     prescription.setId(null == prescriptionRepo.findMaxId()? 1 : prescriptionRepo.findMaxId() + 1);
+                    prescription.setDate(dtf.format(now));
                     prescriptionRepo.save(prescription);
                     return "[SUCCESS] New prescription record created successfully.";
                 } else {
@@ -56,9 +63,7 @@ public class PrescriptionService {
         // Do not have to check if the patient exists in the database in updatePrescription
         // Because when patient add an new prescription, the program MUST check if the patient exists in the database
         Prescription prescriptionToBeUpdate = prescriptionRepo.findById(prescription.getId()).get();
-        prescriptionToBeUpdate.setDate(prescription.getDate());
         prescriptionToBeUpdate.setDescription(prescription.getDescription());
-        prescriptionToBeUpdate.setMedicationId(prescription.getMedicationId());
         prescriptionToBeUpdate.setName(prescription.getName());
         prescriptionRepo.save(prescriptionToBeUpdate);
         return "[SUCCESS] Prescription record updated.";
@@ -98,7 +103,6 @@ public class PrescriptionService {
             Map<String, Object> map = new HashMap<>();
             map.put("id", curPrescription.getId());
             map.put("patientId", curPrescription.getPatientId());
-            map.put("medicationId", curPrescription.getMedicationId());
             map.put("date", curPrescription.getDate());
             map.put("description", curPrescription.getDescription());
             map.put("name", curPrescription.getName());

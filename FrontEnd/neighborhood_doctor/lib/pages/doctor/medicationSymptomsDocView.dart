@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
-//import 'package:neighborhood_doctors/Model/AdminModel.dart';
 import 'package:neighborhood_doctors/Model/SymptomModel.dart';
-import 'package:neighborhood_doctors/pages/login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-import 'package:neighborhood_doctors/pages/navigationBar.dart';
 
 // https://flutterawesome.com/login-ui-made-with-flutter/
 // https://github.com/hawier-dev/flutter-login-ui/blob/main/lib/main.dart
@@ -96,7 +91,7 @@ class ResponseAlertDialog extends StatelessWidget {
   final String content;
   final List<Widget> actions;
 
-  ResponseAlertDialog({
+  const ResponseAlertDialog({
     required this.title,
     required this.content,
     this.actions = const [],

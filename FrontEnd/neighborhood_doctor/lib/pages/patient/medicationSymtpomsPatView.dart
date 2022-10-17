@@ -152,8 +152,8 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
     return Scaffold(
         appBar: AppBar(title: Text('Neighborhood Doctors Pages')),
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: FutureBuilder<List<Map<String, dynamic>>>(
-          future: allSymptoms(jwt, context),
+        body: FutureBuilder<List<List<Map<String, dynamic>>>>(
+          future: Future.wait([allSymptoms(jwt, context)]),
           builder: (jwt, context) {
             return Container(
               padding: const EdgeInsets.all(20),
@@ -284,28 +284,28 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
             TextField(
                 controller: symptomController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.timer),
                   labelText: 'Enter Symptom Name',
                 )),
             TextField(
                 controller: severityController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.timer),
                   labelText: 'Enter severity',
                 )),
             TextField(
               controller: notesController,
               decoration: InputDecoration(
-                icon: Icon(Icons.timer),
                 labelText: 'Enter notes here',
               ),
             ),
             ElevatedButton(
               child: Text('Add Symptom'),
-              onPressed: () {
+              onPressed: () async {
                 addSymptom(jwt, symptomController.text, severityController.text,
                     notesController.text);
-              },
+                Navigator.of(context, rootNavigator: true).pop('dialog');
+                await new Future.delayed((const Duration(milliseconds: 1)));
+                setState(() {});
+                },
             )
           ])));
 
@@ -330,19 +330,16 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
             TextField(
                 controller: updateSymptomController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.timer),
                   labelText: 'Enter Symptom Name',
                 )),
             TextField(
                 controller: updateSeverityController,
                 decoration: InputDecoration(
-                  icon: Icon(Icons.timer),
                   labelText: 'Enter severity',
                 )),
             TextField(
               controller: updateNotesController,
               decoration: InputDecoration(
-                icon: Icon(Icons.timer),
                 labelText: 'Enter notes here',
               ),
             ),
@@ -351,6 +348,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
               onPressed: () {
                 updateSymptom(id, jwt, updateSymptomController.text,
                     updateSeverityController.text, updateNotesController.text);
+                Navigator.of(context, rootNavigator: true).pop('dialog');
               },
             )
           ])));
