@@ -8,4 +8,5 @@
 
 ### Branches:
     Feature:
-    - Contains README for how to build and run our program
+        Contains README for how to build and run our program as well as the core branch for our development
+    
