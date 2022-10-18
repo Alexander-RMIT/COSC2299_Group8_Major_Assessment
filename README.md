@@ -1,4 +1,4 @@
-# RMIT SEPT 2022 Major Project
+# RMIT SEPT 2022 Major Project [feature]
 
 # Group 8
 
