@@ -33,7 +33,7 @@ Future<AvailabilityModel> createAvailability(int id, int doctorId, String date,
     String status, String start, String end, BuildContext context) async {
   // Change to http://localhost/patient/createPatient for desktop
   // Change to http://10.0.2.2:8080/patient/createPatient for android emulator
-  Uri url = Uri.parse("http://10.0.2.2:8080/availability/createAvailability");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/availability/createAvailability");
   var response = await http.post(url,
       headers: <String, String>{
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ Future<AvailabilityModel> deleteAvailability(int? id, int doctorId, String date,
     String status, String start, String end, BuildContext context) async {
   // Change to http://localhost/availability/deleteAvailability for desktop
   // Change to http://10.0.2.2:8080/availability/deleteAvailability for android emulator
-  Uri url = Uri.parse("http://10.0.2.2:8080/availability/deleteAvailability");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/availability/deleteAvailability");
   var response = await http.delete(url,
       headers: <String, String>{
         "Content-Type": "application/json",
@@ -149,7 +149,7 @@ class AvailabilityState extends State<DoctorAvailability> {
 
   Future<void> _getAvailabilities() async {
     Uri uriReadAvailabilities =
-        Uri.parse("http://10.0.2.2:8080/availability/readAvailabilities");
+        Uri.parse("hhttps://neighborhood-doctors-backend.herokuapp.com/availability/readAvailabilities");
 
     var response = await http.get(
       uriReadAvailabilities,

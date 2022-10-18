@@ -28,7 +28,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
 
   // Need to get this to find patient ID
   Future<String> getId(String jwt) async {
-    Uri urlViewPatients = Uri.parse("http://10.0.2.2:8080/patient/getId");
+    Uri urlViewPatients = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/patient/getId");
     // Return id for patient
     var response = await http.post(urlViewPatients, body: jwt);
     String tempStr = response.body;
@@ -58,7 +58,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
         tempId); //
     symptoms.clear();
     Uri urlViewSymptoms =
-        Uri.parse("http://10.0.2.2:8080/symptoms/retrieveAllSymptoms");
+        Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/symptoms/retrieveAllSymptoms");
     // Return list in json format
     var response = await http.post(urlViewSymptoms, body: token);
     debugPrint(response.body);
@@ -96,7 +96,7 @@ class MedicationSymptomsPatientState extends State<MedicationSymptomsPatient> {
       String token, BuildContext context, int? patientId) async {
     prescriptions.clear();
     Uri urlViewPrescriptions = Uri.parse(
-        "http://10.0.2.2:8080/prescriptions/retrieveAllprescriptions");
+        "https://neighborhood-doctors-backend.herokuapp.com/prescriptions/retrieveAllprescriptions");
     var response = await http.post(urlViewPrescriptions, body: token);
 
     debugPrint(response.body);
@@ -380,7 +380,7 @@ class ResponseAlertDialog extends StatelessWidget {
 }
 
 Future<String> getId(String jwt) async {
-  Uri urlViewPatients = Uri.parse("http://10.0.2.2:8080/patient/getId");
+  Uri urlViewPatients = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/patient/getId");
   // Return id for patient
   var response = await http.post(urlViewPatients, body: jwt);
   String tempStr = response.body;
@@ -402,7 +402,7 @@ Future<void> addSymptom(
   var tempId = await getId(token);
   var patientId = int.tryParse(
       tempId);
-  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/createSymptom");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/symptom/createSymptom");
   var response = await http.post(url,
       headers: <String, String>{
         "Content-Type": "application/json",
@@ -418,7 +418,7 @@ Future<void> addSymptom(
 // Not for M2
 Future<void> updateSymptom(int symptomId, String token, String symptom,
     String severity, String note) async {
-  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/updateSymptom");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/symptom/updateSymptom");
   debugPrint("PRESSED");
   var response = await http.put(url,
       headers: <String, String>{

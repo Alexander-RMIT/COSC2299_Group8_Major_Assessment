@@ -25,7 +25,7 @@ class selectedSymptomState extends State<selectedSymptom> {
 
   late Map<String, dynamic> symptom;
   Future<Map<String, dynamic>> getSymptomInfo(BuildContext context, String jwt, int id) async {
-    Uri urlPat = Uri.parse("http://10.0.2.2:8080/symptom/getSymptom");
+    Uri urlPat = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/symptom/getSymptom");
     var list = <String>[];
     list.add(jwt);
     list.add(id.toString());

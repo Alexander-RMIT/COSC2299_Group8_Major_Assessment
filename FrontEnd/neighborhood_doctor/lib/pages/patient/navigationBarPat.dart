@@ -28,7 +28,7 @@ class NavBarLandingState extends State<NavigationBarLanding> {
   String _fname = "";
 
   Future<String> userFirstName(String jwt, BuildContext context) async {
-    Uri urlPatientName = Uri.parse("http://10.0.2.2:8080/patient/firstname");
+    Uri urlPatientName = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/patient/firstname");
 
     var response = await http.post(urlPatientName, body: jwt);
     String strResponse = response.body;

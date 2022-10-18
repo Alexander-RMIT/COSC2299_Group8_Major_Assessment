@@ -26,7 +26,7 @@ class NavBarStateDoc extends State<NavigationBarDoc> {
   String _fname = "";
 
   Future<String> userFirstName(String jwt, BuildContext context) async {
-    Uri urlDcotorName = Uri.parse("http://10.0.2.2:8080/doctor/firstname");
+    Uri urlDcotorName = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/doctor/firstname");
 
     var response = await http.post(urlDcotorName, body: jwt);
     String strResponse = response.body;

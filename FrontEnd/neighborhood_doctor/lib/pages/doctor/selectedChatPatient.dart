@@ -26,7 +26,7 @@ Future<List<Map<String, dynamic>>> getChats(
     int patID, String token, BuildContext context) async {
   chats.clear();
   Uri urlViewSymptoms =
-      Uri.parse("http://10.0.2.2:8080/chat/retrieveAllChats");
+      Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/chat/retrieveAllChats");
   // Return list in json format
   var response = await http.post(urlViewSymptoms, body: token);
   debugPrint(response.body);
@@ -57,7 +57,7 @@ Future<List<Map<String, dynamic>>> getChats(
 
 //Create Chat
 Future<void> createChat(String message, String sender, int patID) async{
-  Uri url = Uri.parse("http://10.0.2.2:8080/chat/createChat");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/chat/createChat");
   var response = await http.post(url,
       headers: <String, String>{
         "Content-Type": "application/json",

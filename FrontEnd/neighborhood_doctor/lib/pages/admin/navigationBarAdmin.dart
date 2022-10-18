@@ -25,7 +25,7 @@ class NavBarStateAdmin extends State<NavigationBarAdmin> {
   // Set at runtime instead of compile time
   String _uname = "";
   Future<String> userFirstName(String token, BuildContext context) async {
-    Uri urlAdminName = Uri.parse("http://10.0.2.2:8080/admin/username");
+    Uri urlAdminName = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/admin/username");
     var response = await http.post(urlAdminName,
         body: token);
     String strResponse = response.body;

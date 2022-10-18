@@ -30,7 +30,7 @@ class ChatDoctorState extends State<chatDoctor> {
       String jwt, BuildContext context) async {
     patients.clear();
     Uri urlViewPatients =
-        Uri.parse("http://10.0.2.2:8080/patient/retrieveAllPatients");
+        Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/patient/retrieveAllPatients");
     // Return list in json format
     var response = await http.post(urlViewPatients, body: jwt);
 

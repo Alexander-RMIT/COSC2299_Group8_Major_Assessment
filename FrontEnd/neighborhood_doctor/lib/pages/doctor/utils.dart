@@ -25,7 +25,7 @@ Event availabilityToEvent(AvailabilityModel model) {
 
 
 Future<List<AvailabilityModel>> _GetAvailabilities() async {
-  Uri uriReadAvailabilities = Uri.parse("http://10.0.2.2:8080/availability/readAvailability");
+  Uri uriReadAvailabilities = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/availability/readAvailability");
 
   var response = await http.get( uriReadAvailabilities,
     headers: <String, String>{"Content-Type": "application/json", },

@@ -25,7 +25,7 @@ class SelectedAdminState extends State<SelectedAdmin> {
 
   late Map<String, dynamic> admin;
   Future<Map<String, dynamic>> getAdminInformation(BuildContext context, String jwt, int id) async {
-    Uri urlAdmin = Uri.parse("http://10.0.2.2:8080/admin/retrieveAllAdmins");
+    Uri urlAdmin = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/admin/retrieveAllAdmins");
     var list = <String>[];
     list.add(jwt);
     list.add(id.toString());

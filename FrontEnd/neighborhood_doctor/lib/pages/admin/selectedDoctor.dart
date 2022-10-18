@@ -25,7 +25,7 @@ class SelectedDoctorState extends State<SelectedDoctor> {
 
   late Map<String, dynamic> doctor;
   Future<Map<String, dynamic>> getDoctorInformation(BuildContext context, String jwt, int id) async {
-    Uri urlDoc = Uri.parse("http://10.0.2.2:8080/doctor/retrieveAllDoctors");
+    Uri urlDoc = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/doctor/retrieveAllDoctors");
     var list = <String>[];
     list.add(jwt);
     list.add(id.toString());

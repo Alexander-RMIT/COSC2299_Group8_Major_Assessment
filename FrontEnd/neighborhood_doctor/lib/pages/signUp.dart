@@ -33,7 +33,8 @@ Future<PatientModel> userSignUp(String firstname, String lastname, String nameot
   BuildContext context) async {
   // Change to http://localhost/patient/createPatient for desktop
   // Change to http://10.0.2.2:8080/patient/createPatient for android emulator
-  Uri url = Uri.parse("http://10.0.2.2:8080/patient/createPatient");
+  // http://10.0.2.2:8080/patient/createPatient
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/patient/createPatient");
   var response = await http.post(url,
     headers: <String, String>{"Content-Type": "application/json", },
     body: jsonEncode(<String, dynamic>{

@@ -17,9 +17,12 @@ class Login extends StatefulWidget {
 }
 
 Future<void> userLogin(String email, String password, BuildContext context) async {
-  Uri urlPatient = Uri.parse("http://10.0.2.2:8080/auth/patient/login");
-  Uri urlDoctor = Uri.parse("http://10.0.2.2:8080/auth/doctor/login");
-  Uri urlAdmin = Uri.parse("http://10.0.2.2:8080/auth/admin/login");
+  //http://10.0.2.2:8080/auth/patient/login
+  //http://10.0.2.2:8080/auth/doctor/login
+  //http://10.0.2.2:8080/auth/admin/login
+  Uri urlPatient = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/auth/patient/login");
+  Uri urlDoctor = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/auth/doctor/login");
+  Uri urlAdmin = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/auth/admin/login");
 
   var urlList = [urlPatient, urlDoctor, urlAdmin];
   bool found = false;

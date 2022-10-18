@@ -112,7 +112,7 @@ class ResponseAlertDialog extends StatelessWidget {
 }
 
 Future<void> addSymptom(int doctorId, String symptom) async {
-  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/createSymptom");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/symptom/createSymptom");
   var response = await http.post(url,
       headers: <String, String>{
         "Content-Type": "application/json",
@@ -124,7 +124,7 @@ Future<void> addSymptom(int doctorId, String symptom) async {
 }
 
 Future<void> deleteSymptom(int doctorId, String symptom) async {
-  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/deleteSymptom");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/symptom/deleteSymptom");
   var response = await http.post(url,
       headers: <String, String>{
         "Content-Type": "application/json",
@@ -136,7 +136,7 @@ Future<void> deleteSymptom(int doctorId, String symptom) async {
 }
 
 Future<void> updateSymptom(int doctorId, String symptom) async {
-  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/updateSymptom");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/symptom/updateSymptom");
   var response = await http.post(url,
       headers: <String, String>{
         "Content-Type": "application/json",
@@ -151,7 +151,7 @@ Future<void> readSymptoms(int patientId) async {
   List<SymptomModel> symptoms = [];
 
   //get list of symptoms
-  Uri url = Uri.parse("http://10.0.2.2:8080/symptom/getLength");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/symptom/getLength");
   var length = await http.post(url,
       headers: <String, String>{
         "Content-Type": "application/json",
@@ -160,7 +160,7 @@ Future<void> readSymptoms(int patientId) async {
 
   if (int.parse(length.body) != 0) {
     for (int i = 0; i < int.parse(length.body); i++) {
-      Uri url = Uri.parse("http://10.0.2.2:8080/symptom/readSymptoms");
+      Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/symptom/readSymptoms");
       var response = await http.post(url,
           headers: <String, String>{
             "Content-Type": "application/json",

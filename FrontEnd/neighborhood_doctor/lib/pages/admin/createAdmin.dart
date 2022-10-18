@@ -22,7 +22,7 @@ Future<AdminModel> userSignUp(String username,
   BuildContext context) async {
   // Change to http://localhost/admin/createAdmin for desktop
   // Change to http://10.0.2.2:8080/admin/createAdmin for android emulator
-  Uri url = Uri.parse("http://10.0.2.2:8080/admin/createAdmin");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/admin/createAdmin");
   var response = await http.post(url,
     headers: <String, String>{"Content-Type": "application/json", },
     body: jsonEncode(<String, dynamic>{

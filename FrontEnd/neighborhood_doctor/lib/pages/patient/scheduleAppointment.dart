@@ -28,7 +28,7 @@ Future<AppointmentModel> createAppointment(int id, String date, String descripti
     int patient_id, String time_end, String time_start, BuildContext context) async {
   // Change to http://localhost/patient/createPatient for desktop
   // Change to http://10.0.2.2:8080/patient/createPatient for android emulator
-  Uri url = Uri.parse("http://10.0.2.2:8080/appointment/createAppointment");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/appointment/createAppointment");
 
   var response = await http.post(url,
       headers: <String, String>{
@@ -71,7 +71,7 @@ Future<AppointmentModel> deleteAppointment(int id, String date, String descripti
     int patient_id, String time_end, String time_start, BuildContext context) async {
   // Change to http://localhost/availability/deleteAvailability for desktop
   // Change to http://10.0.2.2:8080/availability/deleteAvailability for android emulator
-  Uri url = Uri.parse("http://10.0.2.2:8080/appointment/deleteAppointment");
+  Uri url = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/appointment/deleteAppointment");
   var response = await http.delete(url,
       headers: <String, String>{
         "Content-Type": "application/json",
@@ -155,7 +155,7 @@ class ScheduleAppointmentState extends State<ScheduleAppointment> {
 
   Future<void> _getAvailabilities() async {
     Uri uriReadAvailabilities =
-    Uri.parse("http://10.0.2.2:8080/availability/readAvailabilities");
+    Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/availability/readAvailabilities");
 
     var response = await http.get(
       uriReadAvailabilities,
@@ -176,7 +176,7 @@ class ScheduleAppointmentState extends State<ScheduleAppointment> {
 
   Future<void> _getAppointments() async {
     Uri uriReadAvailabilities =
-    Uri.parse("http://10.0.2.2:8080/appointment/readAppointments");
+    Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/appointment/readAppointments");
 
     var response = await http.get(
       uriReadAvailabilities,

@@ -26,7 +26,7 @@ class AdminInfoState extends State<AdminInfo> {
   List<Map<String, dynamic>> admins = [{"username": ""}];
   Future<List<Map<String, dynamic>>> allAdmins(String jwt, BuildContext context) async {
     admins.clear();
-    Uri urlViewAdmins = Uri.parse("http://10.0.2.2:8080/admin/retrieveAllAdmins");
+    Uri urlViewAdmins = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/admin/retrieveAllAdmins");
     // Return list in json format
     var response = await http.post(urlViewAdmins, body: jwt);
 

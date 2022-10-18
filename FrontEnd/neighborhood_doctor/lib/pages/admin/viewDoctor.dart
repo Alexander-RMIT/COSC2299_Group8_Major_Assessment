@@ -26,7 +26,7 @@ class DoctorInfoState extends State<DoctorInfo> {
   List<Map<String, dynamic>> doctors = [{"firstname": ""}];
   Future<List<Map<String, dynamic>>> allDoctors(String jwt, BuildContext context) async {
     doctors.clear();
-    Uri urlViewDoctors = Uri.parse("http://10.0.2.2:8080/doctor/retrieveAllDoctors");
+    Uri urlViewDoctors = Uri.parse("https://neighborhood-doctors-backend.herokuapp.com/doctor/retrieveAllDoctors");
     // Return list in json format
     var response = await http.post(urlViewDoctors, body: jwt);
 
