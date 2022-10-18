@@ -5,6 +5,8 @@ import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
 import com.group8.neighborhood_doctors.service.PrescriptionService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,9 @@ import java.util.List;
 
 @RestController
 public class PrescriptionController {
+
+    private static final Logger logger = LogManager.getLogger(PrescriptionController.class);
+
     @Autowired
     private PrescriptionService prescriptionService;
         /*
@@ -28,6 +33,7 @@ public class PrescriptionController {
      */
     @RequestMapping(value = "prescription/createPrescription", method = RequestMethod.POST)
     public String createPrescription(@RequestBody Prescription prescription){
+        logger.info("Creating a new prescription");
         return prescriptionService.createPrescription(prescription);
     }
 
@@ -36,6 +42,7 @@ public class PrescriptionController {
      */
     @RequestMapping(value = "prescription/readPrescriptions", method = RequestMethod.GET)
     public List<Prescription> readPrescriptions(){
+        logger.info("Reading all prescriptions");
         return prescriptionService.readPrescriptions();
     }
 
@@ -45,6 +52,7 @@ public class PrescriptionController {
      */
     @RequestMapping(value = "prescription/updatePrescription", method = RequestMethod.PUT)
     public String updatePrescription(@RequestBody Prescription prescription){
+        logger.info("Updating a prescription");
         return prescriptionService.updatePrescription(prescription);
     }
 
@@ -54,17 +62,20 @@ public class PrescriptionController {
      */
     @RequestMapping(value = "prescription/deletePrescription", method = RequestMethod.DELETE)
     public String deletePrescription(@RequestBody Prescription prescription){
+        logger.info("Deleting a prescription");
         return prescriptionService.deletePrescription(prescription);
     }
 
     @RequestMapping(value="prescriptions/retrieveAllprescriptions", method=RequestMethod.POST)
     public String retrieveAllPrescriptions(@RequestBody String token) {
+        logger.info("Retrieving all prescriptions using JWT Token");
         JwtUtility util = new JwtUtility();
 
         if (util.verifyToken(token)) {
             String prescriptions = prescriptionService.readPrescriptionsString();
             return prescriptions;
         } else {
+            logger.error("Invalid token");
             return "";
         }
     }
@@ -72,7 +83,7 @@ public class PrescriptionController {
 
     @RequestMapping(value="prescription/getPrescription", method=RequestMethod.POST)
     public String retrieveAllPrescriptions(@RequestBody int prescriptionId) {
+        logger.info("Retrieving all prescriptions");
         return prescriptionService.findPrescription(prescriptionId);
     }
-    
 }

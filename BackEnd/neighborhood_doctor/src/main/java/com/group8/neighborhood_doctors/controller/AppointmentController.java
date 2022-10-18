@@ -4,6 +4,8 @@ import com.group8.neighborhood_doctors.appointment.Appointment;
 
 import com.group8.neighborhood_doctors.service.AppointmentService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ import java.util.List;
 
 @RestController
 public class AppointmentController {
+    
+    private static final Logger logger = LogManager.getLogger(AppointmentController.class);
 
     @Autowired
     private AppointmentService appointmentService;
@@ -29,6 +33,7 @@ public class AppointmentController {
      */
     @RequestMapping(value = "appointment/createAppointment", method = RequestMethod.POST)
     public String createAppointment(@RequestBody Appointment appointment){
+        logger.info("Creating a new appointment");
         return appointmentService.createAppointment(appointment);
     }
 
@@ -37,6 +42,7 @@ public class AppointmentController {
      */
     @RequestMapping(value = "appointment/readAppointments", method = RequestMethod.GET)
     public List<Appointment> readAppointments(){
+        logger.info("Reading all appointments");
         return appointmentService.readAppointments();
     }
 
@@ -46,6 +52,7 @@ public class AppointmentController {
      */
     @RequestMapping(value = "appointment/updateAppointment", method = RequestMethod.PUT)
     public String updateAppointment(@RequestBody Appointment appointment){
+        logger.info("Updating an appointment");
         return appointmentService.updateAppointment(appointment);
     }
 
@@ -55,6 +62,7 @@ public class AppointmentController {
      */
     @RequestMapping(value = "appointment/deleteAppointment", method = RequestMethod.DELETE)
     public String deleteAppointment(@RequestBody Appointment appointment){
+        logger.info("Deleting an appointment");
         return appointmentService.deleteAppointment(appointment);
     }
 }

@@ -5,6 +5,8 @@ import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
 import com.group8.neighborhood_doctors.service.SymptomService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,8 @@ import java.util.List;
 @RestController
 public class SymptomController {
 
+    private static final Logger logger = LogManager.getLogger(SymptomController.class);
+
     @Autowired
     private SymptomService symptomService;
 
@@ -30,6 +34,7 @@ public class SymptomController {
      */
     @RequestMapping(value = "symptom/createSymptom", method = RequestMethod.POST)
     public String createSymptom(@RequestBody Symptom symptom){
+        logger.info("Creating a new symptom");
         return symptomService.createSymptom(symptom);
     }
 
@@ -38,6 +43,7 @@ public class SymptomController {
      */
     @RequestMapping(value = "symptom/readSymptoms", method = RequestMethod.GET)
     public List<Symptom> readSymptoms(){
+        logger.info("Reading all symptoms");
         return symptomService.readSymptoms();
     }
 
@@ -47,6 +53,7 @@ public class SymptomController {
      */
     @RequestMapping(value = "symptom/updateSymptom", method = RequestMethod.PUT)
     public String updateSymptom(@RequestBody Symptom symptom){
+        logger.info("Updating a symptom");
         return symptomService.updateSymptom(symptom);
     }
 
@@ -56,6 +63,7 @@ public class SymptomController {
      */
     @RequestMapping(value = "symptom/deleteSymptom", method = RequestMethod.DELETE)
     public String deleteSymptom(@RequestBody Symptom symptom){
+        logger.info("Deleting a symptom");
         return symptomService.deleteSymptom(symptom);
     }
 
@@ -64,17 +72,20 @@ public class SymptomController {
      */
     @RequestMapping(value = "symptom/retrieveSymtomName", method = RequestMethod.POST)
     public List<Symptom> retrieveSymtomName(@RequestBody Symptom symptom){
+        logger.info("Retrieving symptom name");
         return symptomService.retrieveSymtomName(symptom);
     }
 
     @RequestMapping(value="symptoms/retrieveAllSymptoms", method=RequestMethod.POST)
     public String retrieveAllSymptoms(@RequestBody String token) {
+        logger.info("Retrieving all symptoms using JWT Token");
         JwtUtility util = new JwtUtility();
 
         if (util.verifyToken(token)) {
             String symptoms = symptomService.readSymptomsString();
             return symptoms;
         } else {
+            logger.error("Invalid JWT Token");
             return "";
         }
     }
@@ -82,8 +93,7 @@ public class SymptomController {
 
     @RequestMapping(value="symptom/getSymptom", method=RequestMethod.POST)
     public String retrieveAllSymptoms(@RequestBody int symptomId) {
+        logger.info("Retrieving symptom using symptomId");
         return symptomService.findSymptom(symptomId);
     }
-    
-    }
-
+}

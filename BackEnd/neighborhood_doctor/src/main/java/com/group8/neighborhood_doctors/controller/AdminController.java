@@ -89,7 +89,7 @@ public class AdminController {
      */
     @RequestMapping(value = "auth/admin/login", method = RequestMethod.POST)
     public String loginAdmin(@RequestBody Administrator admin) {
-        logger.info("Logging in an administrator");
+        logger.info("Logging in an administrator using JWT Token");
 
         if (adminService.findAdmin(admin) == "Incorrect login credentials entered") {
             logger.error("Incorrect login credentials entered");
@@ -127,6 +127,7 @@ public class AdminController {
      */
     @RequestMapping(value = "auth/admin/id", method = RequestMethod.POST)
     public String sessionAdminId(@RequestBody Administrator admin) {
+        logger.info("Retriving the ID of an administrator using JWT Token");
         return adminService.retrieveId(admin);
     }
 
@@ -135,6 +136,7 @@ public class AdminController {
      */
     @RequestMapping(value = "admin/username", method = RequestMethod.POST)
     public String sessionAdminFname(@RequestBody String token) {
+        logger.info("Retriving the username of an administrator using JWT Token");
         JwtUtility util = new JwtUtility();
         
         if (util.verifyToken(token)) {
@@ -154,12 +156,13 @@ public class AdminController {
     }
 
     @RequestMapping(value="admin/retrieveAllAdmins", method=RequestMethod.POST)
-    public String retrieveAllPatients(@RequestBody String token) {
+    public String retrieveAllAdmins(@RequestBody String token) {
+        logger.info("Retriving the all admins using JWT Token");
         JwtUtility util = new JwtUtility();
 
         if (util.verifyToken(token)) {
-            String patients = adminService.readAdminsString();
-            return patients;
+            String admins = adminService.readAdminsString();
+            return admins;
         } else {
             return "";
         }
@@ -167,12 +170,13 @@ public class AdminController {
 
 
     @RequestMapping(value="admin/retrieveAdmin", method=RequestMethod.GET)
-    public String retrievePatient(@RequestBody String token, int id) {
+    public String retrieveAdmin(@RequestBody String token, int id) {
+        logger.info("Retriving the admin by id: {" + id + "} using JWT Token");
         JwtUtility util = new JwtUtility();
 
         if (util.verifyToken(token)) {
-            String patient = adminService.retrieveAdmin(id);
-            return patient;
+            String admin = adminService.retrieveAdmin(id);
+            return admin;
         } else {
             return "";
         }
@@ -183,6 +187,12 @@ public class AdminController {
      */
     @RequestMapping(value = "admin/details", method = RequestMethod.GET)
     public Optional<Administrator> sessionAdminDetails(@RequestBody Administrator administrator) throws Exception {
-        return adminService.find(administrator.getId());
+        try {
+            logger.info("Retriving the admin by id: {" + administrator.getId() + "}");
+            return adminService.find(administrator.getId());
+        } catch (Exception e) {
+            logger.error("Error: " + e);
+            throw new Exception("Error: " + e);
+        }
     }
 }

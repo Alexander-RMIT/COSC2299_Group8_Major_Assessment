@@ -4,6 +4,9 @@ import com.group8.neighborhood_doctors.chat.Chat;
 import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
 import com.group8.neighborhood_doctors.service.ChatService;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,8 @@ import java.util.List;
 @RestController
 public class ChatController {
 
+    private static final Logger logger = LogManager.getLogger(ChatController.class);
+
     @Autowired
     private ChatService chatService;
 
@@ -30,6 +35,7 @@ public class ChatController {
      */
     @RequestMapping(value = "chat/createChat", method = RequestMethod.POST)
     public String createChat(@RequestBody Chat chat){
+        logger.info("Creating a new chat");
         return chatService.createChat(chat);
     }
 
@@ -38,6 +44,7 @@ public class ChatController {
      */
     @RequestMapping(value = "chat/readChats", method = RequestMethod.GET)
     public List<Chat> readChats(){
+        logger.info("Reading all chats");
         return chatService.readChats();
     }
 
@@ -47,18 +54,22 @@ public class ChatController {
      */
     @RequestMapping(value = "chat/deleteChat", method = RequestMethod.DELETE)
     public String deleteChat(@RequestBody Chat chat){
+        logger.info("Deleting a chat");
         return chatService.deleteChat(chat);
     }
 
 
     @RequestMapping(value="chat/retrieveAllChats", method=RequestMethod.POST)
     public String retrieveAllChats(@RequestBody String token) {
+        logger.info("Retrieving all chats using JWT Token");
         JwtUtility util = new JwtUtility();
 
         if (util.verifyToken(token)) {
             String chats = chatService.readChatsString();
+            logger.info("Valid Token");
             return chats;
         } else {
+            logger.error("Invalid token");
             return "";
         }
     }

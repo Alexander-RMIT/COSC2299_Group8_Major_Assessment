@@ -8,6 +8,8 @@ import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
 import com.group8.neighborhood_doctors.service.PatientService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +49,8 @@ import static com.group8.neighborhood_doctors.jwt.SecurityConstant.TOKEN_PREFIX;
 @RestController
 public class PatientController {
 
+    private static final Logger logger = LogManager.getLogger(PatientController.class);
+
     @Autowired
     private PatientService patientService;
 
@@ -55,6 +59,7 @@ public class PatientController {
      */
     @RequestMapping(value = "patient/createPatient", method = RequestMethod.POST)
     public String createPatient(@RequestBody Patient patient) {
+        logger.info("Creating a new patient");
         return patientService.createPatient(patient);
     }
 
@@ -63,6 +68,7 @@ public class PatientController {
      */
     @RequestMapping(value = "patient/readPatients", method = RequestMethod.GET)
     public List<Patient> readPatients() {
+        logger.info("Reading all patients");
         return patientService.readPatients();
     }
 
@@ -72,6 +78,7 @@ public class PatientController {
      */
     @RequestMapping(value = "patient/updatePatient", method = RequestMethod.PUT)
     public String updatePatient(@RequestBody Patient patient) {
+        logger.info("Updating a patient");
         return patientService.updatePatient(patient);
     }
 
@@ -81,6 +88,7 @@ public class PatientController {
      */
     @RequestMapping(value = "patient/deletePatient", method = RequestMethod.DELETE)
     public String deletePatient(@RequestBody Patient patient) {
+        logger.info("Deleting a patient");
         return patientService.deletePatient(patient);
     }
 
@@ -90,6 +98,7 @@ public class PatientController {
      */
     @RequestMapping(value = "auth/patient/login", method = RequestMethod.POST)
     public String login(@RequestBody Patient patient) {
+        logger.info("Logging in a patient");
         // Create JWT Token: header.payload.signature
         // 1. Create the header
         // 2. Create the payload
@@ -98,6 +107,7 @@ public class PatientController {
         // https://blog.logrocket.com/secure-rest-api-jwt-authentication/
 
         if (patientService.findPatient(patient) == "Incorrect login credentials entered") {
+            logger.error("Incorrect login credentials entered");
             return "Incorrect login credentials entered";
         }
         // JWT Token logging in
@@ -132,6 +142,7 @@ public class PatientController {
      */
     @RequestMapping(value="auth/patient/id", method=RequestMethod.POST)
     public String sessionPatientId(@RequestBody Patient patient) {
+        logger.info("Retrieving patient id");
         return patientService.retrieveId(patient);
     }
     
@@ -141,6 +152,7 @@ public class PatientController {
      */
     @RequestMapping(value="patient/firstname", method=RequestMethod.POST)
     public String sessionPatientFname(@RequestBody String token) {
+        logger.info("Retrieving patient first name");
         JwtUtility util = new JwtUtility();
         if (util.verifyToken(token)) {
             String token_contents[] = token.split("\\.");
@@ -160,6 +172,7 @@ public class PatientController {
     
     @RequestMapping(value="patient/retrieveAllPatients", method=RequestMethod.POST)
     public String retrieveAllPatients(@RequestBody String token) {
+        logger.info("Retrieving all patients using JWT Token");
         JwtUtility util = new JwtUtility();
 
         if (util.verifyToken(token)) {
@@ -173,6 +186,7 @@ public class PatientController {
 
     @RequestMapping(value="patient/retrievePatient", method=RequestMethod.GET)
     public String retrievePatient(@RequestBody String token, int id) {
+        logger.info("Retrieving patient by ID using JWT Token");
         JwtUtility util = new JwtUtility();
 
         if (util.verifyToken(token)) {
@@ -185,6 +199,7 @@ public class PatientController {
     
     @RequestMapping(value="patient/getId", method=RequestMethod.POST)
     public String sessionPatientId(@RequestBody String token) {
+        logger.info("Retrieving patient id using JWT Token");
         JwtUtility util = new JwtUtility();
         if (util.verifyToken(token)) {
             String token_contents[] = token.split("\\.");
@@ -205,7 +220,8 @@ public class PatientController {
      * [GET] Get Patient Details by ID
      */
     @RequestMapping(value = "patient/details", method = RequestMethod.GET)
-    public Optional<Patient> sessionAdminDetails(@RequestBody Patient patient) throws Exception {
+    public Optional<Patient> sessionPatientDetails(@RequestBody Patient patient) throws Exception {
+        logger.info("Retrieving patient details by ID");
         return patientService.find(patient.getId());
     }
 }

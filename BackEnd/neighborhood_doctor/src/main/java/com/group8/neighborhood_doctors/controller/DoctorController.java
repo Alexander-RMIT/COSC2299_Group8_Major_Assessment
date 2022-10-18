@@ -8,6 +8,8 @@ import com.group8.neighborhood_doctors.jwt.JwtUtility;
 
 import com.group8.neighborhood_doctors.service.DoctorService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +42,7 @@ import static com.group8.neighborhood_doctors.jwt.SecurityConstant.TOKEN_PREFIX;
 
 @RestController
 public class DoctorController {
+    private static final Logger logger = LogManager.getLogger(DoctorController.class);
 
     @Autowired
     private DoctorService doctorService;
@@ -49,6 +52,7 @@ public class DoctorController {
      */
     @RequestMapping(value = "doctor/createDoctor", method = RequestMethod.POST)
     public String createDoctor(@RequestBody Doctor doctor) {
+        logger.info("Creating a new doctor");
         return doctorService.createDoctor(doctor);
     }
 
@@ -57,6 +61,7 @@ public class DoctorController {
      */
     @RequestMapping(value = "doctor/readDoctors", method = RequestMethod.GET)
     public List<Doctor> readDoctors() {
+        logger.info("Reading all doctors");
         return doctorService.readDoctors();
     }
 
@@ -66,6 +71,7 @@ public class DoctorController {
      */
     @RequestMapping(value = "doctor/updateDoctor", method = RequestMethod.PUT)
     public String updateDoctor(@RequestBody Doctor doctor) {
+        logger.info("Updating a doctor");
         return doctorService.updateDoctor(doctor);
     }
 
@@ -75,6 +81,7 @@ public class DoctorController {
      */
     @RequestMapping(value = "doctor/deleteDoctor", method = RequestMethod.DELETE)
     public String deleteDoctor(@RequestBody Doctor doctor) {
+        logger.info("Deleting a doctor");
         return doctorService.deleteDoctor(doctor);
     }
 
@@ -83,8 +90,10 @@ public class DoctorController {
      */
     @RequestMapping(value = "auth/doctor/login", method = RequestMethod.POST)
     public String loginDoctor(@RequestBody Doctor doctor) {
+        logger.info("Logging in a doctor using JWT Token");
 
         if (doctorService.findDoctor(doctor) == "Incorrect login credentials entered") {
+            logger.error("Incorrect login credentials entered");
             return "Incorrect login credentials entered";
         }
 
@@ -119,6 +128,7 @@ public class DoctorController {
      */
     @RequestMapping(value="auth/doctor/id", method=RequestMethod.POST)
     public String sessionDoctorId(@RequestBody Doctor doctor) {
+        logger.info("Getting doctor id from JWT Token");
         return doctorService.retrieveId(doctor);
     }
     
@@ -127,6 +137,7 @@ public class DoctorController {
      */
     @RequestMapping(value="doctor/firstname", method=RequestMethod.POST)
     public String sessionDoctorFname(@RequestBody String token) {
+        logger.info("Getting doctor first name from JWT Token");
         JwtUtility util = new JwtUtility();
         
         if (util.verifyToken(token)) {
@@ -149,31 +160,38 @@ public class DoctorController {
      * [GET] Get Doctor Details by ID
      */
     @RequestMapping(value = "doctor/details", method = RequestMethod.GET)
-    public Optional<Doctor> sessionAdminDetails(@RequestBody Doctor doctor) throws Exception {
+    public Optional<Doctor> sessionDoctorDetails(@RequestBody Doctor doctor) throws Exception {
+        logger.info("Getting doctor details by ID from JWT Token");
         return doctorService.find(doctor.getId());
     }
 
     @RequestMapping(value="doctor/retrieveAllDoctors", method=RequestMethod.POST)
-    public String retrieveAllPatients(@RequestBody String token) {
+    public String retrieveAllDoctors(@RequestBody String token) {
+        logger.info("Getting all doctors from JWT Token");
         JwtUtility util = new JwtUtility();
 
         if (util.verifyToken(token)) {
-            String patients = doctorService.readDoctorsString();
-            return patients;
+            String doctors = doctorService.readDoctorsString();
+            logger.info("Retrieving all doctors");
+            return doctors;
         } else {
+            logger.error("Invalid token");
             return "";
         }
     }
 
 
     @RequestMapping(value="doctor/retrieveDoctor", method=RequestMethod.GET)
-    public String retrievePatient(@RequestBody String token, int id) {
+    public String retrieveDoctor(@RequestBody String token, int id) {
+        logger.info("Getting doctor by ID from JWT Token");
         JwtUtility util = new JwtUtility();
 
         if (util.verifyToken(token)) {
-            String patient = doctorService.retrieveDoctor(id);
-            return patient;
+            String doctor = doctorService.retrieveDoctor(id);
+            logger.info("Retrieving doctor by ID");
+            return doctor;
         } else {
+            logger.error("Invalid token");
             return "";
         }
     }
