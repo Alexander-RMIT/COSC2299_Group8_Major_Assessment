@@ -5,9 +5,9 @@ name: Maven & Docker
 
 on:
   push:
-    branches: [ "feature" ]
+    branches: [ "deploy" ]
   pull_request:
-    branches: [ "feature" ]
+    branches: [ "deploy" ]
 
 jobs:
   build:
